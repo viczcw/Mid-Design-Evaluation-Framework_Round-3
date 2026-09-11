@@ -2443,6 +2443,25 @@
       color: var(--ink);
     }
 
+    .resource-case-context {
+      margin: 0;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: minmax(110px, 0.22fr) minmax(0, 1fr);
+      gap: 8px 18px;
+      background: var(--surface);
+      border-radius: 8px;
+    }
+
+    .resource-case-context dt {
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .resource-case-context dd {
+      margin: 0;
+    }
+
     .resource-case-subsection + .resource-case-subsection {
       margin-top: 24px;
       padding-top: 22px;
@@ -2723,12 +2742,14 @@
         display: none;
       }
 
-      .case-context dl {
+      .case-context dl,
+      .resource-case-context {
         grid-template-columns: 1fr;
         gap: 2px;
       }
 
-      .case-context dd + dt {
+      .case-context dd + dt,
+      .resource-case-context dd + dt {
         margin-top: 9px;
       }
     }
@@ -11855,6 +11876,18 @@
           </summary>
 
           <div className="resource-case-body">
+            <section className="resource-case-subsection">
+              <h4>Case Context</h4>
+              <dl className="resource-case-context">
+                {caseData.context.map((item) => (
+                  <React.Fragment key={item.label}>
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                  </React.Fragment>
+                ))}
+              </dl>
+            </section>
+
             <section className="resource-case-subsection">
               <h4>Implementation Outcomes</h4>
               <ResourceCaseOutcomeEvidence caseId={caseId} />
