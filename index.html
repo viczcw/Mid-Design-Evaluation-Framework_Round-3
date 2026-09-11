@@ -2,8 +2,8 @@
 <!--
   Current prototype summary:
   - Expanded the guide from four routes to six: Start Here, Discover Implementation
-    Outcomes, Discover Interest Holders, Discover Evaluation Strategies, Final
-    Evaluation Plan, and Resources.
+    Outcomes, Discover Interest Holders, Discover Evaluation Strategies, Develop
+    Your Evaluation Plan, and Resources.
   - Updated the primary navigation, hash routing, application page selection, and
     Start Here workflow to match the new four-step evaluation-planning sequence.
   - Refined Discover Interest Holders with a concise source-bounded definition,
@@ -14,10 +14,10 @@
     supporting visuals, editable notes, and selectable interview prompts.
   - Added explicit implementation-outcome relevance selection, separate from the
     currently reviewed outcome, with shared session state and sidebar status marks.
-  - Added continuation links from Outcomes to Interest Holders and from the Final
-    Evaluation Plan to Resources; selections persist in shared session state.
-  - Intentionally deferred final interest-holder decision rules, outcome-to-strategy
-    recommendations, final-plan selection logic, and download/export behavior.
+  - Added continuation links across the guide and a working Evaluation Plan Builder;
+    selections persist in shared session state.
+  - The plan builder now supports review and refinement by implementation outcome,
+    project-specific additions, interview-prompt customization, and print/export.
 -->
 <html lang="en">
 <head>
@@ -784,8 +784,9 @@
 
     .important-grid {
       display: grid;
-      grid-template-columns: 1.5fr 0.8fr;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       gap: 20px;
+      align-items: start;
     }
 
     .information-panel {
@@ -1209,6 +1210,13 @@
       font-style: italic;
     }
 
+    .outcome-tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
     .outcome-tag {
       flex: 0 0 auto;
       padding: 5px 10px;
@@ -1343,6 +1351,49 @@
       margin: 0 0 10px;
       color: var(--muted);
       font-size: 0.8rem !important;
+    }
+
+    /* Cross-page case examples use the current guide's static card language. */
+    .cross-page-case-evidence {
+      margin-top: clamp(34px, 5vw, 52px);
+      padding-top: clamp(30px, 4vw, 42px);
+      border-top: 1px solid var(--line);
+    }
+
+    .cross-page-case-evidence .evidence-heading {
+      margin-bottom: 16px;
+    }
+
+    .cross-page-case-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .cross-page-case-card {
+      min-width: 0;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .cross-page-case-card h4 {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .cross-page-case-card p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      line-height: 1.62;
+    }
+
+    .cross-page-case-card strong {
+      color: var(--ink);
+      font-weight: 780;
     }
 
     .citation {
@@ -1740,6 +1791,10 @@
 
     .interest-next-step {
       margin-top: 28px;
+    }
+
+    .outcome-next-step {
+      margin-top: clamp(32px, 4vw, 46px);
     }
 
     .strategy-selection-summary {
@@ -2150,6 +2205,332 @@
 
     .resource-card .placeholder-label {
       margin-top: 18px;
+    }
+
+    .guide-citation-notice .guide-citation-text {
+      margin: 14px 0 16px;
+      padding: 14px 15px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(109, 96, 38, 0.2);
+      border-radius: 10px;
+      font-size: 0.86rem;
+      line-height: 1.58;
+      overflow-wrap: anywhere;
+    }
+
+    .guide-citation-notice .guide-citation-text a {
+      color: #5f5424;
+      font-weight: 700;
+      text-underline-offset: 3px;
+    }
+
+    .citation-copy-button {
+      min-height: 40px;
+      padding: 8px 13px;
+      font-size: 0.8rem;
+    }
+
+    .footer-credit strong {
+      color: var(--ink-soft);
+      font-weight: 780;
+    }
+
+    .citation-number {
+      position: relative;
+      display: inline-block;
+      color: var(--accent-dark);
+      font-weight: 800;
+      cursor: help;
+    }
+
+    .citation-number::after {
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 9px);
+      z-index: 80;
+      width: min(420px, 78vw);
+      padding: 11px 12px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--line-strong);
+      border-radius: 9px;
+      box-shadow: 0 12px 28px rgba(24, 52, 61, 0.16);
+      content: attr(data-citation);
+      font-size: 0.78rem;
+      font-weight: 500;
+      line-height: 1.48;
+      text-align: left;
+      white-space: normal;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition:
+        opacity 120ms ease,
+        transform 120ms ease;
+    }
+
+    .citation-number:hover::after,
+    .citation-number:focus-visible::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .citation-number:focus-visible {
+      outline: 2px solid rgba(23, 108, 116, 0.35);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .citation-separator {
+      color: var(--accent-dark);
+    }
+
+    .resources-library {
+      display: grid;
+      gap: 18px;
+    }
+
+    .resource-section-card {
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow);
+    }
+
+    .resource-section-card > summary {
+      padding: clamp(24px, 3vw, 32px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px 28px;
+      align-items: center;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .resource-section-card > summary::-webkit-details-marker,
+    .framework-resource-item > summary::-webkit-details-marker,
+    .resource-case-item > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .resource-section-card[open] > summary {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .resource-summary-copy {
+      min-width: 0;
+    }
+
+    .resource-summary-title {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+      font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .resource-summary-description {
+      display: block;
+      max-width: 820px;
+      color: var(--ink-soft);
+      font-size: 0.96rem;
+      line-height: 1.58;
+    }
+
+    .resource-summary-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-dark);
+      font-size: 0.82rem;
+      font-weight: 780;
+      white-space: nowrap;
+    }
+
+    .resource-summary-action .open-label {
+      display: none;
+    }
+
+    .resource-section-card[open] .resource-summary-action .closed-label {
+      display: none;
+    }
+
+    .resource-section-card[open] .resource-summary-action .open-label {
+      display: inline;
+    }
+
+    .resource-summary-arrow {
+      transition: transform 150ms ease;
+    }
+
+    .resource-section-card[open] > summary .resource-summary-arrow,
+    .framework-resource-item[open] > summary .resource-summary-arrow,
+    .resource-case-item[open] > summary .resource-summary-arrow {
+      transform: rotate(180deg);
+    }
+
+    .resource-section-content {
+      padding: clamp(24px, 3vw, 32px);
+    }
+
+    .framework-resource-list,
+    .resource-case-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .framework-resource-item,
+    .resource-case-item {
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .framework-resource-item > summary,
+    .resource-case-item > summary {
+      padding: 19px 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px 24px;
+      align-items: center;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .framework-resource-item[open] > summary,
+    .resource-case-item[open] > summary {
+      background: #fbfdfd;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .framework-resource-name,
+    .resource-case-name {
+      display: block;
+      color: var(--ink);
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.38;
+    }
+
+    .framework-resource-summary {
+      display: block;
+      margin-top: 6px;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      font-weight: 650;
+      line-height: 1.5;
+    }
+
+    .framework-resource-body,
+    .resource-case-body {
+      padding: 20px 22px 22px;
+      color: var(--ink-soft);
+    }
+
+    .framework-resource-body p:last-child,
+    .resource-case-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .framework-resource-body strong,
+    .resource-case-body strong {
+      color: var(--ink);
+    }
+
+    .resource-case-subsection + .resource-case-subsection {
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .resource-case-subsection h4 {
+      margin: 0 0 12px;
+      color: var(--accent-dark);
+      font-size: 0.84rem;
+      font-weight: 850;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .resource-outcome-evidence-list {
+      display: grid;
+      gap: 11px;
+    }
+
+    .resource-outcome-evidence {
+      padding: 14px 15px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+    }
+
+    .resource-outcome-evidence h5 {
+      margin: 0 0 6px;
+      color: var(--ink);
+      font-size: 0.88rem;
+      line-height: 1.35;
+    }
+
+    .resource-outcome-evidence p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.83rem;
+      line-height: 1.52;
+    }
+
+    .resource-evidence-relationship {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 760;
+    }
+
+    .complete-reference-note {
+      margin: 0 0 22px;
+      color: var(--ink-soft);
+    }
+
+    .complete-reference-list {
+      margin: 0;
+      padding-left: 28px;
+    }
+
+    .complete-reference-list li {
+      padding-left: 7px;
+      color: var(--ink-soft);
+      line-height: 1.58;
+      overflow-wrap: anywhere;
+    }
+
+    .complete-reference-list li + li {
+      margin-top: 14px;
+    }
+
+    .complete-reference-list a {
+      display: inline;
+      color: var(--accent-dark);
+      font-weight: 650;
+      text-underline-offset: 3px;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 720px) {
+      .resource-section-card > summary,
+      .framework-resource-item > summary,
+      .resource-case-item > summary {
+        grid-template-columns: 1fr;
+      }
+
+      .resource-summary-action {
+        justify-self: start;
+      }
     }
 
     .site-footer {
@@ -2591,7 +2972,7 @@
     }
 
     /* ============================================================
-       START HERE — RESPONSIVE FULL-SCREEN SECTIONS
+       START HERE, RESPONSIVE FULL-SCREEN SECTIONS
        ============================================================ */
 
     .start-page h1 {
@@ -2753,6 +3134,7 @@
       width: 100%;
       max-width: 430px;
       padding: clamp(20px, 2.5vw, 28px);
+      align-self: center;
       justify-self: end;
       background: rgba(255, 255, 255, 0.72);
       border: 1px solid var(--line);
@@ -2825,6 +3207,35 @@
         align-items: center;
         scroll-margin-top: var(--header-height);
       }
+
+      .start-hero-layout {
+        width: 100%;
+      }
+
+      .start-hero-flow {
+        align-self: center;
+      }
+    }
+
+    /* Keep the Guide at a Glance visually centered on shorter laptop screens. */
+    @media (min-width: 921px) and (max-height: 760px) {
+      .start-hero-flow {
+        padding: 16px 20px;
+      }
+
+      .workflow-title {
+        margin-bottom: 10px;
+      }
+
+      .guide-overview-node,
+      .start-hero-flow .workflow-node {
+        min-height: 82px;
+        padding: 10px 13px;
+      }
+
+      .start-hero-flow .workflow-arrow {
+        height: 18px;
+      }
     }
 
     /* ============================================================
@@ -2868,7 +3279,7 @@
     }
 
     /* ============================================================
-       INTEREST HOLDER — MINIMAL FIRST-FAMILY REVISION
+       INTEREST HOLDER, MINIMAL FIRST-FAMILY REVISION
        ============================================================ */
 
     .interest-hero-layout {
@@ -3312,7 +3723,7 @@
 
 
     /* ============================================================
-       INTEREST HOLDER — FULL FAMILY SCAFFOLD / PROGRESSIVE DISCLOSURE
+       INTEREST HOLDER, FULL FAMILY SCAFFOLD / PROGRESSIVE DISCLOSURE
        ============================================================ */
 
     .family-overview {
@@ -3498,6 +3909,31 @@
       font-weight: 400;
     }
 
+    /* Page-level synthesis reflections for Implementation Outcomes and
+       Evaluation Strategies. Reuses the Interest Holder reflection language
+       while keeping longer cross-cutting prompts easy to scan. */
+    .page-reflection-panel {
+      margin-top: clamp(32px, 5vw, 54px);
+    }
+
+    .page-reflection-subtitle {
+      max-width: 980px;
+      margin: -7px 0 22px;
+      color: var(--ink-soft);
+      font-size: 0.94rem;
+      line-height: 1.62;
+    }
+
+    .page-reflection-grid li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 640px) {
+      .page-reflection-grid li {
+        grid-column: auto !important;
+      }
+    }
+
     @media (max-width: 1280px) {
       .family-overview-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3543,7 +3979,7 @@
 
 
     /* ============================================================
-       INTEREST HOLDER — PREVIEW SCALE + EXPLICIT PLAN SELECTION
+       INTEREST HOLDER, PREVIEW SCALE + EXPLICIT PLAN SELECTION
        ============================================================ */
 
     :root {
@@ -3900,7 +4336,7 @@
 
 
     /* ============================================================
-       INTEREST HOLDER — SELECTION MOVED TO OUTCOME RECOMMENDATIONS
+       INTEREST HOLDER, SELECTION MOVED TO OUTCOME RECOMMENDATIONS
        ============================================================ */
 
     /* The scaffold is educational only; selection happens below. */
@@ -4038,6 +4474,841 @@
         padding: 16px;
       }
     }
+
+
+    /* ============================================================
+       DEVELOP YOUR EVALUATION PLAN
+       ============================================================ */
+
+    .develop-plan-fullscreen-hero {
+      min-height: calc(100vh - var(--header-height));
+      min-height: calc(100dvh - var(--header-height));
+      display: flex;
+      align-items: center;
+      background: linear-gradient(180deg, #f3f8f8 0%, #ffffff 100%);
+    }
+
+    .develop-plan-fullscreen-hero > .container {
+      width: 100%;
+      padding-inline: clamp(48px, 7vw, 140px);
+    }
+
+    .develop-plan-fullscreen-hero .lede {
+      max-width: 1020px;
+      margin-bottom: 18px;
+    }
+
+    .develop-plan-intro-detail,
+    .develop-plan-intro-instruction {
+      max-width: 980px;
+      color: var(--ink-soft);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .develop-plan-intro-detail {
+      margin: 0 0 16px;
+    }
+
+    .develop-plan-intro-instruction {
+      margin: 18px 0 0;
+    }
+
+    #evaluation-plan-builder-content {
+      scroll-margin-top: calc(var(--header-height) + 24px);
+    }
+
+    .plan-builder-section.section {
+      padding-top: clamp(34px, 5vw, 58px);
+    }
+
+    .plan-toolbar {
+      margin-bottom: 24px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      background: white;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .plan-toolbar h2 {
+      margin: 0 0 5px;
+      font-size: 1.35rem;
+    }
+
+    .plan-toolbar p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.86rem;
+    }
+
+    .plan-toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 9px;
+    }
+
+    .plan-toolbar-actions .button {
+      min-height: 42px;
+      padding: 8px 13px;
+      font-size: 0.8rem;
+    }
+
+    .plan-session-note {
+      margin: 8px 0 0;
+      color: var(--muted) !important;
+      font-size: 0.75rem !important;
+    }
+
+    .plan-outcome-selector {
+      margin-bottom: 24px;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .plan-outcome-selector-header {
+      margin-bottom: 14px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .plan-outcome-selector-header h3 {
+      margin: 0 0 4px;
+      font-size: 1.05rem;
+    }
+
+    .plan-outcome-selector-header p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+    }
+
+    .plan-outcome-options {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .plan-outcome-option {
+      min-width: 0;
+      min-height: 44px;
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--ink-soft);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      text-align: left;
+      font-size: 0.78rem;
+      font-weight: 720;
+      cursor: pointer;
+      transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+    }
+
+    .plan-outcome-option:hover {
+      color: var(--accent-dark);
+      border-color: var(--accent);
+    }
+
+    .plan-outcome-option.is-selected {
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .plan-mini-check {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      flex: 0 0 auto;
+      place-items: center;
+      color: transparent;
+      background: white;
+      border: 1.5px solid var(--line-strong);
+      border-radius: 5px;
+      font-size: 0.66rem;
+      font-weight: 900;
+    }
+
+    .is-selected > .plan-mini-check,
+    .plan-add-option[aria-pressed="true"] .plan-mini-check {
+      color: white;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .plan-builder-layout {
+      display: grid;
+      grid-template-columns: minmax(190px, 0.24fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .plan-builder-sidebar {
+      position: sticky;
+      top: 94px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .plan-builder-sidebar-label {
+      margin-bottom: 5px;
+      color: var(--accent-dark);
+      font-size: 0.68rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .plan-outcome-nav-button {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--ink-soft);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-align: left;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .plan-outcome-nav-button:hover,
+    .plan-outcome-nav-button.is-active {
+      color: var(--accent-dark);
+      border-color: var(--accent);
+    }
+
+    .plan-outcome-nav-button.is-active {
+      background: var(--accent-soft);
+    }
+
+    .plan-outcome-nav-status {
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    .plan-workspace-card {
+      min-width: 0;
+      padding: clamp(24px, 4vw, 38px);
+      background: white;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-large);
+      box-shadow: var(--shadow);
+    }
+
+    .plan-workspace-heading {
+      margin-bottom: 26px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .plan-workspace-heading .eyebrow {
+      margin-bottom: 8px;
+    }
+
+    .plan-workspace-heading h2 {
+      margin-bottom: 9px;
+    }
+
+    .plan-workspace-heading p {
+      max-width: 900px;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .plan-content-section + .plan-content-section {
+      margin-top: 34px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+    }
+
+    .plan-section-heading {
+      margin-bottom: 16px;
+    }
+
+    .plan-section-heading h3 {
+      margin-bottom: 5px;
+      font-size: 1.13rem;
+    }
+
+    .plan-section-heading p {
+      max-width: 860px;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .plan-selected-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .plan-holder-card {
+      padding: 16px;
+      background: #fbfefe;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+    }
+
+    .plan-holder-card-header {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 11px;
+      align-items: start;
+    }
+
+    .plan-holder-remove {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .plan-holder-card h4 {
+      margin: 0 0 3px;
+      font-size: 0.95rem;
+    }
+
+    .plan-holder-family {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 0.7rem;
+      font-weight: 720;
+    }
+
+    .plan-holder-description {
+      margin: 10px 0 0 39px;
+      color: var(--ink-soft);
+      font-size: 0.81rem;
+      line-height: 1.5;
+    }
+
+    .plan-holder-card details {
+      margin: 12px 0 0 39px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .plan-holder-card summary,
+    .plan-add-panel > summary,
+    .plan-interview-prompts > summary {
+      color: var(--accent-dark);
+      font-size: 0.76rem;
+      font-weight: 780;
+      cursor: pointer;
+    }
+
+    .plan-holder-context {
+      margin-top: 9px;
+      color: var(--ink-soft);
+      font-size: 0.79rem;
+      line-height: 1.5;
+    }
+
+    .plan-add-panel {
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .plan-add-panel[open] > summary {
+      margin-bottom: 13px;
+    }
+
+    .plan-add-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .plan-add-option {
+      width: 100%;
+      min-width: 0;
+      padding: 11px;
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      color: var(--ink-soft);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .plan-add-option:hover {
+      border-color: var(--accent);
+    }
+
+    .plan-add-option strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.79rem;
+      line-height: 1.35;
+    }
+
+    .plan-add-option small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.69rem;
+      line-height: 1.4;
+    }
+
+    .plan-recommended-badge {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 3px 6px;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      border-radius: 999px;
+      font-size: 0.62rem;
+      font-weight: 780;
+    }
+
+    .plan-strategy-category + .plan-strategy-category {
+      margin-top: 28px;
+    }
+
+    .plan-strategy-category-header {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .plan-strategy-category-header h4 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 0.94rem;
+    }
+
+    .plan-strategy-category-header span {
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .plan-interview-card {
+      padding: 20px;
+      background: #eef7f7;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+    }
+
+    .plan-interview-card .strategy-row-select-button {
+      align-items: start;
+    }
+
+    .plan-interview-card .strategy-row-description,
+    .plan-interview-card .strategy-row-meta {
+      margin-left: 41px;
+    }
+
+    .plan-interview-prompts {
+      margin: 16px 0 0 41px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .plan-selected-prompts {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .plan-prompt-card {
+      padding: 11px 12px;
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 9px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+    }
+
+    .plan-prompt-remove {
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--accent);
+      border: 0;
+      border-radius: 5px;
+      font-size: 0.65rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .plan-prompt-card strong {
+      display: block;
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+
+    .plan-prompt-card p {
+      margin: 4px 0 0;
+      color: var(--ink-soft);
+      font-size: 0.76rem;
+      line-height: 1.48;
+    }
+
+    .plan-custom-prompt-form {
+      margin-top: 13px;
+      padding-top: 13px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: minmax(180px, 0.35fr) minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .plan-custom-prompt-form label {
+      display: grid;
+      grid-template-rows: auto 66px;
+      align-self: stretch;
+    }
+
+    .plan-custom-prompt-form label span {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 0.7rem;
+      font-weight: 760;
+    }
+
+    .plan-custom-prompt-form input,
+    .plan-custom-prompt-form textarea {
+      width: 100%;
+      height: 66px;
+      min-height: 66px;
+      padding: 8px 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 7px;
+      font: inherit;
+      font-size: 0.75rem;
+    }
+
+    .plan-custom-prompt-form textarea {
+      resize: none;
+    }
+
+    .plan-custom-prompt-form .button {
+      min-height: 66px;
+      padding: 8px 11px;
+      font-size: 0.75rem;
+    }
+
+    .plan-empty-state {
+      padding: 22px;
+      color: var(--ink-soft);
+      background: var(--surface);
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+
+    .plan-print-only {
+      display: none;
+    }
+
+    .plan-print-outcome {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 28px;
+    }
+
+    .plan-print-outcome h2 {
+      margin-bottom: 8px;
+    }
+
+    .plan-print-group {
+      margin-top: 16px;
+    }
+
+    .plan-print-group h3 {
+      margin-bottom: 7px;
+      font-size: 1rem;
+    }
+
+    .plan-print-group ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .plan-print-group li + li {
+      margin-top: 5px;
+    }
+
+    /* Keep the full decision space visible in the Builder.
+       Selected items are emphasized; unselected options remain readable but secondary. */
+    .plan-option-legend {
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      color: var(--ink-soft);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .plan-option-legend strong {
+      color: var(--ink);
+    }
+
+    .plan-all-options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .plan-holder-card {
+      background: #f8fafb;
+      border-color: var(--line);
+      box-shadow: none;
+      transition:
+        background 140ms ease,
+        border-color 140ms ease,
+        box-shadow 140ms ease;
+    }
+
+    .plan-holder-card:not(.is-selected) h4,
+    .plan-holder-card:not(.is-selected) .plan-holder-description {
+      color: var(--muted);
+    }
+
+    .plan-holder-card:not(.is-selected) .plan-holder-family {
+      color: #7d8d94;
+    }
+
+    .plan-holder-card.is-selected {
+      background: #fbfefe;
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(23, 108, 116, 0.12);
+    }
+
+    .plan-holder-toggle {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      color: transparent;
+      background: white;
+      border: 1.5px solid var(--line-strong);
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition:
+        color 140ms ease,
+        background 140ms ease,
+        border-color 140ms ease;
+    }
+
+    .plan-holder-toggle:hover {
+      border-color: var(--accent);
+    }
+
+    .plan-holder-card.is-selected .plan-holder-toggle {
+      color: white;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .plan-holder-recommendation {
+      display: inline-block;
+      margin-top: 7px;
+      padding: 3px 7px;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      border-radius: 999px;
+      font-size: 0.61rem;
+      font-weight: 780;
+    }
+
+    .plan-workspace-card .strategy-row:not(.is-selected),
+    .plan-interview-card:not(.is-selected) {
+      background: #f8fafb;
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    .plan-workspace-card .strategy-row:not(.is-selected) .strategy-row-title,
+    .plan-workspace-card .strategy-row:not(.is-selected) .strategy-row-description,
+    .plan-interview-card:not(.is-selected) .strategy-row-title,
+    .plan-interview-card:not(.is-selected) .strategy-row-description {
+      color: var(--muted);
+    }
+
+    .plan-interview-card {
+      padding: 20px;
+      background: #f8fafb;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition:
+        background 140ms ease,
+        border-color 140ms ease,
+        box-shadow 140ms ease;
+    }
+
+    .plan-interview-card.is-selected {
+      background: #eef7f7;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+
+    .plan-interview-card .strategy-row-select-button[aria-pressed="true"] .selection-indicator {
+      color: white;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .plan-workspace-card .interview-prompt-option:not(.is-selected) {
+      background: #fafbfb;
+    }
+
+    .plan-workspace-card .interview-prompt-option:not(.is-selected) .interview-prompt-title,
+    .plan-workspace-card .interview-prompt-option:not(.is-selected) .interview-prompt-question {
+      color: var(--muted);
+    }
+
+    .plan-outcome-nav-status.is-unselected {
+      color: var(--line-strong);
+    }
+
+    @media (max-width: 1080px) {
+      .plan-outcome-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .plan-builder-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .plan-builder-sidebar {
+        position: static;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .plan-builder-sidebar-label {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .develop-plan-fullscreen-hero {
+        padding-top: 34px;
+        padding-bottom: 34px;
+      }
+
+      .develop-plan-fullscreen-hero > .container {
+        padding-inline: 20px;
+      }
+
+      .plan-toolbar,
+      .plan-outcome-selector-header,
+      .plan-strategy-category-header {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .plan-toolbar-actions {
+        justify-content: flex-start;
+      }
+
+      .plan-outcome-options,
+      .plan-add-options,
+      .plan-builder-sidebar,
+      .plan-all-options-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plan-holder-description,
+      .plan-holder-card details,
+      .plan-interview-card .strategy-row-description,
+      .plan-interview-card .strategy-row-meta,
+      .plan-interview-prompts {
+        margin-left: 0;
+      }
+
+      .plan-custom-prompt-form {
+        grid-template-columns: 1fr;
+      }
+
+      .plan-custom-prompt-form .button {
+        min-height: 48px;
+      }
+    }
+
+    @media print {
+      @page {
+        margin: 0.55in;
+      }
+
+      .site-header,
+      .site-footer,
+      .develop-plan-fullscreen-hero,
+      .plan-workspace-screen {
+        display: none !important;
+      }
+
+      .plan-builder-section.section {
+        padding: 0 !important;
+      }
+
+      .plan-print-only {
+        display: block !important;
+      }
+
+      body {
+        color: #111 !important;
+        background: white !important;
+      }
+
+      a {
+        color: inherit !important;
+        text-decoration: none !important;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -4061,7 +5332,7 @@
         id: "evaluation-strategies",
         label: "Discover Evaluation Strategies",
       },
-      { id: "final-plan", label: "Final Evaluation Plan" },
+      { id: "final-plan", label: "Develop Your Evaluation Plan" },
       { id: "resources", label: "Resources" },
     ];
 
@@ -4100,13 +5371,421 @@
       },
       {
         number: "4",
-        title: "Review Your Final Evaluation Plan",
+        title: "Develop Your Evaluation Plan",
         description:
-          "Bring your selections together into a project-specific evaluation plan. Review, refine, and customize it before using it to guide your next steps.",
+          "Bring your selections together into a project-specific working plan. Review, refine, and customize it as your project develops.",
         route: "final-plan",
-        linkLabel: "View Final Evaluation Plan",
+        linkLabel: "Develop Your Evaluation Plan",
       },
     ];
+
+    const REFERENCE_ORDER = [
+      "proctor2011",
+      "lewis2015",
+      "thiyagarajan2025hpv",
+      "thiyagarajan2025ecv",
+      "suchman2023",
+      "sedlander2025",
+      "gaglio2013",
+      "glasgow2018",
+      "holtrop2021",
+      "shaw2019",
+      "klaic2022",
+      "bowen2009",
+      "frankowitz2026",
+      "miakelye2017",
+      "gold2022",
+      "carroll2007",
+      "breitenstein2010",
+      "ginsburg2021",
+      "iwelunmor2016",
+      "chambers2013",
+      "moore2017",
+      "shelton2018",
+      "proctor2023",
+      "akl2024",
+      "damschroder2022",
+      "damschroder2009",
+      "mendoza2024",
+      "rodriguez2023",
+      "muller2022",
+      "cao2025",
+      "coulentianos2022",
+      "green2015",
+      "palinkas2011",
+      "hamilton2019",
+      "weiner2017",
+      "lyon2021",
+      "atkins2017",
+      "kaur2026",
+      "kessler2011",
+      "holtrop2018",
+      "kenworthy2023",
+      "staras2021",
+      "harris1997",
+      "rahimi2018",
+      "shea2014",
+      "gray2023",
+      "seagull2014",
+      "forgatch2005",
+      "winter2000",
+      "finch2013",
+      "rapley2018",
+      "finch2018",
+      "vis2019",
+      "robinson2023",
+      "carrion2021",
+      "savaya2005",
+      "milat2020",
+      "luke2014",
+      "malone2021",
+      "feldstein2008",
+      "mccreight2019",
+      "lyon2019",
+      "carayon2006"
+];
+
+    const REFERENCE_LIBRARY = {
+      "proctor2011": {
+            "citation": "Proctor, E., Silmere, H., Raghavan, R., Hovmand, P., Aarons, G., Bunger, A., Griffey, R., & Hensley, M. (2011). Outcomes for implementation research: Conceptual distinctions, measurement challenges, and research agenda. Administration and Policy in Mental Health and Mental Health Services Research, 38(2), 66–86.",
+            "url": "https://doi.org/10.1007/s10488-010-0319-7"
+      },
+      "lewis2015": {
+            "citation": "Lewis, C. C., Fischer, S., Weiner, B. J., Stanick, C., Kim, M., & Martinez, R. G. (2015). Outcomes for implementation science: An enhanced systematic review of instruments using evidence-based rating criteria. Implementation Science, 10, Article 155.",
+            "url": "https://doi.org/10.1186/s13012-015-0342-x"
+      },
+      "thiyagarajan2025hpv": {
+            "citation": "Thiyagarajan, D., Wilder, L., O’Brien, A., Layne, A., Mehta, N., Menon, S., Frankowitz, E., Gandhi, A., Rogos, C., Antony, E., Broderick, K., Stout, M., Oppong, S. A., Lawrence, E., Kramer, J., Harper, D. M., & Asah‐Opoku, K. (2025). Development of a novel device for urine‐based human papillomavirus screening in low‐ and middle‐income countries. International Journal of Gynecology & Obstetrics, 171(1), 465–467.",
+            "url": "https://doi.org/10.1002/ijgo.70216"
+      },
+      "thiyagarajan2025ecv": {
+            "citation": "Thiyagarajan, D., Gauger, M., Patel, R., Quarshie, T., Adanu, E. A., Kramer, J., Sienko, K. H., Moyer, C. A., Stout, M., Rooney, D. M., Oppong, S. A., Swarray-Deen, A., & Lawrence, E. (2025). Development and evaluation of an external cephalic version simulation-based educational program. AJOG Global Reports, 6(1), Article 100577.",
+            "url": "https://doi.org/10.1016/j.xagr.2025.100577"
+      },
+      "suchman2023": {
+            "citation": "Suchman, L., Omoluabi, E., Kramer, J., Vallin, J., Sedlander, E., Gitome, S., Wekesa, P., Kwena, Z., Granovsky, R., Kayego, A., Kaudha, B., Atuyambe, L., Amongin, D., Alitubeera, P., Tijani, A., Okoli, C., Jegede, A., Kamanga, M., Nyando, M., Ndunyu, L., Holt, K., & The I-CAN Contraceptive Self-Injection Support Program in Uganda Research Consortium. (2023). Analyzing fast and slow: Combining traditional and rapid qualitative analysis to meet multiple objectives of a complex transnational study. Frontiers in Sociology, 8, Article 961202.",
+            "url": "https://doi.org/10.3389/fsoc.2023.961202"
+      },
+      "sedlander2025": {
+            "citation": "Sedlander, E., Phillips, B., Thapar, I., Birabwa, C., Suchman, L., Griffith, M., Amongin, D., Wasswa, R., Atuyambe, L., Liu, J., Waiswa, P., & Holt, K. (2025). Improving contraceptive agency through peer social support: Findings from a longitudinal qualitative evaluation of the I-CAN intervention in Uganda. Frontiers in Global Women’s Health, 6, 1544333.",
+            "url": "https://doi.org/10.3389/fgwh.2025.1544333"
+      },
+      "gaglio2013": {
+            "citation": "Gaglio, B., Shoup, J. A., & Glasgow, R. E. (2013). The RE-AIM Framework: A systematic review of use over time. American Journal of Public Health, 103(6), e38–e46.",
+            "url": "https://doi.org/10.2105/AJPH.2013.301299"
+      },
+      "glasgow2018": {
+            "citation": "Glasgow, R. E., & Estabrooks, P. E. (2018). Pragmatic applications of RE-AIM for health care initiatives in community and clinical settings. Preventing Chronic Disease, 15, Article 170271.",
+            "url": "https://doi.org/10.5888/pcd15.170271"
+      },
+      "holtrop2021": {
+            "citation": "Holtrop, J. S., Estabrooks, P. A., Gaglio, B., Harden, S. M., Kessler, R. S., King, D. K., Kwan, B. M., Ory, M. G., Rabin, B. A., Shelton, R. C., & Glasgow, R. E. (2021). Understanding and applying the RE-AIM framework: Clarifications and resources. Journal of Clinical and Translational Science, 5(1), e126.",
+            "url": "https://doi.org/10.1017/cts.2021.789"
+      },
+      "shaw2019": {
+            "citation": "Shaw, R. B., Sweet, S. N., McBride, C. B., Adair, W. K., & Martin Ginis, K. A. (2019). Operationalizing the Reach, Effectiveness, Adoption, Implementation, Maintenance (RE-AIM) framework to evaluate the collective impact of autonomous community programs that promote health and well-being. BMC Public Health, 19, Article 803.",
+            "url": "https://doi.org/10.1186/s12889-019-7131-4"
+      },
+      "klaic2022": {
+            "citation": "Klaic, M., Kapp, S., Hudson, P., Chapman, W., Denehy, L., Story, D., & Francis, J. J. (2022). Implementability of healthcare interventions: An overview of reviews and development of a conceptual framework. Implementation Science, 17, 10.",
+            "url": "https://doi.org/10.1186/s13012-021-01171-7"
+      },
+      "bowen2009": {
+            "citation": "Bowen, D. J., Kreuter, M., Spring, B., Cofta-Woerpel, L., Linnan, L., Weiner, D., Bakken, S., Kaplan, C. P., Squiers, L., Fabrizio, C., & Fernandez, M. (2009). How we design feasibility studies. American Journal of Preventive Medicine, 36(5), 452–457.",
+            "url": "https://doi.org/10.1016/j.amepre.2009.02.002"
+      },
+      "frankowitz2026": {
+            "citation": "Frankowitz, E., Crockett, K., Gandhi, A., Sam, J., Kramer, J., Asmah, R., Asah-Opoku, K., & Thiyagarajan, D. K. (2026). Feasibility and acceptability of a novel device for urine-based human papillomavirus screening among patients in Ghana [ID 916]. Obstetrics & Gynecology, 147(5S), 8S–9S.",
+            "url": "https://doi.org/10.1097/AOG.0000000000006265.17"
+      },
+      "miakelye2017": {
+            "citation": "Miake-Lye, I. M., Chuang, E., Rodriguez, H. P., Kominski, G. F., Yano, E. M., & Shortell, S. M. (2017). Random or predictable?: Adoption patterns of chronic care management practices in physician organizations. Implementation Science, 12, Article 106.",
+            "url": "https://doi.org/10.1186/s13012-017-0639-z"
+      },
+      "gold2022": {
+            "citation": "Gold, H. T., McDermott, C., Hoomans, T., & Wagner, T. H. (2022). Cost data in implementation science: Categories and approaches to costing. Implementation Science, 17, Article 11.",
+            "url": "https://doi.org/10.1186/s13012-021-01172-6"
+      },
+      "carroll2007": {
+            "citation": "Carroll, C., Patterson, M., Wood, S., Booth, A., Rick, J., & Balain, S. (2007). A conceptual framework for implementation fidelity. Implementation Science, 2, Article 40.",
+            "url": "https://doi.org/10.1186/1748-5908-2-40"
+      },
+      "breitenstein2010": {
+            "citation": "Breitenstein, S. M., Gross, D., Garvey, C. A., Hill, C., Fogg, L., & Resnick, B. (2010). Implementation fidelity in community-based interventions. Research in Nursing & Health, 33(2), 164–173.",
+            "url": "https://doi.org/10.1002/nur.20373"
+      },
+      "ginsburg2021": {
+            "citation": "Ginsburg, L. R., Hoben, M., Easterbrook, A., Anderson, R. A., Estabrooks, C. A., & Norton, P. G. (2021). Fidelity is not easy! Challenges and guidelines for assessing fidelity in complex interventions. Trials, 22, Article 372.",
+            "url": "https://doi.org/10.1186/s13063-021-05322-5"
+      },
+      "iwelunmor2016": {
+            "citation": "Iwelunmor, J., Blackstone, S., Veira, D., Nwaozuru, U., Airhihenbuwa, C., Munodawafa, D., Kalipeni, E., Jutal, A., Shelley, D., & Ogedegbe, G. (2016). Toward the sustainability of health interventions implemented in sub-Saharan Africa: A systematic review and conceptual framework. Implementation Science, 11, Article 43.",
+            "url": "https://doi.org/10.1186/s13012-016-0392-8"
+      },
+      "chambers2013": {
+            "citation": "Chambers, D. A., Glasgow, R. E., & Stange, K. C. (2013). The dynamic sustainability framework: Addressing the paradox of sustainment amid ongoing change. Implementation Science, 8, Article 117.",
+            "url": "https://doi.org/10.1186/1748-5908-8-117"
+      },
+      "moore2017": {
+            "citation": "Moore, J. E., Mascarenhas, A., Bain, J., & Straus, S. E. (2017). Developing a comprehensive definition of sustainability. Implementation Science, 12, Article 110.",
+            "url": "https://doi.org/10.1186/s13012-017-0637-1"
+      },
+      "shelton2018": {
+            "citation": "Shelton, R. C., Cooper, B. R., & Stirman, S. W. (2018). The sustainability of evidence-based interventions and practices in public health and health care. Annual Review of Public Health, 39, 55–76.",
+            "url": "https://doi.org/10.1146/annurev-publhealth-040617-014731"
+      },
+      "proctor2023": {
+            "citation": "Proctor, E. K., Bunger, A. C., Lengnick-Hall, R., Gerke, D. R., Martin, J. K., Phillips, R. J., & Swanson, J. C. (2023). Ten years of implementation outcomes research: A scoping review. Implementation Science, 18, Article 31.",
+            "url": "https://doi.org/10.1186/s13012-023-01286-z"
+      },
+      "akl2024": {
+            "citation": "Akl, E. A., Khabsa, J., Petkovic, J., et al. (2024). \"Interest-holders\": A new term to replace \"stakeholders\" in the context of health research and policy. Cochrane Evidence Synthesis and Methods, 2, e70007.",
+            "url": "https://doi.org/10.1002/cesm.70007"
+      },
+      "damschroder2022": {
+            "citation": "Damschroder, L. J., Reardon, C. M., Widerquist, M. A. O., & Lowery, J. C. (2022). The updated Consolidated Framework for Implementation Research based on user feedback. Implementation Science, 17, Article 75.",
+            "url": "https://doi.org/10.1186/s13012-022-01245-0"
+      },
+      "damschroder2009": {
+            "citation": "Damschroder, L. J., Aron, D. C., Keith, R. E., Kirsh, S. R., Alexander, J. A., & Lowery, J. C. (2009). Fostering implementation of health services research findings into practice: A consolidated framework for advancing implementation science. Implementation Science, 4, Article 50.",
+            "url": "https://doi.org/10.1186/1748-5908-4-50"
+      },
+      "mendoza2024": {
+            "citation": "Mendoza-Jimenez, M. J., van Exel, J., & Brouwer, W. (2024). On spillovers in economic evaluations: Definition, mapping review and research agenda. The European Journal of Health Economics, 25(7), 1239–1260.",
+            "url": "https://doi.org/10.1007/s10198-023-01658-8"
+      },
+      "rodriguez2023": {
+            "citation": "Rodriguez, N. M., Burleson, G., Linnes, J. C., & Sienko, K. H. (2023). Thinking Beyond the Device: An overview of human- and equity-centered approaches for health technology design. Annual Review of Biomedical Engineering, 25, 257–280.",
+            "url": "https://doi.org/10.1146/annurev-bioeng-081922-024834"
+      },
+      "muller2022": {
+            "citation": "Muller, I., Hussain, W., & Grundy, J. (2022). So who is impacted anyway - a preliminary study of indirect stakeholder identification in practice. In Proceedings of the 15th International Conference on Cooperative and Human Aspects of Software Engineering (CHASE 2022) (pp. 36–40).",
+            "url": "https://doi.org/10.1145/3528579.3529168"
+      },
+      "cao2025": {
+            "citation": "Cao, W., Cao, X., & Sutherland, A. D. (2025). Planning for the Unexpected and Unintended Effects of mHealth Interventions: Systematic Review. Journal of Medical Internet Research, 27, e68909.",
+            "url": "https://doi.org/10.2196/68909"
+      },
+      "coulentianos2022": {
+            "citation": "Coulentianos, M. J., Rodriguez-Calero, I., Daly, S. R., Burridge, J., & Sienko, K. H. (2022). Stakeholders, prototypes, and settings of front-end medical device design activities. Journal of Medical Devices, 16(3), 031010.",
+            "url": "https://doi.org/10.1115/1.4054207"
+      },
+      "green2015": {
+            "citation": "Green, C. A., Duan, N., Gibbons, R. D., Hoagwood, K. E., Palinkas, L. A., & Wisdom, J. P. (2015). Approaches to mixed methods dissemination and implementation research: Methods, strengths, caveats, and opportunities. Administration and Policy in Mental Health and Mental Health Services Research, 42(5), 508–523.",
+            "url": "https://doi.org/10.1007/s10488-014-0552-6"
+      },
+      "palinkas2011": {
+            "citation": "Palinkas, L. A., Aarons, G. A., Horwitz, S., Chamberlain, P., Hurlburt, M., & Landsverk, J. (2011). Mixed method designs in implementation research. Administration and Policy in Mental Health and Mental Health Services Research, 38(1), 44–53.",
+            "url": "https://doi.org/10.1007/s10488-010-0314-z"
+      },
+      "hamilton2019": {
+            "citation": "Hamilton, A. B., & Finley, E. P. (2019). Qualitative methods in implementation research: An introduction. Psychiatry Research, 280, Article 112516.",
+            "url": "https://doi.org/10.1016/j.psychres.2019.112516"
+      },
+      "weiner2017": {
+            "citation": "Weiner, B. J., Lewis, C. C., Stanick, C., Powell, B. J., Dorsey, C. N., Clary, A. S., Boynton, M. H., & Halko, H. (2017). Psychometric assessment of three newly developed implementation outcome measures. Implementation Science, 12, Article 108.",
+            "url": "https://doi.org/10.1186/s13012-017-0635-3"
+      },
+      "lyon2021": {
+            "citation": "Lyon, A. R., Coifman, J., Cook, H., McRee, E., Liu, F. F., Ludwig, K., Dorsey, S., Koerner, K., Munson, S. A., & McCauley, E. (2021). The Cognitive Walkthrough for Implementation Strategies (CWIS): A pragmatic method for assessing implementation strategy usability. Implementation Science Communications, 2, Article 78.",
+            "url": "https://doi.org/10.1186/s43058-021-00183-0"
+      },
+      "atkins2017": {
+            "citation": "Atkins, L., Francis, J., Islam, R., O’Connor, D., Patey, A., Ivers, N., Foy, R., Duncan, E. M., Colquhoun, H., Grimshaw, J. M., Lawton, R., & Michie, S. (2017). A guide to using the Theoretical Domains Framework of behaviour change to investigate implementation problems. Implementation Science, 12, Article 77.",
+            "url": "https://doi.org/10.1186/s13012-017-0605-9"
+      },
+      "kaur2026": {
+            "citation": "Kaur, M. N., Higgins, A., Edelen, M. O., Aschbrenner, K. A., Garstka, M. E., Throckmorton, A., Bea, V., & Pusic, A. L. (2026). Field observation as a method to guide patient-reported outcome measurement integration in community cancer centers. Implementation Science Communications, 7, Article 39.",
+            "url": "https://doi.org/10.1186/s43058-026-00859-5"
+      },
+      "kessler2011": {
+            "citation": "Kessler, R., & Glasgow, R. E. (2011). A proposal to speed translation of healthcare research into practice: Dramatic change is needed. American Journal of Preventive Medicine, 40(6), 637–644.",
+            "url": "https://doi.org/10.1016/j.amepre.2011.02.023"
+      },
+      "holtrop2018": {
+            "citation": "Holtrop, J. S., Rabin, B. A., & Glasgow, R. E. (2018). Qualitative approaches to use of the RE-AIM framework: Rationale and methods. BMC Health Services Research, 18, 177.",
+            "url": "https://doi.org/10.1186/s12913-018-2938-8"
+      },
+      "kenworthy2023": {
+            "citation": "Kenworthy, T., Domlyn, A., Scott, V. C., Schwartz, R., & Wandersman, A. (2023). A proactive, systematic approach to building the capacity of technical assistance providers. Health Promotion Practice, 24(3), 546–559.",
+            "url": "https://doi.org/10.1177/15248399221080096"
+      },
+      "staras2021": {
+            "citation": "Staras, S., Tauscher, J. S., Rich, N., Samarah, E., Thompson, L. A., Vinson, M. M., Muszynski, M. J., & Shenkman, E. A. (2021). Using a clinical workflow analysis to enhance eHealth implementation planning: Tutorial and case study. JMIR mHealth and uHealth, 9(3), Article e18534.",
+            "url": "https://doi.org/10.2196/18534"
+      },
+      "harris1997": {
+            "citation": "Harris, K. J., Jerome, N. W., & Fawcett, S. B. (1997). Rapid assessment procedures: A review and critique. Human Organization, 56(3), 375–378.",
+            "url": "https://doi.org/10.17730/humo.56.3.w525025611458003"
+      },
+      "rahimi2018": {
+            "citation": "Rahimi, B., Nadri, H., Lotfnezhad Afshar, H., & Timpka, T. (2018). A systematic review of the Technology Acceptance Model in health informatics. Applied Clinical Informatics, 9(3), 604–634.",
+            "url": "https://doi.org/10.1055/s-0038-1668091"
+      },
+      "shea2014": {
+            "citation": "Shea, C. M., Jacobs, S. R., Esserman, D. A., Bruce, K., & Weiner, B. J. (2014). Organizational readiness for implementing change: A psychometric assessment of a new measure. Implementation Science, 9, Article 7.",
+            "url": "https://doi.org/10.1186/1748-5908-9-7"
+      },
+      "gray2023": {
+            "citation": "Gray, J., Thynne, T. R., Eaton, V., Reade, B., Larcombe, R., Baldacchino, L., Gehlert, J., Hakendorf, P., Karnon, J., & Southern Adelaide Local Health Network’s (SALHN) Hypoglycaemia Clinical Working Group. (2023). A framework for local-level economic evaluation to inform implementation decisions: Health service interventions to prevent hospital-acquired hypoglycemia. International Journal of Technology Assessment in Health Care, 39(1), Article e74.",
+            "url": "https://doi.org/10.1017/S0266462323002775"
+      },
+      "seagull2014": {
+            "citation": "Seagull, F. J., & Rooney, D. M. (2014). Filling a void: Developing a standard subjective assessment tool for surgical simulation through focused review of current practices. Surgery, 156(3), 718–722.",
+            "url": "https://doi.org/10.1016/j.surg.2014.04.048"
+      },
+      "forgatch2005": {
+            "citation": "Forgatch, M. S., Patterson, G. R., & DeGarmo, D. S. (2005). Evaluating fidelity: Predictive validity for a measure of competent adherence to the Oregon model of parent management training. Behavior Therapy, 36(1), 3–13.",
+            "url": "https://doi.org/10.1016/S0005-7894(05)80049-8"
+      },
+      "winter2000": {
+            "citation": "Winter, J. P., & Calsyn, R. J. (2000). The Dartmouth Assertive Community Treatment Scale (DACTS): A generalizability study. Evaluation Review, 24(3), 319–338.",
+            "url": "https://doi.org/10.1177/0193841X0002400304"
+      },
+      "finch2013": {
+            "citation": "Finch, T. L., Rapley, T., Girling, M., Mair, F. S., Murray, E., Treweek, S., McColl, E., Steen, I. N., & May, C. R. (2013). Improving the normalization of complex interventions: Measure development based on normalization process theory (NoMAD): Study protocol. Implementation Science, 8, Article 43.",
+            "url": "https://doi.org/10.1186/1748-5908-8-43"
+      },
+      "rapley2018": {
+            "citation": "Rapley, T., Girling, M., Mair, F. S., Murray, E., Treweek, S., McColl, E., Steen, I. N., May, C. R., & Finch, T. L. (2018). Improving the normalization of complex interventions: Part 1—Development of the NoMAD instrument for assessing implementation work based on normalization process theory (NPT). BMC Medical Research Methodology, 18, Article 133.",
+            "url": "https://doi.org/10.1186/s12874-018-0590-y"
+      },
+      "finch2018": {
+            "citation": "Finch, T. L., Girling, M., May, C. R., Mair, F. S., Murray, E., Treweek, S., McColl, E., Steen, I. N., Cook, C., Vernazza, C. R., Mackintosh, N., Sharma, S., Barbery, G., Steele, J., & Rapley, T. (2018). Improving the normalization of complex interventions: Part 2—Validation of the NoMAD instrument for assessing implementation work based on normalization process theory (NPT). BMC Medical Research Methodology, 18, Article 135.",
+            "url": "https://doi.org/10.1186/s12874-018-0591-x"
+      },
+      "vis2019": {
+            "citation": "Vis, C., Ruwaard, J., Finch, T., Rapley, T., de Beurs, D., van Stel, H., van Lettow, B., Mol, M., Kleiboer, A., Riper, H., & Smit, J. (2019). Toward an objective assessment of implementation processes for innovations in health care: Psychometric evaluation of the Normalization Measure Development (NoMAD) questionnaire among mental health care professionals. Journal of Medical Internet Research, 21(2), Article e12376.",
+            "url": "https://doi.org/10.2196/12376"
+      },
+      "robinson2023": {
+            "citation": "Robinson, C. H., & Damschroder, L. J. (2023). A pragmatic context assessment tool (pCAT): Using a Think Aloud method to develop an assessment of contextual barriers to change. Implementation Science Communications, 4, Article 3.",
+            "url": "https://doi.org/10.1186/s43058-022-00380-5"
+      },
+      "carrion2021": {
+            "citation": "Carrion, A. J., Miles, J. D., Thompson, M. D., Journee, B., & Nelson, E. (2021). Program evaluation through the use of logic models. Currents in Pharmacy Teaching and Learning, 13(7), 789–795.",
+            "url": "https://doi.org/10.1016/j.cptl.2021.03.006"
+      },
+      "savaya2005": {
+            "citation": "Savaya, R., & Waysman, M. (2005). The logic model: A tool for incorporating theory in development and evaluation of programs. Administration in Social Work, 29(2), 85–103.",
+            "url": "https://doi.org/10.1300/J147v29n02_06"
+      },
+      "milat2020": {
+            "citation": "Milat, A., Lee, K., Conte, K., Grunseit, A., Wolfenden, L., van Nassau, F., Orr, N., Sreeram, P., & Bauman, A. (2020). Intervention Scalability Assessment Tool: A decision support tool for health policy makers and implementers. Health Research Policy and Systems, 18, Article 1.",
+            "url": "https://doi.org/10.1186/s12961-019-0494-2"
+      },
+      "luke2014": {
+            "citation": "Luke, D. A., Calhoun, A., Robichaux, C. B., Elliott, M. B., & Moreland-Russell, S. (2014). The Program Sustainability Assessment Tool: A new instrument for public health programs. Preventing Chronic Disease, 11, Article 130184.",
+            "url": "https://doi.org/10.5888/pcd11.130184"
+      },
+      "malone2021": {
+            "citation": "Malone, S., Prewitt, K., Hackett, R., Lin, J. C., McKay, V., Walsh-Bailey, C., & Luke, D. A. (2021). The Clinical Sustainability Assessment Tool: Measuring organizational capacity to promote sustainability in healthcare. Implementation Science Communications, 2, Article 77.",
+            "url": "https://doi.org/10.1186/s43058-021-00181-2"
+      },
+      "feldstein2008": {
+            "citation": "Feldstein, A. C., & Glasgow, R. E. (2008). A practical, robust implementation and sustainability model (PRISM) for integrating research findings into practice. The Joint Commission Journal on Quality and Patient Safety, 34(4), 228–243.",
+            "url": "https://doi.org/10.1016/S1553-7250(08)34030-6"
+      },
+      "mccreight2019": {
+            "citation": "McCreight, M. S., Rabin, B. A., Glasgow, R. E., Ayele, R. A., Leonard, C. A., Gilmartin, H. M., Frank, J. W., Hess, P. L., Burke, R. E., & Battaglia, C. T. (2019). Using the Practical, Robust Implementation and Sustainability Model (PRISM) to qualitatively assess multilevel contextual factors to help plan, implement, evaluate, and disseminate health services programs. Translational Behavioral Medicine, 9(6), 1002–1011.",
+            "url": "https://doi.org/10.1093/tbm/ibz085"
+      },
+      "lyon2019": {
+            "citation": "Lyon, A. R., Munson, S. A., Renn, B. N., Atkins, D. C., Pullmann, M. D., Friedman, E., & Areán, P. A. (2019). Use of human-centered design to improve implementation of evidence-based psychotherapies in low-resource communities: Protocol for studies applying a framework to assess usability. JMIR Research Protocols, 8(10), Article e14990.",
+            "url": "https://doi.org/10.2196/14990"
+      },
+      "carayon2006": {
+            "citation": "Carayon, P., Schoofs Hundt, A., Karsh, B.-T., Gurses, A. P., Alvarado, C. J., Smith, M., & Flatley Brennan, P. (2006). Work system design for patient safety: The SEIPS model. Quality & Safety in Health Care, 15(Suppl. 1), i50–i58.",
+            "url": "https://doi.org/10.1136/qshc.2005.015842"
+      }
+};
+
+    const LEGACY_REFERENCE_ID_BY_NUMBER = {
+      "1": "proctor2011",
+      "2": "green2015",
+      "3": "palinkas2011",
+      "4": "hamilton2019",
+      "6": "thiyagarajan2025hpv",
+      "7": "frankowitz2026",
+      "8": "thiyagarajan2025ecv",
+      "9": "suchman2023",
+      "10": "sedlander2025",
+      "11": "lewis2015"
+};
+
+    const REFERENCE_ID_BY_LABEL = {
+      "Proctor et al., 2011": "proctor2011",
+      "Klaic et al., 2022": "klaic2022",
+      "Bowen et al., 2009": "bowen2009",
+      "Miake-Lye et al., 2017": "miakelye2017",
+      "Gold et al., 2022": "gold2022",
+      "Carroll et al., 2007": "carroll2007",
+      "Breitenstein et al., 2010": "breitenstein2010",
+      "Breitenstein et al., 2010": "breitenstein2010",
+      "Ginsburg et al., 2021": "ginsburg2021",
+      "Iwelunmor et al., 2016": "iwelunmor2016",
+      "Chambers et al., 2013": "chambers2013",
+      "Moore et al., 2017": "moore2017",
+      "Shelton et al., 2018": "shelton2018",
+      "Proctor et al., 2023": "proctor2023",
+      "Gaglio et al., 2013": "gaglio2013",
+      "Glasgow & Estabrooks, 2018": "glasgow2018",
+      "Holtrop et al., 2021": "holtrop2021",
+      "Shaw et al., 2019": "shaw2019",
+      "Akl et al., 2024": "akl2024",
+      "Damschroder et al., 2022": "damschroder2022",
+      "Damschroder et al., 2009": "damschroder2009",
+      "Mendoza-Jimenez et al., 2024": "mendoza2024",
+      "Rodriguez et al., 2023": "rodriguez2023",
+      "Muller et al., 2022": "muller2022",
+      "Cao et al., 2025": "cao2025",
+      "Coulentianos et al., 2022": "coulentianos2022",
+      "Green et al., 2015": "green2015",
+      "Palinkas et al., 2011": "palinkas2011",
+      "Hamilton & Finley, 2019": "hamilton2019",
+      "Weiner et al., 2017": "weiner2017",
+      "Lyon et al., 2021": "lyon2021",
+      "Atkins et al., 2017": "atkins2017",
+      "Kaur et al., 2026": "kaur2026",
+      "Kessler & Glasgow, 2011": "kessler2011",
+      "Holtrop et al., 2018": "holtrop2018",
+      "Kenworthy et al., 2023": "kenworthy2023",
+      "Staras et al., 2021": "staras2021",
+      "Harris et al., 1997": "harris1997",
+      "Rahimi et al., 2018": "rahimi2018",
+      "Shea et al., 2014": "shea2014",
+      "Gray et al., 2023": "gray2023",
+      "Seagull & Rooney, 2014": "seagull2014",
+      "Forgatch et al., 2005": "forgatch2005",
+      "Winter & Calsyn, 2000": "winter2000",
+      "Finch et al., 2013": "finch2013",
+      "Rapley et al., 2018": "rapley2018",
+      "Finch et al., 2018": "finch2018",
+      "Vis et al., 2019": "vis2019",
+      "Robinson & Damschroder, 2023": "robinson2023",
+      "Carrion et al., 2021": "carrion2021",
+      "Savaya & Waysman, 2005": "savaya2005",
+      "Milat et al., 2020": "milat2020",
+      "Luke et al., 2014": "luke2014",
+      "Malone et al., 2021": "malone2021",
+      "Feldstein & Glasgow, 2008": "feldstein2008",
+      "McCreight et al., 2019": "mccreight2019",
+      "Lyon et al., 2019": "lyon2019",
+      "Carayon et al., 2006": "carayon2006"
+};
+
+    const REFERENCE_NUMBER_BY_ID = Object.fromEntries(
+      REFERENCE_ORDER.map((referenceId, index) => [referenceId, index + 1])
+    );
+
+    const CASE_REFERENCE_IDS = {
+      hpv: ["thiyagarajan2025hpv", "frankowitz2026"],
+      ecv: ["thiyagarajan2025ecv"],
+      contraception: ["suchman2023", "sedlander2025"],
+    };
+
+    const GUIDE_CITATION_TEXT =
+      "Zheng, C., Thiyagarajan, D., & Kramer, J. (2026). Mid-Design Evaluation Guide [Web-based guide]. University of Michigan. https://viczcw.github.io/Mid-Design-Evaluation-Framework_Round-3/";
 
     const INTEREST_HOLDER_SCAFFOLD_FAMILIES = [
       {
@@ -4502,7 +6181,7 @@
       "Who will operate, use, deliver, prescribe, administer, learn from, be trained to use, teach, maintain, or otherwise work with the innovation?",
       "Who can authorize or block adoption, purchase, approval, reimbursement, or implementation?",
       "Who will provide the staffing, training, infrastructure, funding, technical expertise, or coordination needed to make implementation possible?",
-      "Who may experience added burden, risk, exclusion, loss of access, or unintended consequences—even if they are not an intended user?",
+      "Who may experience added burden, risk, exclusion, loss of access, or unintended consequences, even if they are not an intended user?",
       "Who might be affected later if the innovation is adapted, transferred to another setting, or scaled to a new population?",
       "Whose lived, operational, technical, regulatory, or contextual knowledge could reveal barriers the design team may otherwise miss?",
       "Which relevant groups are absent from the design team’s current network, and what assumptions are being made without their perspective?",
@@ -4543,6 +6222,28 @@
           groupId: "organizational-decision-makers",
           rationale:
             "Their perspective may reveal whether the innovation fits organizational goals, requirements, and the problem selected for action.",
+        },
+      ],
+      reach: [
+        {
+          groupId: "direct-beneficiaries",
+          rationale:
+            "They are the intended eligible population for Reach and can help identify who is likely to participate, who may be missed, and which access, burden, or design features may shape participation.",
+        },
+        {
+          groupId: "users-operators",
+          rationale:
+            "They may help identify usability, accessibility, or learning barriers that may make participation easier for some groups and harder for others.",
+        },
+        {
+          groupId: "innovation-deliverers",
+          rationale:
+            "They often shape whether and how eligible recipients are informed, offered, referred to, or receive the innovation, making them important for identifying delivery-pathway bottlenecks that may limit Reach.",
+        },
+        {
+          groupId: "implementation-leads-team-members",
+          rationale:
+            "They can explain how eligibility rules, recruitment or referral plans, staffing, capacity, and rollout decisions are expected to shape who is reached and where systematic gaps may emerge.",
         },
       ],
       feasibility: [
@@ -4711,7 +6412,7 @@
             outcomeId: "appropriateness",
             name: "Intervention Appropriateness Measure (IAM)",
             description:
-              "Use the 4-item IAM questionnaire measurement to evaluate whether a medical intervention innovation is perceived as a good fit for the clinical problem, intended users, and implementation setting. It helps designers determine whether the innovation is relevant, compatible, and well-matched to the context in which it is meant to be used before full-scale implementation.",
+              "Use the 4-item IAM questionnaire measurement to evaluate whether a health care innovation is perceived as a good fit for the clinical problem, intended users, and implementation setting. It helps designers determine whether the innovation is relevant, compatible, and well-matched to the context in which it is meant to be used before full-scale implementation.",
           },
           {
             id: "isus",
@@ -4721,32 +6422,46 @@
               "A scale for evaluating whether a draft implementation strategy, such as training, consultation, workflow support, onboarding, or facilitation, is usable and well matched to intended users and settings.",
           },
           {
+            id: "prospective-reach-representativeness",
+            outcomeId: "reach",
+            name: "Prospective Reach and Representativeness Assessment",
+            description:
+              "Use available demographic, clinical, administrative, community, or project data to define the intended eligible population, estimate how many people the planned implementation could realistically reach, and assess whether those likely to participate reflect the target population. During mid-design, planned capacity, referral volumes, historical service data, and early formative or pilot samples can provide preliminary estimates of anticipated Reach and representativeness, but these should be treated as projections rather than observed Reach.",
+          },
+          {
+            id: "prospective-reaim-reach-flow",
+            outcomeId: "reach",
+            name: "Prospective RE-AIM Reach Flow Mapping (adapted from the RE-AIM Extended CONSORT Diagram)",
+            description:
+              "Adapt the RE-AIM Extended CONSORT flow diagram to map the anticipated pathway from the total intended population through eligibility, contact or offer, participation, nonparticipation, and exclusion. Populate the flow with available historical or planning estimates to make denominator assumptions visible and identify where the design or implementation pathway may create likely drop-off before implementation; projected counts should be treated as planning estimates rather than observed Reach.",
+          },
+          {
             id: "fim",
             outcomeId: "feasibility",
             name: "Feasibility of Intervention Measure (FIM)",
             description:
-              "Use the 4-item FIM questionnaire instrument to evaluate whether a medical intervention innovation is practical to carry out in the intended real-world setting or agency. It helps designers evaluate whether the innovation can realistically be implemented given available time, resources, workflows, and organizational conditions before full-scale rollout.",
+              "Use the 4-item FIM questionnaire instrument to evaluate whether a health care innovation is practical to carry out in the intended real-world setting or agency. It helps designers evaluate whether the innovation can realistically be implemented given available time, resources, workflows, and organizational conditions before full-scale rollout.",
           },
           {
             id: "readiness-thinking-tool",
             outcomeId: "feasibility",
             name: "Readiness Thinking Tool",
             description:
-              "Use the structured Readiness Thinking Questionnaire to evaluate an organization’s readiness to implement a medical intervention innovation by capturing motivations, innovation-specific capacity, and general capacity.",
+              "Use the structured Readiness Thinking Questionnaire to evaluate an organization’s readiness to implement a health care innovation by capturing motivations, innovation-specific capacity, and general capacity.",
           },
           {
             id: "tam",
             outcomeId: "acceptability",
             name: "Individual-Level Technology Acceptance Model (TAM)",
             description:
-              "Use the TAM to predict and explain how likely individuals are to accept a new medical intervention innovation. TAM does this by examining key factors such as Perceived Usefulness (PU), or whether users believe the intervention will improve their performance or efficiency, and Perceived Ease of Use (PEOU), or whether they believe it will be easy to use; these perceptions can be analyzed across different user groups and contextual conditions.",
+              "Use the TAM to predict and explain how likely individuals are to accept a new health care innovation. TAM does this by examining key factors such as Perceived Usefulness (PU), or whether users believe the intervention will improve their performance or efficiency, and Perceived Ease of Use (PEOU), or whether they believe it will be easy to use; these perceptions can be analyzed across different user groups and contextual conditions.",
           },
           {
             id: "aim",
             outcomeId: "acceptability",
             name: "Acceptability of Intervention Measure (AIM)",
             description:
-              "Use the 4-item AIM questionnaire measurement to evaluate whether a medical intervention innovation is viewed as satisfactory, agreeable, or acceptable by key interest-holders. It helps designers understand how those involved may respond to the innovation and identify areas that may need refinement before broader implementation.",
+              "Use the 4-item AIM questionnaire measurement to evaluate whether a health care innovation is viewed as satisfactory, agreeable, or acceptable by key interest-holders. It helps designers understand how those involved may respond to the innovation and identify areas that may need refinement before broader implementation.",
           },
           {
             id: "oric",
@@ -4795,7 +6510,7 @@
             outcomeId: "penetration",
             name: "Pragmatic Context Assessment Tool (pCAT)",
             description:
-              "Use the 14-item quantitative pCAT instrument to determine the level of penetration or the tangible fit of a medical intervention innovation within an organization’s existing subsystems. It is based on CFIR but translates technical constructs into everyday language familiar to clinicians.",
+              "Use the 14-item quantitative pCAT instrument to determine the level of penetration or the tangible fit of a health care innovation within an organization’s existing subsystems. It is based on CFIR but translates technical constructs into everyday language familiar to clinicians.",
           },
           {
             id: "logic-models",
@@ -4809,7 +6524,7 @@
             outcomeId: "sustainability",
             name: "Intervention Scalability Assessment Tool (ISAT)",
             description:
-              "Use the Intervention Scalability Assessment Tool to systematically evaluate whether a health innovation is suitable for scale-up and likely to be sustained under real-world conditions. ISAT can help teams evaluate whether the intervention has the resources, workforce, infrastructure, adaptability, implementation supports, and longer-term planning needed to remain in routine use after scale-up. The tool produces domain-level ratings and a visual summary of strengths and weaknesses, supporting evidence-informed decisions about whether an intervention is ready for scale-up, needs further planning, or does not yet merit scale-up.",
+              "Use the Intervention Scalability Assessment Tool to systematically evaluate whether a health care innovation is suitable for scale-up and likely to be sustained under real-world conditions. ISAT can help teams evaluate whether the intervention has the resources, workforce, infrastructure, adaptability, implementation supports, and longer-term planning needed to remain in routine use after scale-up. The tool produces domain-level ratings and a visual summary of strengths and weaknesses, supporting evidence-informed decisions about whether an intervention is ready for scale-up, needs further planning, or does not yet merit scale-up.",
           },
           {
             id: "psat",
@@ -4843,14 +6558,14 @@
             outcomeId: "feasibility",
             name: "Readiness Thinking Observation Guide",
             description:
-              "Use the structured, workflow-based Readiness Thinking Observation Guide to identify challenges, strengths, and areas of uncertainty related to an organization’s motivation, innovation-specific capacity, and general capacity to implement a medical intervention innovation. The link embedded in the strategy title will direct you to the original article in which this strategy was introduced or further developed.",
+              "Use the structured, workflow-based Readiness Thinking Observation Guide to identify challenges, strengths, and areas of uncertainty related to an organization’s motivation, innovation-specific capacity, and general capacity to implement a health care innovation. The link embedded in the strategy title will direct you to the original article in which this strategy was introduced or further developed.",
           },
           {
             id: "workflow-analysis",
             outcomeId: "feasibility",
             name: "Workflow Analysis",
             description:
-              "Use workflow analysis as a structured, real-time observational approach to understand how care is actually delivered in clinical settings by documenting tasks, interactions, communication patterns, and contextual conditions as they unfold. In the context of medical intervention innovation, it helps designers identify workflow bottlenecks, role responsibilities, environmental constraints, and other implementation friction points so they can refine an intervention to better fit the realities of practice before full-scale implementation. The link embedded in the strategy title will direct you to the original article in which this strategy was introduced or further developed.",
+              "Use workflow analysis as a structured, real-time observational approach to understand how care is actually delivered in clinical settings by documenting tasks, interactions, communication patterns, and contextual conditions as they unfold. In the context of health care innovation, it helps designers identify workflow bottlenecks, role responsibilities, environmental constraints, and other implementation friction points so they can refine an intervention to better fit the realities of practice before full-scale implementation. The link embedded in the strategy title will direct you to the original article in which this strategy was introduced or further developed.",
           },
           {
             id: "rapid-ethnographic-assessment",
@@ -5028,6 +6743,30 @@
         label: "Atkins et al., 2017",
         url: "https://doi.org/10.1186/s13012-017-0605-9",
       },
+      gaglio2013: {
+        label: "Gaglio et al., 2013",
+        url: "https://doi.org/10.2105/AJPH.2013.301299",
+      },
+      glasgow2018: {
+        label: "Glasgow & Estabrooks, 2018",
+        url: "https://doi.org/10.5888/pcd15.170271",
+      },
+      holtrop2018: {
+        label: "Holtrop et al., 2018",
+        url: "https://doi.org/10.1186/s12913-018-2938-8",
+      },
+      holtrop2021: {
+        label: "Holtrop et al., 2021",
+        url: "https://doi.org/10.1017/cts.2021.789",
+      },
+      kessler2011: {
+        label: "Kessler & Glasgow, 2011",
+        url: "https://doi.org/10.1016/j.amepre.2011.02.023",
+      },
+      shaw2019: {
+        label: "Shaw et al., 2019",
+        url: "https://doi.org/10.1186/s12889-019-7131-4",
+      },
     };
 
     const EVALUATION_STRATEGY_METADATA = {
@@ -5042,6 +6781,22 @@
       },
       isus: {
         citations: [STRATEGY_CITATIONS.lyon2021],
+      },
+      "prospective-reach-representativeness": {
+        citations: [
+          STRATEGY_CITATIONS.glasgow2018,
+          STRATEGY_CITATIONS.holtrop2021,
+          STRATEGY_CITATIONS.shaw2019,
+        ],
+      },
+      "prospective-reaim-reach-flow": {
+        citations: [STRATEGY_CITATIONS.kessler2011],
+        resources: [
+          {
+            label: "RE-AIM Extended CONSORT Diagram",
+            url: "https://re-aim.org/wp-content/uploads/2016/09/consort.pdf",
+          },
+        ],
       },
       fim: {
         citations: [STRATEGY_CITATIONS.weiner2017],
@@ -5277,6 +7032,13 @@
       citations: [STRATEGY_CITATIONS.atkins2017],
     };
 
+    const INTERVIEW_PROMPT_CITATIONS_BY_OUTCOME = {
+      reach: [
+        STRATEGY_CITATIONS.holtrop2018,
+        STRATEGY_CITATIONS.holtrop2021,
+      ],
+    };
+
     const INTERVIEW_PROMPTS_BY_OUTCOME = {
       appropriateness: [
         [
@@ -5298,6 +7060,40 @@
         [
           "Perceived effectiveness for addressing the targeted issue",
           "What are your thoughts on how effective this health care innovation will be in achieving [its intended clinical purpose]?",
+        ],
+      ],
+      reach: [
+        [
+          "Likely participation",
+          "Who do you think would be most likely to receive or participate in this innovation?",
+        ],
+        [
+          "Personal willingness to participate",
+          "If this innovation were available to you, would you want to receive or participate in it? Why or why not?",
+        ],
+        [
+          "Features (dis)encouraging personal participation",
+          "What aspects of this innovation would make you more or less likely to receive or participate in it?",
+        ],
+        [
+          "Features discouraging personal participation",
+          "In your usual experience with [the relevant care, service, or work system], where, if anywhere, would you expect to encounter this innovation?",
+        ],
+        [
+          "Perceived role in the current system",
+          "What role, if any, do you think this innovation would play in your experience within the current system?",
+        ],
+        [
+          "People likely to be missed",
+          "Who might be eligible for this innovation but still be unlikely to receive or participate in it?",
+        ],
+        [
+          "Differences across groups",
+          "Which groups might have a harder time accessing or participating in this innovation?",
+        ],
+        [
+          "Opportunities to improve Reach",
+          "What could be changed to make this innovation more likely to reach people who might otherwise be missed?",
         ],
       ],
       feasibility: [
@@ -5475,7 +7271,7 @@
         ],
         [
           "Delivery expectations",
-          "How would you know whether staff were delivering this medical innovation with quality, not just completing the task?",
+          "How would you know whether staff were delivering this health care innovation with quality, not just completing the task?",
         ],
         [
           "Differentiation from existing practice",
@@ -5692,17 +7488,38 @@
         ],
       },
       {
+        id: "reach",
+        name: "Reach",
+        definition:
+          "The extent to which an innovation is expected to engage its intended recipient population, including the number, proportion, and representativeness of eligible individuals who are willing and likely to be exposed to, receive, or participate in the innovation, as well as who may be missed and why (Gaglio et al., 2013; Glasgow & Estabrooks, 2018).",
+        relevance: {
+          text: "Reach is usually not fully evaluable during mid-design because actual exposure and participation depend on how the innovation is offered and accessed in practice. Prospective evaluation can identify who is likely to be reached or missed, why differences may occur, and whether current design and implementation plan can be improved to maximize the potential reach of the intended population.",
+        },
+        considerations: [
+          "Reach is primarily an individual-level outcome. It concerns whether intended recipients are exposed to or participate in the innovation, rather than whether organizations or staff adopt it or how deeply it becomes integrated within a service setting. (Gaglio et al., 2013; Glasgow & Estabrooks, 2018)",
+          "Specifying the intended eligible population and the point at which an individual is considered reached is important. Depending on the innovation, this may mean being offered, exposed to, receiving, or participating in it.",
+          "Compare the characteristics of people who are reached with those who are eligible but are not reached. Differences across relevant populations can reveal inequities or systematic gaps in access and participation. (Glasgow & Estabrooks, 2018; Holtrop et al., 2021; Shaw et al., 2019)",
+          "Examine reasons for participation, nonparticipation, or exclusion. These may arise from the innovation itself, the pathway through which it is offered or accessed, the implementation setting, or individual circumstances. (Glasgow & Estabrooks, 2018; Holtrop et al., 2021; Shaw et al., 2019)",
+        ],
+        evidence: [],
+      },
+      {
         id: "feasibility",
         name: "Feasibility",
         definition: {
           text: "The extent to which an innovation can be successfully used or carried out within a given agency or setting.",
           citations: [1, 11],
         },
+        relevance: {
+          tag: "Evaluate & Refine",
+          orientation: "present",
+          text: "Feasibility can often be meaningfully evaluated during mid-design when the innovation is sufficiently developed to be tested, simulated, or evaluated under realistic use conditions. Findings can identify practical barriers, resource and workflow requirements, and needed adaptations to improve the likelihood that the innovation can be successfully carried out in the intended setting (Proctor et al., 2011; Klaic et al., 2022).",
+        },
         considerations: [
-          "Workflow, staffing, time, skills, infrastructure, and resources",
-          "Burden introduced by the innovation and what existing activities it may displace",
-          "Practical barriers that could prevent intended use",
-          "Variation in feasibility across settings or users",
+          "Feasibility depends on the conditions required for the innovation to work in practice. Relevant conditions may include workflow, staffing, time, skills and training, coordination, infrastructure, technology, space, supplies, and other resources needed for routine use or delivery (Proctor et al., 2011; Bowen et al., 2009).",
+          "Feasibility includes both enabling conditions and practical burdens or barriers. An innovation may have supportive resources or processes in place while still introducing additional workload, complexity, coordination demands, time requirements, or other burdens that make routine implementation difficult (Bowen et al., 2009; Klaic et al., 2022).",
+          "Introducing an innovation may displace existing activities, resources, or practices. Consider what current workflows, responsibilities, services, technologies, or other activities may need to be reduced, replaced, reorganized, or deprioritized to accommodate the innovation (Bowen et al., 2009).",
+          "Feasibility may vary across contexts and over time. What is feasible for one user group, organization, setting, or implementation stage may not be feasible in another. Differences in resources, workflows, infrastructure, capabilities, and local constraints may require adaptation, and those adaptations can in turn change what is feasible (Klaic et al., 2022).",
         ],
         evidence: [
           {
@@ -5737,6 +7554,11 @@
         definition: {
           text: "The perception among relevant interest-holders that an innovation is agreeable, palatable, or satisfactory.",
           citations: [1, 11],
+        },
+        relevance: {
+          tag: "Evaluate & Refine",
+          orientation: "present",
+          text: "Acceptability can often be meaningfully evaluated during mid-design once intended interest holders have sufficient information about or experience with the innovation to form a judgment. Findings can identify features that make the innovation more or less agreeable or satisfactory and directly support design refinement before broader implementation (Proctor et al., 2011; Klaic et al., 2022).",
         },
         considerations: [
           {
@@ -5790,6 +7612,13 @@
           text: "The intention, initial decision, or action to try or employ an innovation.",
           citations: [1, 11],
         },
+        relevance: {
+          tags: [
+            { label: "Evaluate & Refine", orientation: "present" },
+            { label: "Anticipate & Shape", orientation: "forward" },
+          ],
+          text: "Adoption can be partially evaluated during mid-design through interest holders’ intentions, initial decisions, or willingness to try the innovation, although routine adoption may not be fully observable until implementation begins. Early findings can identify conditions likely to support or inhibit initial uptake and inform design and implementation planning before broader rollout (Proctor et al., 2011).",
+        },
         considerations: [
           {
             text: "Focus on initial uptake. Adoption concerns the intention, initial decision, or action to try or employ an innovation, and may also be referred to as uptake.",
@@ -5838,6 +7667,13 @@
         definition: {
           text: "The resources used and cost impact (e.g., opportunity cost) associated with developing and executing an implementation strategy.",
           citations: [1, 11],
+        },
+        relevance: {
+          tags: [
+            { label: "Evaluate & Refine", orientation: "present" },
+            { label: "Anticipate & Shape", orientation: "forward" },
+          ],
+          text: "Implementation cost can be estimated during mid-design, although actual costs may change as the implementation approach, setting, scale, and resource use become clearer. Prospective evaluation can identify major resource demands, opportunity costs, and costly design or implementation choices that may be addressed before broader implementation (Proctor et al., 2011).",
         },
         considerations: [
           {
@@ -5894,12 +7730,19 @@
             "Carroll et al., 2007",
           ],
         },
+        relevance: {
+          tags: [
+            { label: "Evaluate & Refine", orientation: "present" },
+            { label: "Anticipate & Shape", orientation: "forward" },
+          ],
+          text: "Fidelity is usually not fully evaluable during mid-design because routine implementation has not yet occurred. Prospective evaluation can examine whether the innovation and planned implementation approach are likely to support delivery or use as intended, while prototype or pilot testing may provide early evidence of likely deviations, adaptation needs, and support requirements. Findings can inform refinements that make intended delivery more achievable during implementation (Proctor et al., 2011; Klaic et al., 2022).",
+        },
         considerations: [
           {
             text: "Focus on delivery as intended in real-world settings. Fidelity examines whether the innovation and its core components are delivered or used as intended as it moves from controlled or standardized conditions into real-world settings.",
             citations: [
               "Carroll et al., 2007",
-              "Breitenstein et al., 2012",
+              "Breitenstein et al., 2010",
             ],
           },
           {
@@ -5918,8 +7761,7 @@
           {
             text: "Examine consistency across populations and contexts. Consider whether the innovation is delivered or used with comparable fidelity across different populations, users, settings, or implementation contexts, and whether systematic variation may affect outcomes or equity.",
             citations: [
-              "Breitenstein et al., 2012",
-              "Handley et al., 2021",
+              "Breitenstein et al., 2010",
             ],
           },
           {
@@ -6033,7 +7875,6 @@
             text: "Focus on long-term ownership and relationships. Consider who will maintain, staff, resource, and champion the innovation over time, and whether ongoing engagement and relationships can support continued local ownership.",
             citations: [
               "Iwelunmor et al., 2016",
-              "Nwaozuru et al., 2025",
             ],
           },
           {
@@ -6047,7 +7888,6 @@
             text: "Identify conditions that could undermine continued use. These may include loss of staffing, funding, infrastructure, leadership support, organizational fit, or other resources needed to maintain the innovation over time.",
             citations: [
               "Shelton et al., 2018",
-              "Rakhra et al., 2022",
             ],
           },
           {
@@ -6089,31 +7929,46 @@
       },
     ];
 
-    const RESOURCES = [
+    const GUIDING_FRAMEWORKS = [
       {
-        title: "Frameworks & Planning Lenses",
-        description:
-          "Supporting resources for reasoning about implementation during design. Frameworks will not function as a required workflow step.",
+        id: "cfir",
+        name: "Consolidated Framework for Implementation Research (CFIR)",
+        summary:
+          "A determinant framework that organizes multilevel barriers and facilitators influencing implementation.",
+        citationIds: ["damschroder2009", "damschroder2022"],
       },
       {
-        title: "Health Care Case Examples",
-        description:
-          "Future examples will connect design context, participants, methods, learning, design decisions, and illustrated outcomes.",
+        id: "ddbt",
+        name: "Discover, Design/Build, and Test (DDBT)",
+        summary:
+          "A human-centered design and implementation science framework organized around Discover, Design/Build, and Test phases.",
+        citationIds: ["lyon2019"],
       },
       {
-        title: "Measures & Methods",
-        description:
-          "Future resources will support the selection and adaptation of evaluation methods during mid-design.",
+        id: "seips",
+        name: "Systems Engineering Initiative for Patient Safety Model (SEIPS)",
+        summary:
+          "A human factors framework that explains health care work through interactions among people, tasks, tools, technologies, physical environment, and organizational conditions.",
+        citationIds: ["carayon2006"],
       },
       {
-        title: "References",
-        description:
-          "The complete reference list and source notes will be organized here in a later content pass.",
+        id: "prism",
+        name: "Practical, Robust Implementation and Sustainability Model (PRISM)",
+        summary:
+          "A context-oriented implementation and sustainability model linking intervention, recipients, organization, and external environment.",
+        citationIds: ["feldstein2008", "mccreight2019"],
+      },
+      {
+        id: "reaim",
+        name: "Reach, Effectiveness, Adoption, Implementation, Maintenance Framework (RE-AIM)",
+        summary:
+          "A planning and evaluation framework focused on Reach, Effectiveness, Adoption, Implementation, and Maintenance.",
+        citationIds: ["glasgow2018", "shaw2019"],
       },
     ];
 
     /*
-      TODO — NEXT CONTENT-DEVELOPMENT PASS
+      TODO, NEXT CONTENT-DEVELOPMENT PASS
 
       - Approved outcome definitions and outcome-specific content
       - Outcome relevance labels
@@ -6126,7 +7981,7 @@
       - Framework resources
       - Relational selection model:
         Outcome → Interest Holder → Rationale → Evaluation Strategy
-      - Final plan download/export
+      - Working-plan print/export
     */
 
     // ============================================================
@@ -6243,7 +8098,9 @@
       return (
         <footer className="site-footer">
           <div className="container footer-inner">
-            <p>Mid-Design Evaluation Guide</p>
+            <p className="footer-credit">
+              Mid-Design Evaluation Guide · Developed by <strong>Chuwen Zheng</strong>
+            </p>
           </div>
         </footer>
       );
@@ -6254,6 +8111,28 @@
     // ============================================================
 
     function StartHerePage() {
+      const [citationCopied, setCitationCopied] = useState(false);
+
+      async function copyGuideCitation() {
+        try {
+          await navigator.clipboard.writeText(GUIDE_CITATION_TEXT);
+          setCitationCopied(true);
+          window.setTimeout(() => setCitationCopied(false), 1800);
+        } catch (error) {
+          const textArea = document.createElement("textarea");
+          textArea.value = GUIDE_CITATION_TEXT;
+          textArea.setAttribute("readonly", "");
+          textArea.style.position = "fixed";
+          textArea.style.opacity = "0";
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textArea);
+          setCitationCopied(true);
+          window.setTimeout(() => setCitationCopied(false), 1800);
+        }
+      }
+
       function scrollToHowToUse(event) {
         event.preventDefault();
 
@@ -6268,6 +8147,23 @@
           ?.scrollIntoView({
             behavior: "smooth",
             block: "start",
+          });
+      }
+
+      function scrollToGuideStep(event, stepId) {
+        event.preventDefault();
+
+        window.history.pushState(
+          null,
+          "",
+          `#${stepId}`
+        );
+
+        document
+          .getElementById(stepId)
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
           });
       }
 
@@ -6362,9 +8258,9 @@
 
                 <div className="workflow-node guide-overview-node">
                   <span>Guide Step 4</span>
-                  <strong>Review Your Final Evaluation Plan</strong>
+                  <strong>Develop Your Evaluation Plan</strong>
                   <p>
-                    Bring your selections together into a project-specific evaluation plan. Review, refine, and customize it before using it to guide your next steps.
+                    Bring your selections together into a project-specific working plan. Review, refine, and customize it as your project develops.
                   </p>
                 </div>
               </div>
@@ -6383,7 +8279,7 @@
               >
                 Move through four connected steps: discover outcomes, identify
                 relevant interest holders, consider evaluation strategies, and
-                review the resulting plan for your project.
+                develop a working evaluation plan for your project.
               </SectionHeading>
 
               <div className="step-flow">
@@ -6443,6 +8339,9 @@
                   href="#guide-step-2"
                   aria-label="Continue to Guide Step 2"
                   title="Continue to Guide Step 2"
+                  onClick={(event) =>
+                    scrollToGuideStep(event, "guide-step-2")
+                  }
                 >
                   ↓
                 </a>
@@ -6501,6 +8400,9 @@
                   href="#guide-step-3"
                   aria-label="Continue to Guide Step 3"
                   title="Continue to Guide Step 3"
+                  onClick={(event) =>
+                    scrollToGuideStep(event, "guide-step-3")
+                  }
                 >
                   ↓
                 </a>
@@ -6557,6 +8459,9 @@
                   href="#guide-step-4"
                   aria-label="Continue to Guide Step 4"
                   title="Continue to Guide Step 4"
+                  onClick={(event) =>
+                    scrollToGuideStep(event, "guide-step-4")
+                  }
                 >
                   ↓
                 </a>
@@ -6569,12 +8474,12 @@
                     <div className="step-card-copy">
                       <div className="step-number">Guide Step 4</div>
 
-                      <h3>Review Your Final Evaluation Plan</h3>
+                      <h3>Develop Your Evaluation Plan</h3>
 
                       <p>
                         Bring your selections together into a project-specific
-                        evaluation plan. Review, refine, and customize it before
-                        using it to guide your next steps.
+                        working evaluation plan. Review, refine, and customize it
+                        as your project develops.
                       </p>
 
                       <ul className="preview-list">
@@ -6584,15 +8489,10 @@
                       </ul>
 
                       <PageLink route="final-plan">
-                        View Final Evaluation Plan
+                        Develop Your Evaluation Plan
                         <span aria-hidden="true">→</span>
                       </PageLink>
 
-                      <p className="source-note">
-                        <strong>Session note:</strong> Your selections are not
-                        saved automatically across sessions. Download or export
-                        your plan before leaving the guide.
-                      </p>
                     </div>
 
                     <aside
@@ -6716,21 +8616,40 @@
                 </article>
 
                 <aside
-                  className="information-panel session-notice"
-                  aria-labelledby="session-notice-title"
+                  className="information-panel session-notice guide-citation-notice"
+                  aria-labelledby="guide-citation-title"
                 >
-                  <div className="eyebrow">Session notice</div>
+                  <div className="eyebrow">Cite this guide</div>
 
-                  <h3 id="session-notice-title">
-                    Plan before you leave
+                  <h3 id="guide-citation-title">
+                    Suggested citation
                   </h3>
 
                   <p>
-                    Your selections are not automatically saved after
-                    you leave this session.
+                    If you use this guide in research, teaching, design, or
+                    implementation planning, please cite:
                   </p>
 
-                  {/* TODO: Add Download/Export Evaluation Plan later. */}
+                  <p className="guide-citation-text">
+                    Zheng, C., Thiyagarajan, D., &amp; Kramer, J. (2026).{" "}
+                    <em>Mid-Design Evaluation Guide</em> [Web-based guide].
+                    University of Michigan.{" "}
+                    <a
+                      href="https://viczcw.github.io/Mid-Design-Evaluation-Framework_Round-3/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      https://viczcw.github.io/Mid-Design-Evaluation-Framework_Round-3/
+                    </a>
+                  </p>
+
+                  <button
+                    className="button secondary citation-copy-button"
+                    type="button"
+                    onClick={copyGuideCitation}
+                  >
+                    {citationCopied ? "Citation copied" : "Copy citation"}
+                  </button>
                 </aside>
               </div>
             </div>
@@ -6744,41 +8663,117 @@
     // EXPLORE OUTCOMES PAGE
     // ============================================================
 
+    function normalizeCitationIds(citations = []) {
+      const ids = citations
+        .map((citation) => {
+          if (typeof citation === "number") {
+            return LEGACY_REFERENCE_ID_BY_NUMBER[citation] || null;
+          }
+
+          if (REFERENCE_LIBRARY[citation]) {
+            return citation;
+          }
+
+          return REFERENCE_ID_BY_LABEL[citation] || null;
+        })
+        .filter(Boolean)
+        .filter((referenceId) => REFERENCE_NUMBER_BY_ID[referenceId]);
+
+      return Array.from(new Set(ids)).sort(
+        (a, b) =>
+          REFERENCE_NUMBER_BY_ID[a] - REFERENCE_NUMBER_BY_ID[b]
+      );
+    }
+
+    function CitationNumbers({ ids }) {
+      const citationIds = normalizeCitationIds(ids);
+
+      if (citationIds.length === 0) {
+        return null;
+      }
+
+      return (
+        <sup className="citation" aria-label="References">
+          {citationIds.map((referenceId, index) => {
+            const reference = REFERENCE_LIBRARY[referenceId];
+            const number = REFERENCE_NUMBER_BY_ID[referenceId];
+            const tooltip = `${number}. ${reference.citation} ${reference.url}`;
+
+            return (
+              <React.Fragment key={referenceId}>
+                {index > 0 && <span className="citation-separator">,</span>}
+                <span
+                  className="citation-number"
+                  tabIndex="0"
+                  title={tooltip}
+                  data-citation={tooltip}
+                  aria-label={`Reference ${number}: ${reference.citation}`}
+                >
+                  {number}
+                </span>
+              </React.Fragment>
+            );
+          })}
+        </sup>
+      );
+    }
+
+    function renderTextWithInlineCitations(value) {
+      if (typeof value !== "string") {
+        return value;
+      }
+
+      const citationPattern = /\(([^()]*(?:19|20)\d{2}[^()]*)\)/g;
+      const parts = [];
+      let lastIndex = 0;
+      let match;
+      let citationGroupIndex = 0;
+
+      while ((match = citationPattern.exec(value)) !== null) {
+        const labels = match[1]
+          .split(";")
+          .map((label) => label.trim());
+        const ids = labels.map(
+          (label) => REFERENCE_ID_BY_LABEL[label]
+        );
+
+        if (
+          labels.length === 0 ||
+          ids.some((referenceId) => !referenceId)
+        ) {
+          continue;
+        }
+
+        parts.push(value.slice(lastIndex, match.index));
+        parts.push(
+          <CitationNumbers
+            ids={ids}
+            key={`inline-citation-${citationGroupIndex}`}
+          />
+        );
+        citationGroupIndex += 1;
+        lastIndex = match.index + match[0].length;
+      }
+
+      if (parts.length === 0) {
+        return value;
+      }
+
+      parts.push(value.slice(lastIndex));
+      return parts;
+    }
+
     function CitationText({ text }) {
       const isStructuredText =
         text !== null && typeof text === "object";
       const displayText = isStructuredText ? text.text : text;
 
-      if (isStructuredText) {
-        return (
-          <>
-            {displayText}
-            {text.citations?.length > 0 && (
-              <sup className="citation">
-                {text.citations.join(",")}
-              </sup>
-            )}
-          </>
-        );
-      }
-
-      const citationMatch = displayText.match(
-        /(1,11|6,7|9,10|3–5|6|7|8|10)(?=(?:\s+(?:ACOG ePoster Library|ScienceDirect))?\s*$)/
-      );
-
-      if (!citationMatch) {
-        return <>{displayText}</>;
-      }
-
-      const citationStart = citationMatch.index;
-      const citationEnd =
-        citationStart + citationMatch[0].length;
-
       return (
         <>
-          {displayText.slice(0, citationStart)}
-          <sup className="citation">{citationMatch[0]}</sup>
-          {displayText.slice(citationEnd)}
+          {renderTextWithInlineCitations(displayText)}
+          {isStructuredText && text.citations?.length > 0 && (
+            <CitationNumbers ids={text.citations} />
+          )}
         </>
       );
     }
@@ -6838,7 +8833,7 @@
 
       const selectedRelevance = selectedOutcome.relevance || {
         text:
-          "Draft placeholder — outcome-specific mid-design relevance to be developed.",
+          "Draft placeholder, outcome-specific mid-design relevance to be developed.",
         placeholder: true,
       };
       const selectedOutcomeIds = new Set(
@@ -6902,7 +8897,8 @@
                 actions while innovation or treatment outcomes evaluate whether an
                 innovation works. During <strong>mid-design</strong>, implementation
                 outcomes can help identify design risks and improvement opportunities
-                before full implementation.<sup className="citation">1</sup>
+                before full implementation.
+                <CitationNumbers ids={["proctor2011"]} />
               </p>
 
               <p className="outcome-intro-instruction">
@@ -6929,11 +8925,12 @@
             id="implementation-outcomes-content"
             className="section outcomes-content"
           >
-            <div className="container outcome-layout">
-              <aside
-                className="outcome-sidebar"
-                aria-label="Outcome navigation and next step"
-              >
+            <div className="container">
+              <div className="outcome-layout">
+                <aside
+                  className="outcome-sidebar"
+                  aria-label="Outcome navigation"
+                >
                 <div
                   className="outcome-navigation"
                   role="tablist"
@@ -6978,10 +8975,6 @@
                   ))}
                 </div>
 
-                <PageLink route="interest-holders">
-                  Continue to Interest Holders
-                  <span aria-hidden="true">→</span>
-                </PageLink>
               </aside>
 
               <article
@@ -7064,9 +9057,24 @@
                           {selectedRelevance.tag}
                         </span>
                       )}
+
+                      {selectedRelevance.tags?.length > 0 && (
+                        <div className="outcome-tag-list">
+                          {selectedRelevance.tags.map((tag) => (
+                            <span
+                              className={`outcome-tag ${tag.orientation || ""}`}
+                              key={tag.label}
+                            >
+                              {tag.label}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
-                    <p>{selectedRelevance.text}</p>
+                    <p>
+                      <CitationText text={selectedRelevance.text} />
+                    </p>
                   </section>
 
                   <section className="outcome-considerations">
@@ -7092,13 +9100,14 @@
                   </section>
                 </div>
 
-                <section className="evidence-section">
-                  <div className="evidence-heading">
-                    <h3>Evidence from Case Examples</h3>
-                  </div>
+                {selectedOutcome.evidence?.length > 0 && (
+                  <section className="evidence-section">
+                    <div className="evidence-heading">
+                      <h3>Evidence from Case Examples</h3>
+                    </div>
 
-                  <div className="evidence-table-wrap">
-                    <table className="evidence-table">
+                    <div className="evidence-table-wrap">
+                      <table className="evidence-table">
                       <thead>
                         <tr>
                           <th scope="col">Case</th>
@@ -7143,10 +9152,62 @@
                           </tr>
                         </tbody>
                       ))}
-                    </table>
-                  </div>
-                </section>
+                      </table>
+                    </div>
+                  </section>
+                )}
               </article>
+              </div>
+
+              <section
+                className="global-reflection-panel page-reflection-panel"
+                aria-labelledby="implementation-outcomes-reflection-title"
+              >
+                <div className="eyebrow">Reflection</div>
+                <h3 id="implementation-outcomes-reflection-title">
+                  Reflect on your implementation outcome priorities
+                </h3>
+                <p className="page-reflection-subtitle">
+                  Step back from individual outcomes and consider which implementation
+                  concerns are most important, actionable, and realistic for your project
+                  at this stage.
+                </p>
+                <ol className="scaffold-reflection-grid global-reflection-grid page-reflection-grid">
+                  <li>
+                    Which implementation outcomes are most important and most actionable
+                    for your project at its current stage, and what makes them priorities
+                    right now?
+                  </li>
+                  <li>
+                    Given your project timeline, design stage, available resources, and
+                    access to relevant evidence, which implementation outcomes are
+                    realistic to examine now, and what makes some outcomes more or less
+                    practical to address at this point?
+                  </li>
+                  <li>
+                    How might the implementation outcomes you are considering influence
+                    one another, reinforce one another, or create tradeoffs, for example
+                    across feasibility, acceptability, implementation cost, fidelity,
+                    adoption, penetration, or sustainability?
+                  </li>
+                </ol>
+              </section>
+
+              <div className="next-step interest-next-step outcome-next-step">
+                <div>
+                  <h2>Continue when your starting implementation-outcome set feels useful</h2>
+                  <p>
+                    Your implementation-outcome selections will carry forward to Develop Your
+                    Evaluation Plan, where you can review and refine them as your
+                    project and evaluation plan develop.
+                  </p>
+                </div>
+
+                <PageLink route="interest-holders">
+                  Continue to Interest Holders
+                  <span aria-hidden="true">→</span>
+                </PageLink>
+              </div>
             </div>
           </section>
         </>
@@ -7312,7 +9373,9 @@
                 </summary>
                 <div className="scaffold-evidence-content">
                   {family.evidenceGuidance.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
+                    <p key={paragraph}>
+                      <CitationText text={paragraph} />
+                    </p>
                   ))}
                 </div>
               </details>
@@ -7462,6 +9525,149 @@
               })}
             </div>
           )}
+        </section>
+      );
+    }
+
+    function CaseNarrative({ caseId, variant }) {
+      const isInterestHolderEvidence = variant === "interest-holders";
+
+      if (caseId === "hpv") {
+        return isInterestHolderEvidence ? (
+          <p>
+            Key interest holders included patients using the urine-collection
+            device as <strong>Immediate/direct beneficiaries</strong>; OBGYN
+            clinicians as <strong>Users/operators</strong> and clinical
+            evaluators; and <strong>Learners/people being trained</strong>,
+            including house officers, junior residents, and senior residents,
+            alongside consultant clinicians at Korle Bu Teaching Hospital. The
+            clinician validation study enrolled 36 OBGYNs across these four
+            clinician groups.
+          </p>
+        ) : (
+          <p>
+            The project used both patient- and clinician-facing evaluation
+            strategies. A crossover study with known HPV-positive women at
+            Ghana&apos;s largest referral hospital evaluated feasibility and
+            acceptability using validated questionnaires and Likert-scale
+            measures, including Satisfaction with Decision, Device Usability
+            Questionnaire, System Usability Scale, and Device Preference
+            Questionnaire. A clinician-focused descriptive study with OBGYN
+            clinicians at Korle Bu Teaching Hospital evaluated acceptability,
+            appropriateness, and feasibility using AIM, IAM, and FIM,
+            supplemented by semi-structured interviews guided by the Theoretical
+            Framework of Acceptability. Analyses included descriptive
+            statistics, Wilcoxon signed-rank and binomial tests, and thematic
+            analysis.
+          </p>
+        );
+      }
+
+      if (caseId === "ecv") {
+        return isInterestHolderEvidence ? (
+          <p>
+            Key interest holders included{" "}
+            <strong>Learners/people being trained</strong>, such as OBGYN house
+            officers, junior residents, and senior residents/fellows, who were
+            direct participants in the training and evaluation.{" "}
+            <strong>Users/operators</strong> included clinicians expected to
+            counsel patients about ECV and perform or assist with the procedure
+            in clinical practice.{" "}
+            <strong>
+              Clinical/professional/community opinion leaders
+            </strong>{" "}
+            included consultants/attendings and supervising clinicians, whose
+            support is important because participants identified supervision
+            availability as a barrier to offering ECV.{" "}
+            <strong>Implementation facilitators/change-support personnel</strong>{" "}
+            included educators and simulation facilitators involved in delivering
+            the program, organizing training, providing feedback, and supporting
+            integration of ECV skill-building into obstetric workflow.{" "}
+            <strong>Future/downstream beneficiaries</strong> were pregnant
+            patients with fetal malpresentation who may benefit from improved
+            clinician counseling, access to ECV, and reduced avoidable cesarean
+            delivery.
+          </p>
+        ) : (
+          <p>
+            The program was evaluated through a cluster-randomized study with
+            OBGYN clinicians assigned by care team to either the learning group
+            or control group to reduce crossover bias. Learning-group participants
+            completed the educational video, checklist handout, malpresentation
+            counseling role-play, and task-trainer practice as both assisting and
+            primary surgeon. Evaluation included pre/post questionnaires measuring
+            comfort, confidence, and knowledge; a scored procedural checklist
+            assessing ECV skill; simulation procedure success; participant
+            satisfaction; and AIM, IAM, and FIM ratings for acceptability,
+            appropriateness, and feasibility. Open-ended feedback was also analyzed
+            thematically. Statistical analyses included paired and independent t
+            tests, Fisher&apos;s exact tests, and Spearman&apos;s rho to assess
+            changes in comfort, confidence, knowledge, procedural skill,
+            feasibility, acceptability, and relationships among confidence,
+            knowledge, and skill.
+          </p>
+        );
+      }
+
+      return isInterestHolderEvidence ? (
+        <p>
+          Key interest holders included women mentees as{" "}
+          <strong>Immediate/direct beneficiaries</strong>; experienced
+          contraceptive peer mentors as <strong>Innovation deliverers</strong>;
+          and <strong>Implementation leads/team members</strong>, including
+          community-based organizations such as Baitambogwe Community Health
+          Care Initiative and AIDS Information Center, which piloted the
+          intervention, recruited and trained mentors, and supported
+          implementation. The pilot evaluation primarily examined how
+          I-CAN&apos;s peer social support mechanisms influenced contraceptive
+          agency and self-efficacy among mentees.
+        </p>
+      ) : (
+        <p>
+          The case used formative qualitative research, rapid and traditional
+          qualitative analysis, human-centered design, and a six-month
+          longitudinal qualitative pilot. The pilot included serial interviews
+          with 25 mentees at baseline, three months, and six months, plus
+          interviews with 15 comparison-group women. Participants were
+          purposively sampled by contraceptive use, district, and age, and
+          interview analysis was guided by the I-CAN theory of action. The
+          evaluation examined how peer social support influenced contraceptive
+          knowledge, partner communication, access to services, self-injection
+          confidence, and ability to act on contraceptive preferences. This case
+          illustrates how qualitative and mixed-method evaluation can inform
+          early evaluation of acceptability and appropriateness through women&apos;s
+          experiences of peer support and feasibility through implementation by
+          community-based organizations and trained peer mentors.
+        </p>
+      );
+    }
+
+    function CaseExampleEvidenceSection({ variant }) {
+      const isInterestHolderEvidence = variant === "interest-holders";
+      const sectionTitleId = isInterestHolderEvidence
+        ? "interest-holder-case-evidence-title"
+        : "evaluation-strategy-case-evidence-title";
+
+      return (
+        <section
+          className="cross-page-case-evidence"
+          aria-labelledby={sectionTitleId}
+        >
+          <div className="evidence-heading">
+            <h3 id={sectionTitleId}>Evidence from Case Examples</h3>
+          </div>
+
+          <div className="cross-page-case-list">
+            {["hpv", "ecv", "contraception"].map((caseId) => (
+              <article className="cross-page-case-card" key={caseId}>
+                <h4>
+                  {CASES[caseId].name}
+                  <CitationNumbers ids={CASE_REFERENCE_IDS[caseId]} />
+                </h4>
+                <CaseNarrative caseId={caseId} variant={variant} />
+              </article>
+            ))}
+          </div>
         </section>
       );
     }
@@ -7618,35 +9824,14 @@
                 to a stake, right, or entitlement. It is inherent to the
                 group, even when the design team has not yet recognized
                 or engaged that group.
-                <sup className="citation">Akl et al., 2024</sup>
+                <CitationNumbers ids={["akl2024"]} />
               </p>
 
               <p className="source-note">
-                Conceptual basis: {" "}
-                <a
-                  href="https://onlinelibrary.wiley.com/doi/10.1002/cesm.70007"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Akl et al. (2024)
-                </a>
-                {"; "}
-                <a
-                  href="https://implementationscience.biomedcentral.com/articles/10.1186/s13012-022-01245-0"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  updated CFIR (2022)
-                </a>
-                {"; and "}
-                <a
-                  href="https://implementationscience.biomedcentral.com/articles/10.1186/1748-5908-4-50"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  original CFIR (2009)
-                </a>
-                .
+                Conceptual basis: interest-holder terminology
+                <CitationNumbers ids={["akl2024"]} />; updated CFIR
+                <CitationNumbers ids={["damschroder2022"]} />; and original CFIR
+                <CitationNumbers ids={["damschroder2009"]} />.
               </p>
 
               <button
@@ -7728,13 +9913,15 @@
                 ))}
               </div>
 
+              <CaseExampleEvidenceSection variant="interest-holders" />
+
               <section
                 className="global-reflection-panel"
                 aria-labelledby="global-reflection-title"
               >
-                <div className="eyebrow">Cross-cutting reflection</div>
+                <div className="eyebrow">Reflection</div>
                 <h3 id="global-reflection-title">
-                  Global reflection across the interest holder families and groups
+                  Reflect on your interest holder priorities
                 </h3>
                 <ol className="scaffold-reflection-grid global-reflection-grid">
                   {GLOBAL_INTEREST_HOLDER_REFLECTION.map((prompt) => (
@@ -7969,9 +10156,9 @@
                 <div>
                   <h2>Continue when your starting interest-holder set feels useful</h2>
                   <p>
-                    Your interest-holder selections will carry forward to the Final
-                    Evaluation Plan, where you can review and refine them before
-                    finalizing your plan.
+                    Your interest-holder selections will carry forward to Develop Your
+                    Evaluation Plan, where you can review and refine them as your
+                    project and evaluation plan develop.
                   </p>
                 </div>
 
@@ -7987,54 +10174,31 @@
     }
 
     function StrategyReferenceLinks({ metadata }) {
-      const citations = metadata?.citations || [];
       const resources = metadata?.resources || [];
 
-      if (citations.length === 0 && resources.length === 0) {
+      if (resources.length === 0) {
         return null;
       }
 
       return (
         <div className="strategy-row-meta">
-          {citations.length > 0 && (
-            <div className="strategy-meta-group">
-              <span className="strategy-meta-label">
-                Citation / original article
-              </span>
-              {citations.map((citation) => (
-                <a
-                  className="strategy-resource-link"
-                  href={citation.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  key={`${citation.label}-${citation.url}`}
-                >
-                  {citation.label}
-                  <span aria-hidden="true"> ↗</span>
-                </a>
-              ))}
-            </div>
-          )}
-
-          {resources.length > 0 && (
-            <div className="strategy-meta-group">
-              <span className="strategy-meta-label">
-                Instrument / resource
-              </span>
-              {resources.map((resource) => (
-                <a
-                  className="strategy-resource-link"
-                  href={resource.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  key={`${resource.label}-${resource.url}`}
-                >
-                  {resource.label}
-                  <span aria-hidden="true"> ↗</span>
-                </a>
-              ))}
-            </div>
-          )}
+          <div className="strategy-meta-group">
+            <span className="strategy-meta-label">
+              Instrument / resource
+            </span>
+            {resources.map((resource) => (
+              <a
+                className="strategy-resource-link"
+                href={resource.url}
+                target="_blank"
+                rel="noreferrer"
+                key={`${resource.label}-${resource.url}`}
+              >
+                {resource.label}
+                <span aria-hidden="true"> ↗</span>
+              </a>
+            ))}
+          </div>
         </div>
       );
     }
@@ -8073,6 +10237,9 @@
             </span>
             <span className="strategy-row-title">
               {strategy.name}
+              <CitationNumbers
+                ids={(metadata.citations || []).map((citation) => citation.label)}
+              />
             </span>
           </button>
 
@@ -8153,6 +10320,9 @@
             </span>
             <span className="strategy-row-title">
               {INTERVIEW_STRATEGY.name}
+              <CitationNumbers
+                ids={INTERVIEW_STRATEGY.citations.map((citation) => citation.label)}
+              />
             </span>
           </button>
 
@@ -8160,13 +10330,16 @@
             {INTERVIEW_STRATEGY.description}
           </p>
 
-          <StrategyReferenceLinks
-            metadata={{ citations: INTERVIEW_STRATEGY.citations }}
-          />
-
           <div className="interview-prompts">
             <div className="interview-prompts-header">
-              <h4>Interview Prompts</h4>
+              <h4>
+                Interview Prompts
+                <CitationNumbers
+                  ids={(INTERVIEW_PROMPT_CITATIONS_BY_OUTCOME[outcomeId] || []).map(
+                    (citation) => citation.label
+                  )}
+                />
+              </h4>
               <div className="strategy-category-count">
                 {selectedPrompts.size} of {prompts.length} selected
               </div>
@@ -8345,10 +10518,12 @@
                 When appropriate, integrating qualitative and quantitative evidence
                 through <strong>mixed methods</strong> is strongly encouraged because it
                 can provide a richer understanding of implementation by connecting
-                measurable patterns with contextual explanations (Green et al., 2015).
-                When these forms of evidence are intentionally integrated, mixed methods
-                can support more informed mid-design decisions.
-                <sup className="citation">2–4</sup>
+                measurable patterns with contextual explanations. When these forms of
+                evidence are intentionally integrated, mixed methods can support more
+                informed mid-design decisions.
+                <CitationNumbers
+                  ids={["green2015", "palinkas2011", "hamilton2019"]}
+                />
               </p>
 
               <p className="strategy-intro-instruction">
@@ -8541,17 +10716,70 @@
                 </article>
               </div>
 
+              <CaseExampleEvidenceSection variant="evaluation-strategies" />
+
+              <section
+                className="global-reflection-panel page-reflection-panel"
+                aria-labelledby="evaluation-strategies-reflection-title"
+              >
+                <div className="eyebrow">Reflection</div>
+                <h3 id="evaluation-strategies-reflection-title">
+                  Reflect on your evaluation strategies priorities
+                </h3>
+                <p className="page-reflection-subtitle">
+                  Consider how your evaluation strategies work together, how they are
+                  tailored to your project and interest holders, and whether they can
+                  realistically generate the evidence you need.
+                </p>
+                <ol className="scaffold-reflection-grid global-reflection-grid page-reflection-grid">
+                  <li>
+                    How could you combine qualitative and quantitative strategies in your
+                    project, and how might integrating these forms of evidence support
+                    complementarity, explanation, or triangulation?
+                  </li>
+                  <li>
+                    How have you tailored, or how could you further tailor, the selected
+                    evaluation strategies to your innovation, setting, design stage,
+                    implementation outcomes, and available evidence?
+                  </li>
+                  <li>
+                    How can the interest holders you identified shape the way each
+                    evaluation strategy is used, for example, who should be surveyed, what
+                    or whom should be observed, whose records or data should be examined,
+                    and which perspectives should guide interview questions?
+                  </li>
+                  <li>
+                    What important implementation questions or uncertainties would still
+                    be difficult to answer with your current evaluation strategies, and how
+                    might you modify or add strategies to address those gaps?
+                  </li>
+                  <li>
+                    Are there important perspectives or implementation concerns that may be
+                    difficult to capture with your current questions or measures? If so, could
+                    broader, open-ended interview prompts, including space for participants to
+                    raise issues you did not anticipate, help surface missing information?
+                  </li>
+                  <li>
+                    How do practical constraints, such as time, participant access,
+                    recruitment, burden, expertise, data availability, or resources, shape
+                    which strategies are realistic for your project, and how might you
+                    adapt your evaluation approach in response?
+                  </li>
+                </ol>
+              </section>
+
               <div className="next-step interest-next-step">
                 <div>
-                  <h2>Continue to your evaluation plan</h2>
+                  <h2>Continue when your starting evaluation-strategy set feels useful</h2>
                   <p>
-                    Your selections remain connected to their
-                    respective implementation outcomes.
+                    Your evaluation-strategy selections will carry forward to Develop Your
+                    Evaluation Plan, where you can review and refine them as your
+                    project and evaluation plan develop.
                   </p>
                 </div>
 
                 <PageLink route="final-plan">
-                  Continue to Final Evaluation Plan
+                  Develop Your Evaluation Plan
                   <span aria-hidden="true">→</span>
                 </PageLink>
               </div>
@@ -8561,30 +10789,1131 @@
       );
     }
 
-    function FinalEvaluationPlanPage() {
+    function PlanInterestHolderCard({
+      outcomeId,
+      group,
+      details,
+      isSelected,
+      isRecommended = false,
+      onToggle,
+      onUpdateDetail,
+    }) {
       return (
-        <WorkflowPlaceholderPage
-          step="4"
-          pageId="final-plan"
-          title="Final Evaluation Plan"
-          lede={
-            "This page will bring your selected implementation outcomes, interest holders, rationales, and evaluation strategies together for review."
+        <article className={`plan-holder-card${isSelected ? " is-selected" : ""}`}>
+          <div className="plan-holder-card-header">
+            <button
+              className="plan-holder-toggle"
+              type="button"
+              aria-pressed={isSelected}
+              aria-label={`${isSelected ? "Remove" : "Add"} ${group.label} ${isSelected ? "from" : "to"} this outcome`}
+              title={isSelected ? "Selected, click to remove" : "Not selected, click to add"}
+              onClick={() => onToggle(outcomeId, group.id)}
+            >
+              ✓
+            </button>
+            <div>
+              <h4>{group.label}</h4>
+              <span className="plan-holder-family">
+                Family {group.familyNumber}: {group.familyLabel}
+              </span>
+              {isRecommended && (
+                <span className="plan-holder-recommendation">
+                  Outcome-specific recommendation
+                </span>
+              )}
+            </div>
+          </div>
+
+          <p className="plan-holder-description">{group.description}</p>
+
+          <details>
+            <summary>Review context and project notes</summary>
+            <div className="plan-holder-context">
+              <p><strong>Legitimate interest:</strong> {group.legitimateInterest}</p>
+              <div className="custom-notes-fields">
+                <label className="custom-notes-field">
+                  <span>Project-specific examples</span>
+                  <textarea
+                    value={details?.examples || ""}
+                    placeholder="Add people, teams, organizations, or other examples from your project."
+                    onChange={(event) =>
+                      onUpdateDetail(
+                        outcomeId,
+                        group.id,
+                        "examples",
+                        event.target.value
+                      )
+                    }
+                  />
+                </label>
+                <label className="custom-notes-field">
+                  <span>Notes</span>
+                  <textarea
+                    value={details?.notes || ""}
+                    placeholder="Add context, questions, or considerations for your evaluation plan."
+                    onChange={(event) =>
+                      onUpdateDetail(
+                        outcomeId,
+                        group.id,
+                        "notes",
+                        event.target.value
+                      )
+                    }
+                  />
+                </label>
+              </div>
+            </div>
+          </details>
+        </article>
+      );
+    }
+
+    function CustomInterviewPromptForm({ outcomeId, onAdd }) {
+      const [topic, setTopic] = useState("");
+      const [question, setQuestion] = useState("");
+
+      function handleSubmit(event) {
+        event.preventDefault();
+        const trimmedQuestion = question.trim();
+        if (!trimmedQuestion) return;
+        onAdd(outcomeId, topic.trim(), trimmedQuestion);
+        setTopic("");
+        setQuestion("");
+      }
+
+      return (
+        <form className="plan-custom-prompt-form" onSubmit={handleSubmit}>
+          <label>
+            <span>Topic / focus <em>(optional)</em></span>
+            <input
+              type="text"
+              value={topic}
+              placeholder="e.g., Workflow fit"
+              onChange={(event) => setTopic(event.target.value)}
+            />
+          </label>
+          <label>
+            <span>Custom interview prompt</span>
+            <textarea
+              value={question}
+              placeholder="Add a project-specific interview question."
+              onChange={(event) => setQuestion(event.target.value)}
+            />
+          </label>
+          <button className="button secondary" type="submit">
+            Add prompt
+          </button>
+        </form>
+      );
+    }
+
+    function PlanInterviewStrategyCard({
+      outcomeId,
+      isSelected,
+      selectedPromptIds,
+      customPrompts,
+      note,
+      onToggleStrategy,
+      onTogglePrompt,
+      onAddCustomPrompt,
+      onRemoveCustomPrompt,
+      onUpdateNote,
+    }) {
+      const prompts = INTERVIEW_PROMPTS_BY_OUTCOME[outcomeId] || [];
+      const selectedPromptSet = new Set(selectedPromptIds || []);
+
+      const togglePrompt = (promptId) => {
+        if (!isSelected && !selectedPromptSet.has(promptId)) {
+          onToggleStrategy(outcomeId, "qualitative", INTERVIEW_STRATEGY.id);
+        }
+        onTogglePrompt(outcomeId, promptId);
+      };
+
+      const addCustomPrompt = (targetOutcomeId, title, question) => {
+        if (!isSelected) {
+          onToggleStrategy(outcomeId, "qualitative", INTERVIEW_STRATEGY.id);
+        }
+        onAddCustomPrompt(targetOutcomeId, title, question);
+      };
+
+      return (
+        <article className={`plan-interview-card${isSelected ? " is-selected" : ""}`}>
+          <button
+            className="strategy-row-select-button"
+            type="button"
+            aria-pressed={isSelected}
+            onClick={() =>
+              onToggleStrategy(outcomeId, "qualitative", INTERVIEW_STRATEGY.id)
+            }
+          >
+            <span className="selection-indicator" aria-hidden="true">✓</span>
+            <span className="strategy-row-title">
+              {INTERVIEW_STRATEGY.name}
+              <CitationNumbers
+                ids={INTERVIEW_STRATEGY.citations.map((citation) => citation.label)}
+              />
+            </span>
+          </button>
+
+          <p className="strategy-row-description">{INTERVIEW_STRATEGY.description}</p>
+
+          <div className="plan-interview-prompts">
+            <div className="interview-prompts-header">
+              <h4>
+                Interview prompts
+                <CitationNumbers
+                  ids={(INTERVIEW_PROMPT_CITATIONS_BY_OUTCOME[outcomeId] || []).map(
+                    (citation) => citation.label
+                  )}
+                />
+              </h4>
+              <div className="strategy-category-count">
+                {selectedPromptSet.size + (customPrompts?.length || 0)} selected
+              </div>
+            </div>
+
+            <p className="plan-holder-context">
+              All suggested prompts remain visible. Selecting a prompt will also include semi-structured interviews in this outcome plan.
+            </p>
+
+            <div className="interview-prompt-list">
+              {prompts.map(([title, question], index) => {
+                const promptId = `prompt-${index + 1}`;
+                const isPromptSelected = selectedPromptSet.has(promptId);
+                return (
+                  <label
+                    className={`interview-prompt-option${isPromptSelected ? " is-selected" : ""}`}
+                    key={promptId}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isPromptSelected}
+                      onChange={() => togglePrompt(promptId)}
+                    />
+                    <span>
+                      <span className="interview-prompt-title">{title}</span>
+                      <span className="interview-prompt-question">{question}</span>
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+
+            {customPrompts.length > 0 && (
+              <div className="plan-selected-prompts">
+                {customPrompts.map((prompt) => (
+                  <div className="plan-prompt-card" key={prompt.id}>
+                    <button
+                      className="plan-prompt-remove"
+                      type="button"
+                      aria-label="Remove custom interview prompt"
+                      onClick={() => onRemoveCustomPrompt(outcomeId, prompt.id)}
+                    >
+                      ✓
+                    </button>
+                    <div>
+                      <strong>{prompt.title || "Project-specific prompt"}</strong>
+                      <p>{prompt.question}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <details className="plan-add-panel">
+              <summary>+ Add project-specific interview prompt</summary>
+              <CustomInterviewPromptForm
+                outcomeId={outcomeId}
+                onAdd={addCustomPrompt}
+              />
+            </details>
+          </div>
+
+          <details className="custom-notes-editor">
+            <summary>Add notes for this strategy</summary>
+            <div className="custom-notes-fields one-column">
+              <label className="custom-notes-field">
+                <span>Project notes</span>
+                <textarea
+                  value={note || ""}
+                  placeholder="Add context, adaptations, questions, or decisions for your evaluation plan."
+                  onChange={(event) =>
+                    onUpdateNote(outcomeId, INTERVIEW_STRATEGY.id, event.target.value)
+                  }
+                />
+              </label>
+            </div>
+          </details>
+        </article>
+      );
+    }
+
+    function PlanPrintSummary({
+      selectedOutcomes,
+      interestHolderSelections,
+      interestHolderDetails,
+      customInterestHolderGroups,
+      customInterestHolderSelections,
+      evaluationStrategySelections,
+      evaluationStrategyNotes,
+      interviewPromptSelections,
+      customInterviewPrompts,
+    }) {
+      return (
+        <div className="plan-print-only">
+          <h1>Mid-Design Evaluation Plan</h1>
+          <p>
+            Working plan developed using the Mid-Design Evaluation Guide. Review and revise this document as the project develops.
+          </p>
+
+          {selectedOutcomes.length === 0 ? (
+            <p>No implementation outcomes are currently included in this plan.</p>
+          ) : (
+            selectedOutcomes.map((outcome) => {
+              const holderIds = interestHolderSelections[outcome.id] || [];
+              const customHolderIds = new Set(customInterestHolderSelections[outcome.id] || []);
+              const customHolders = customInterestHolderGroups.filter((group) => customHolderIds.has(group.id));
+              const outcomeStrategySelections = evaluationStrategySelections[outcome.id] || {};
+              const selectedInterviewPromptIds = new Set(interviewPromptSelections[outcome.id] || []);
+              const customPrompts = customInterviewPrompts[outcome.id] || [];
+              const interviewSelected = new Set(outcomeStrategySelections.qualitative || []).has(INTERVIEW_STRATEGY.id);
+
+              return (
+                <section className="plan-print-outcome" key={outcome.id}>
+                  <h2>{outcome.name}</h2>
+                  <p><CitationText text={outcome.definition} /></p>
+
+                  <div className="plan-print-group">
+                    <h3>Interest holders</h3>
+                    {(holderIds.length > 0 || customHolders.length > 0) ? (
+                      <ul>
+                        {holderIds.map((id) => {
+                          const group = INTEREST_HOLDER_GROUPS_BY_ID[id];
+                          if (!group) return null;
+                          const details = interestHolderDetails[outcome.id]?.[id] || {};
+                          return (
+                            <li key={id}>
+                              <strong>{group.label}</strong>
+                              {details.examples ? `, Examples: ${details.examples}` : ""}
+                              {details.notes ? `, Notes: ${details.notes}` : ""}
+                            </li>
+                          );
+                        })}
+                        {customHolders.map((group) => (
+                          <li key={group.id}>
+                            <strong>{group.name}</strong>{group.note ? `, ${group.note}` : ""}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : <p>None selected.</p>}
+                  </div>
+
+                  {EVALUATION_STRATEGY_GROUPS.map((strategyGroup) => {
+                    const selectedIds = new Set(outcomeStrategySelections[strategyGroup.id] || []);
+                    const strategies = strategyGroup.strategies.filter((strategy) =>
+                      strategy.outcomeId === outcome.id && selectedIds.has(strategy.id)
+                    );
+                    const includeInterview = strategyGroup.id === "qualitative" && interviewSelected;
+                    if (strategies.length === 0 && !includeInterview) return null;
+
+                    return (
+                      <div className="plan-print-group" key={strategyGroup.id}>
+                        <h3>{strategyGroup.title}</h3>
+                        <ul>
+                          {includeInterview && (
+                            <li>
+                              <strong>{INTERVIEW_STRATEGY.name}</strong>
+                              {evaluationStrategyNotes[outcome.id]?.[INTERVIEW_STRATEGY.id]
+                                ? `, Notes: ${evaluationStrategyNotes[outcome.id][INTERVIEW_STRATEGY.id]}`
+                                : ""}
+                              {(selectedInterviewPromptIds.size > 0 || customPrompts.length > 0) && (
+                                <ul>
+                                  {(INTERVIEW_PROMPTS_BY_OUTCOME[outcome.id] || []).map(([title, question], index) => {
+                                    const promptId = `prompt-${index + 1}`;
+                                    if (!selectedInterviewPromptIds.has(promptId)) return null;
+                                    return <li key={promptId}><strong>{title}:</strong> {question}</li>;
+                                  })}
+                                  {customPrompts.map((prompt) => (
+                                    <li key={prompt.id}><strong>{prompt.title || "Project-specific prompt"}:</strong> {prompt.question}</li>
+                                  ))}
+                                </ul>
+                              )}
+                            </li>
+                          )}
+                          {strategies.map((strategy) => (
+                            <li key={strategy.id}>
+                              <strong>{strategy.name}</strong>
+                              {evaluationStrategyNotes[outcome.id]?.[strategy.id]
+                                ? `, Notes: ${evaluationStrategyNotes[outcome.id][strategy.id]}`
+                                : ""}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  })}
+                </section>
+              );
+            })
+          )}
+        </div>
+      );
+    }
+
+    function DevelopEvaluationPlanPage({
+      implementationOutcomeSelections,
+      onToggleImplementationOutcome,
+      interestHolderSelections,
+      onToggleInterestHolder,
+      interestHolderDetails,
+      onUpdateInterestHolderDetail,
+      customInterestHolderGroups,
+      customInterestHolderSelections,
+      onAddCustomInterestHolder,
+      onToggleCustomInterestHolder,
+      onRemoveCustomInterestHolder,
+      evaluationStrategySelections,
+      onToggleEvaluationStrategy,
+      evaluationStrategyNotes,
+      onUpdateEvaluationStrategyNote,
+      interviewPromptSelections,
+      onToggleInterviewPrompt,
+      customInterviewPrompts,
+      onAddCustomInterviewPrompt,
+      onRemoveCustomInterviewPrompt,
+    }) {
+      const selectedOutcomeSet = new Set(implementationOutcomeSelections);
+      const selectedOutcomes = OUTCOMES.filter((outcome) => selectedOutcomeSet.has(outcome.id));
+      const [activeOutcomeId, setActiveOutcomeId] = useState(
+        selectedOutcomes[0]?.id || OUTCOMES[0].id
+      );
+
+      const activeOutcome =
+        OUTCOMES.find((outcome) => outcome.id === activeOutcomeId) ||
+        OUTCOMES[0];
+
+      function ensureOutcomeIncluded(outcomeId) {
+        if (!implementationOutcomeSelections.includes(outcomeId)) {
+          onToggleImplementationOutcome(outcomeId);
+        }
+      }
+
+      function handleBuilderToggleInterestHolder(outcomeId, roleId) {
+        const isCurrentlySelected = (
+          interestHolderSelections[outcomeId] || []
+        ).includes(roleId);
+
+        if (!isCurrentlySelected) {
+          ensureOutcomeIncluded(outcomeId);
+        }
+
+        onToggleInterestHolder(outcomeId, roleId);
+      }
+
+      function handleBuilderAddCustomInterestHolder(
+        outcomeId,
+        name,
+        note
+      ) {
+        ensureOutcomeIncluded(outcomeId);
+        onAddCustomInterestHolder(outcomeId, name, note);
+      }
+
+      function handleBuilderToggleCustomInterestHolder(
+        outcomeId,
+        customId
+      ) {
+        const isCurrentlySelected = (
+          customInterestHolderSelections[outcomeId] || []
+        ).includes(customId);
+
+        if (!isCurrentlySelected) {
+          ensureOutcomeIncluded(outcomeId);
+        }
+
+        onToggleCustomInterestHolder(outcomeId, customId);
+      }
+
+      function handleBuilderToggleEvaluationStrategy(
+        outcomeId,
+        groupId,
+        strategyId
+      ) {
+        const isCurrentlySelected = (
+          evaluationStrategySelections[outcomeId]?.[groupId] || []
+        ).includes(strategyId);
+
+        if (!isCurrentlySelected) {
+          ensureOutcomeIncluded(outcomeId);
+        }
+
+        onToggleEvaluationStrategy(outcomeId, groupId, strategyId);
+      }
+
+      function handleBuilderToggleInterviewPrompt(outcomeId, promptId) {
+        const isCurrentlySelected = (
+          interviewPromptSelections[outcomeId] || []
+        ).includes(promptId);
+        const interviewIsAlreadySelected = (
+          evaluationStrategySelections[outcomeId]?.qualitative || []
+        ).includes(INTERVIEW_STRATEGY.id);
+
+        // If the interview strategy is not already selected, the interview card
+        // will select it first, and that strategy selection will include the outcome.
+        if (!isCurrentlySelected && interviewIsAlreadySelected) {
+          ensureOutcomeIncluded(outcomeId);
+        }
+
+        onToggleInterviewPrompt(outcomeId, promptId);
+      }
+
+      function handleBuilderAddCustomInterviewPrompt(
+        outcomeId,
+        title,
+        question
+      ) {
+        const interviewIsAlreadySelected = (
+          evaluationStrategySelections[outcomeId]?.qualitative || []
+        ).includes(INTERVIEW_STRATEGY.id);
+
+        // When interviews are not yet selected, PlanInterviewStrategyCard selects
+        // that strategy before adding the custom prompt, which also includes the outcome.
+        if (interviewIsAlreadySelected) {
+          ensureOutcomeIncluded(outcomeId);
+        }
+
+        onAddCustomInterviewPrompt(outcomeId, title, question);
+      }
+
+      function handleExport() {
+        const lines = [
+          "MID-DESIGN EVALUATION PLAN",
+          "",
+          "Working plan developed using the Mid-Design Evaluation Guide.",
+          "",
+        ];
+
+        if (selectedOutcomes.length === 0) {
+          lines.push("No implementation outcomes are currently included in this plan.");
+        }
+
+        selectedOutcomes.forEach((outcome) => {
+          lines.push(outcome.name.toUpperCase());
+          lines.push(outcome.definition.text || outcome.definition);
+          lines.push("");
+
+          lines.push("Interest holders");
+          const holderIds = interestHolderSelections[outcome.id] || [];
+          const customHolderIds = new Set(customInterestHolderSelections[outcome.id] || []);
+          const customHolders = customInterestHolderGroups.filter((group) => customHolderIds.has(group.id));
+          if (holderIds.length === 0 && customHolders.length === 0) {
+            lines.push("- None selected");
+          } else {
+            holderIds.forEach((id) => {
+              const group = INTEREST_HOLDER_GROUPS_BY_ID[id];
+              if (!group) return;
+              const details = interestHolderDetails[outcome.id]?.[id] || {};
+              lines.push(`- ${group.label}`);
+              if (details.examples) lines.push(`  Project examples: ${details.examples}`);
+              if (details.notes) lines.push(`  Notes: ${details.notes}`);
+            });
+            customHolders.forEach((group) => {
+              lines.push(`- ${group.name}${group.note ? `, ${group.note}` : ""}`);
+            });
           }
-          placeholderTitle={
-            "Plan review and export are coming in a later pass"
-          }
-          placeholderText={
-            "Selection logic, the project-specific plan summary, customization, and download or export behavior will be added here later."
-          }
-          nextRoute="resources"
-          nextLabel="Continue to Resources"
-        />
+          lines.push("");
+
+          const outcomeStrategySelections = evaluationStrategySelections[outcome.id] || {};
+          EVALUATION_STRATEGY_GROUPS.forEach((strategyGroup) => {
+            const selectedIds = new Set(outcomeStrategySelections[strategyGroup.id] || []);
+            const strategies = strategyGroup.strategies.filter(
+              (strategy) => strategy.outcomeId === outcome.id && selectedIds.has(strategy.id)
+            );
+            const interviewSelected =
+              strategyGroup.id === "qualitative" && selectedIds.has(INTERVIEW_STRATEGY.id);
+            if (strategies.length === 0 && !interviewSelected) return;
+
+            lines.push(strategyGroup.title);
+            if (interviewSelected) {
+              lines.push(`- ${INTERVIEW_STRATEGY.name}`);
+              const interviewNote = evaluationStrategyNotes[outcome.id]?.[INTERVIEW_STRATEGY.id];
+              if (interviewNote) lines.push(`  Notes: ${interviewNote}`);
+              const selectedPromptIds = new Set(interviewPromptSelections[outcome.id] || []);
+              (INTERVIEW_PROMPTS_BY_OUTCOME[outcome.id] || []).forEach(([title, question], index) => {
+                const promptId = `prompt-${index + 1}`;
+                if (selectedPromptIds.has(promptId)) {
+                  lines.push(`  • ${title}: ${question}`);
+                }
+              });
+              (customInterviewPrompts[outcome.id] || []).forEach((prompt) => {
+                lines.push(`  • ${prompt.title || "Project-specific prompt"}: ${prompt.question}`);
+              });
+            }
+            strategies.forEach((strategy) => {
+              lines.push(`- ${strategy.name}`);
+              const note = evaluationStrategyNotes[outcome.id]?.[strategy.id];
+              if (note) lines.push(`  Notes: ${note}`);
+            });
+            lines.push("");
+          });
+          lines.push("------------------------------------------------------------", "");
+        });
+
+        const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = "mid-design-evaluation-plan.txt";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      return (
+        <div className="develop-plan-page">
+          <section
+            className="hero compact develop-plan-fullscreen-hero"
+            aria-labelledby="develop-plan-page-title"
+          >
+            <div className="container">
+              <div className="eyebrow">Guide Step 4</div>
+              <h1 id="develop-plan-page-title">Develop Your Evaluation Plan</h1>
+
+              <p className="lede">
+                <em>The Evaluation Plan Builder</em> brings together the implementation outcomes,
+                interest holders, and evaluation strategies you selected throughout the guide.
+                Use this workspace to review your selections, make changes, and{" "}
+                <strong><code className="term-code">tailor your evaluation plan to your project context</code></strong>.
+              </p>
+
+              <p className="develop-plan-intro-detail">
+                Your plan is intended to be a <strong>working document</strong>, not a fixed endpoint.
+                You can continue refining it as your design develops, use it to support team discussion
+                and evaluation planning, and print or export a copy for future use and revision.
+              </p>
+
+              <p className="develop-plan-intro-instruction">
+                Review your plan by implementation outcome and refine the interest holders and evaluation
+                strategies you may want to carry forward.
+              </p>
+
+              <button
+                className="scroll-prompt"
+                type="button"
+                onClick={() =>
+                  document
+                    .getElementById("evaluation-plan-builder-content")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+              >
+                Develop Your Evaluation Plan
+                <span className="scroll-arrow" aria-hidden="true">↓</span>
+              </button>
+            </div>
+          </section>
+
+          <section id="evaluation-plan-builder-content" className="section soft plan-builder-section">
+            <div className="container">
+              <div className="plan-workspace-screen">
+                <div className="plan-toolbar">
+                  <div>
+                    <h2>Your working evaluation plan</h2>
+                    <p>
+                      {selectedOutcomes.length} of {OUTCOMES.length} implementation outcomes currently included.
+                    </p>
+                    <p className="plan-session-note">
+                      Session note: selections are not saved automatically across sessions. Print or export a copy before leaving the guide.
+                    </p>
+                  </div>
+                  <div className="plan-toolbar-actions">
+                    <button className="button secondary" type="button" onClick={() => window.print()}>
+                      Print / Save as PDF
+                    </button>
+                    <button className="button" type="button" onClick={handleExport}>
+                      Export plan (.txt)
+                    </button>
+                  </div>
+                </div>
+
+                <section className="plan-outcome-selector" aria-labelledby="plan-outcomes-title">
+                  <div className="plan-outcome-selector-header">
+                    <div>
+                      <h3 id="plan-outcomes-title">Implementation outcomes in your plan</h3>
+                      <p>
+                        Outcomes you marked as relevant are included by default. Selecting an interest holder or evaluation strategy below will also include its implementation outcome automatically.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="plan-outcome-options">
+                    {OUTCOMES.map((outcome) => {
+                      const isSelected = selectedOutcomeSet.has(outcome.id);
+                      return (
+                        <button
+                          className={`plan-outcome-option${isSelected ? " is-selected" : ""}`}
+                          type="button"
+                          aria-pressed={isSelected}
+                          key={outcome.id}
+                          onClick={() => {
+                            onToggleImplementationOutcome(outcome.id);
+                            if (!isSelected) setActiveOutcomeId(outcome.id);
+                          }}
+                        >
+                          <span className="plan-mini-check" aria-hidden="true">✓</span>
+                          <span>{outcome.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+
+                <div className="plan-option-legend">
+                  <strong>All available options remain visible in the Builder.</strong>{" "}
+                  Items already included in your plan are highlighted. Unselected items appear in a quieter gray treatment and can be selected at any time.
+                </div>
+
+                <div className="plan-builder-layout">
+                  <aside className="plan-builder-sidebar" aria-label="Implementation outcomes">
+                    <div className="plan-builder-sidebar-label">Review plan by outcome</div>
+                    {OUTCOMES.map((outcome) => {
+                      const isIncluded = selectedOutcomeSet.has(outcome.id);
+                      return (
+                        <button
+                          className={`plan-outcome-nav-button${activeOutcome?.id === outcome.id ? " is-active" : ""}`}
+                          type="button"
+                          key={outcome.id}
+                          onClick={() => setActiveOutcomeId(outcome.id)}
+                        >
+                          <span>{outcome.name}</span>
+                          <span
+                            className={`plan-outcome-nav-status${isIncluded ? "" : " is-unselected"}`}
+                            aria-label={isIncluded ? "Included in plan" : "Not currently included in plan"}
+                          >
+                            {isIncluded ? "✓" : "○"}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </aside>
+
+                  {activeOutcome && (() => {
+                    const selectedHolderIds = interestHolderSelections[activeOutcome.id] || [];
+                    const selectedHolderSet = new Set(selectedHolderIds);
+                    const recommendationIds = new Set(
+                      (OUTCOME_INTEREST_HOLDER_RECOMMENDATIONS[activeOutcome.id] || []).map((item) => item.groupId)
+                    );
+                    const allHolderGroups = Object.values(INTEREST_HOLDER_GROUPS_BY_ID);
+                    const outcomeStrategySelections = evaluationStrategySelections[activeOutcome.id] || {};
+
+                    return (
+                      <article className="plan-workspace-card">
+                        <header className="plan-workspace-heading">
+                          <div className="eyebrow">Implementation outcome</div>
+                          <h2>{activeOutcome.name}</h2>
+                          <p><CitationText text={activeOutcome.definition} /></p>
+                        </header>
+
+                        <section className="plan-content-section" aria-labelledby={`plan-holders-${activeOutcome.id}`}>
+                          <div className="plan-section-heading">
+                            <h3 id={`plan-holders-${activeOutcome.id}`}>Interest holders</h3>
+                            <p>
+                              Review the full legitimate-interest scaffold for this outcome. Groups already selected are highlighted; the remaining groups stay visible so you can add them if they become relevant to your project.
+                            </p>
+                          </div>
+
+                          <div className="plan-all-options-grid">
+                            {allHolderGroups.map((group) => (
+                              <PlanInterestHolderCard
+                                key={group.id}
+                                outcomeId={activeOutcome.id}
+                                group={group}
+                                isSelected={selectedHolderSet.has(group.id)}
+                                isRecommended={recommendationIds.has(group.id)}
+                                details={interestHolderDetails[activeOutcome.id]?.[group.id] || {}}
+                                onToggle={handleBuilderToggleInterestHolder}
+                                onUpdateDetail={onUpdateInterestHolderDetail}
+                              />
+                            ))}
+                          </div>
+
+                          <CustomInterestHolderPanel
+                            activeOutcome={activeOutcome}
+                            customGroups={customInterestHolderGroups}
+                            customSelections={customInterestHolderSelections}
+                            onAddCustomGroup={handleBuilderAddCustomInterestHolder}
+                            onToggleCustomGroup={handleBuilderToggleCustomInterestHolder}
+                            onRemoveCustomGroup={onRemoveCustomInterestHolder}
+                          />
+                        </section>
+
+                        <section className="plan-content-section" aria-labelledby={`plan-strategies-${activeOutcome.id}`}>
+                          <div className="plan-section-heading">
+                            <h3 id={`plan-strategies-${activeOutcome.id}`}>Evaluation strategies</h3>
+                            <p>
+                              Review all quantitative and qualitative strategies available for this outcome. Selected strategies are highlighted; unselected strategies remain visible in gray so you can compare and revise your plan directly. Semi-structured interviews are one qualitative strategy, with interview prompts nested within that strategy.
+                            </p>
+                          </div>
+
+                          {EVALUATION_STRATEGY_GROUPS.map((strategyGroup) => {
+                            const selectedIds = new Set(outcomeStrategySelections[strategyGroup.id] || []);
+                            const availableStrategies = strategyGroup.strategies.filter(
+                              (strategy) => strategy.outcomeId === activeOutcome.id
+                            );
+                            const interviewSelected =
+                              strategyGroup.id === "qualitative" && selectedIds.has(INTERVIEW_STRATEGY.id);
+
+                            return (
+                              <div className="plan-strategy-category" key={strategyGroup.id}>
+                                <div className="plan-strategy-category-header">
+                                  <h4>{strategyGroup.title}</h4>
+                                  <span>
+                                    {availableStrategies.filter((strategy) => selectedIds.has(strategy.id)).length + (interviewSelected ? 1 : 0)} selected
+                                  </span>
+                                </div>
+
+                                <div className="plan-selected-list">
+                                  {strategyGroup.id === "qualitative" && (
+                                    <PlanInterviewStrategyCard
+                                      outcomeId={activeOutcome.id}
+                                      isSelected={interviewSelected}
+                                      selectedPromptIds={interviewPromptSelections[activeOutcome.id] || []}
+                                      customPrompts={customInterviewPrompts[activeOutcome.id] || []}
+                                      note={evaluationStrategyNotes[activeOutcome.id]?.[INTERVIEW_STRATEGY.id] || ""}
+                                      onToggleStrategy={handleBuilderToggleEvaluationStrategy}
+                                      onTogglePrompt={handleBuilderToggleInterviewPrompt}
+                                      onAddCustomPrompt={handleBuilderAddCustomInterviewPrompt}
+                                      onRemoveCustomPrompt={onRemoveCustomInterviewPrompt}
+                                      onUpdateNote={onUpdateEvaluationStrategyNote}
+                                    />
+                                  )}
+
+                                  {availableStrategies.map((strategy) => (
+                                    <EvaluationStrategyRow
+                                      key={strategy.id}
+                                      strategy={strategy}
+                                      outcomeId={activeOutcome.id}
+                                      groupId={strategyGroup.id}
+                                      isSelected={selectedIds.has(strategy.id)}
+                                      note={evaluationStrategyNotes[activeOutcome.id]?.[strategy.id] || ""}
+                                      onToggle={handleBuilderToggleEvaluationStrategy}
+                                      onUpdateNote={onUpdateEvaluationStrategyNote}
+                                    />
+                                  ))}
+
+                                  {availableStrategies.length === 0 && strategyGroup.id !== "qualitative" && (
+                                    <div className="plan-empty-state">
+                                      No additional {strategyGroup.id} strategies are currently listed for {activeOutcome.name}.
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </section>
+                      </article>
+                    );
+                  })()}
+                </div>
+
+                <div className="next-step interest-next-step">
+                  <div>
+                    <h2>Keep this plan in motion</h2>
+                    <p>
+                      Use the plan as a working document for team discussion, evaluation planning, and future refinement.
+                    </p>
+                  </div>
+                  <PageLink route="resources">
+                    Continue to Resources
+                    <span aria-hidden="true">→</span>
+                  </PageLink>
+                </div>
+              </div>
+
+              <PlanPrintSummary
+                selectedOutcomes={selectedOutcomes}
+                interestHolderSelections={interestHolderSelections}
+                interestHolderDetails={interestHolderDetails}
+                customInterestHolderGroups={customInterestHolderGroups}
+                customInterestHolderSelections={customInterestHolderSelections}
+                evaluationStrategySelections={evaluationStrategySelections}
+                evaluationStrategyNotes={evaluationStrategyNotes}
+                interviewPromptSelections={interviewPromptSelections}
+                customInterviewPrompts={customInterviewPrompts}
+              />
+            </div>
+          </section>
+        </div>
       );
     }
 
     // ============================================================
     // RESOURCES PAGE
     // ============================================================
+
+    function GuidingFrameworkBody({ frameworkId }) {
+      if (frameworkId === "cfir") {
+        return (
+          <>
+            <p>
+              The <strong>Consolidated Framework for Implementation Research (CFIR)</strong>{" "}
+              helps identify multilevel barriers and facilitators that may influence
+              implementation outcomes. In mid-design evaluation planning, CFIR can be
+              used to structure inquiry into contextual factors that may affect whether
+              a health care innovation is perceived as appropriate, feasible,
+              acceptable, adoptable, integrable, or sustainable in real-world settings.
+            </p>
+            <p>
+              The updated CFIR includes five domains: <strong>Innovation</strong>,{" "}
+              <strong>Outer Setting</strong>, <strong>Inner Setting</strong>,{" "}
+              <strong>Individuals</strong>, and <strong>Implementation Process</strong>.
+              Within each domain, CFIR constructs can inform interview guide development,
+              qualitative coding, mixed-method interpretation, and anticipatory
+              identification of implementation risks. Because CFIR is a generalized
+              framework, teams should not examine every construct automatically.
+              Instead, they should define the health care innovation, setting, relevant
+              roles, and implementation process, then select and adapt constructs that
+              are meaningful for the specific innovation and the individuals involved
+              in implementing or delivering it.
+            </p>
+            <p>
+              CFIR is especially useful for collecting data from individuals who have
+              power and/or influence over implementation outcomes, such as organizational
+              leaders, clinical leadership, future users, implementation support
+              personnel, and other groups involved in implementation decisions. Although
+              CFIR is most commonly applied through qualitative methods, it can also
+              support structured interpretation by applying ratings of{" "}
+              <strong>valence</strong>, or whether a construct functions as a barrier or
+              facilitator, and <strong>strength</strong>, or how strongly the construct
+              appears to influence implementation. These ratings should be interpreted
+              carefully because responses about the “degree to which” a construct
+              manifests may reflect both subjective judgment and objective contextual
+              conditions.
+            </p>
+          </>
+        );
+      }
+
+      if (frameworkId === "ddbt") {
+        return (
+          <>
+            <p>
+              The <strong>Discover, Design/Build, and Test (DDBT)</strong> framework can
+              help teams use human-centered design methods to identify and address
+              usability challenges before implementation. In mid-design evaluation
+              planning, DDBT is useful when the innovation or its implementation strategy
+              still needs to be refined based on interest-holder needs, workflow
+              constraints, learnability, usability, and contextual fit.
+            </p>
+            <p>
+              DDBT treats usability as an implementation determinant rather than as a
+              standalone implementation outcome. Usability challenges may affect several
+              implementation outcomes, including appropriateness, feasibility,
+              acceptability, adoption, fidelity, implementation cost, and sustainability.
+              DDBT is especially useful for engaging <strong>primary users</strong>, or
+              those whose activities are most directly connected to the innovation and
+              whose needs and constraints should be prioritized in redesign.
+            </p>
+            <p>
+              Because DDBT was developed in relation to evidence-based psychosocial
+              interventions and implementation strategies, teams should adapt its phases
+              and methods to fit the health care innovation, setting, and available
+              evaluation resources.
+            </p>
+          </>
+        );
+      }
+
+      if (frameworkId === "seips") {
+        return (
+          <>
+            <p>
+              The <strong>Systems Engineering Initiative for Patient Safety Model
+              (SEIPS)</strong> can help teams examine whether a health care innovation
+              fits the work system in which it will be used. In mid-design evaluation
+              planning, SEIPS is especially useful for considering how people, tasks,
+              tools and technologies, physical environment, and organizational
+              conditions may interact to shape future clinical processes and
+              implementation outcomes.
+            </p>
+            <p>
+              SEIPS can guide interviews, observations, workflow analysis, and design
+              reviews by helping teams examine whether the innovation aligns with users’
+              skills and roles, task demands, existing technologies, spatial constraints,
+              communication patterns, staffing structures, and organizational routines.
+              This is particularly relevant because implementation problems often arise
+              not only from individual behavior but from mismatches between the innovation
+              and the surrounding work system.
+            </p>
+            <p>
+              For mid-design evaluation planning, SEIPS can help teams identify where
+              the innovation may create new workload, coordination demands, usability
+              problems, safety risks, or workflow disruptions before the design is
+              finalized.
+            </p>
+          </>
+        );
+      }
+
+      if (frameworkId === "prism") {
+        return (
+          <>
+            <p>
+              The <strong>Practical, Robust Implementation and Sustainability Model
+              (PRISM)</strong> is an overarching implementation model that can support
+              systematic identification and evaluation planning around multilevel
+              contextual factors, including variability in operational processes and
+              available resources.
+            </p>
+            <p>
+              In mid-design evaluation planning, PRISM can guide qualitative interviews,
+              site reviews, document review, and interest-holder discussions. It is
+              particularly helpful for identifying purposeful design changes before
+              implementation, such as adapting workflow procedures, clarifying roles,
+              strengthening referral pathways, improving training supports, or aligning
+              the innovation with organizational priorities and external constraints.
+            </p>
+            <p>
+              PRISM is especially useful when teams want to anticipate how intervention
+              design, recipients, organizational characteristics, implementation and
+              sustainability infrastructure, and the external environment may shape
+              adoption, implementation consistency, penetration, and sustainability.
+            </p>
+          </>
+        );
+      }
+
+      return (
+        <>
+          <p>
+            The <strong>Reach, Effectiveness, Adoption, Implementation, Maintenance
+            Framework (RE-AIM)</strong> helps teams consider the broader public health
+            and organizational impact of an innovation. Although RE-AIM does not map
+            one-to-one onto the implementation outcomes in this guide, its dimensions
+            overlap with and complement several outcomes, especially adoption, fidelity
+            or implementation consistency, penetration, implementation cost, and
+            sustainability.
+          </p>
+          <p>
+            In mid-design evaluation planning, RE-AIM can be used as a pragmatic
+            planning framework rather than as a full outcome evaluation. It can help
+            teams ask who the innovation is intended to reach, what benefits and
+            unintended consequences matter, where and by whom the innovation would be
+            adopted, how consistently it could be delivered, what adaptations and costs
+            may arise, and whether it could be maintained over time.
+          </p>
+          <p>
+            These “who, what, where, how, when, and why” questions are especially useful
+            when evaluation resources are limited and teams need to prioritize which
+            implementation risks to explore before full implementation.
+          </p>
+        </>
+      );
+    }
+
+    function ResourceCaseOutcomeEvidence({ caseId }) {
+      const evidenceItems = OUTCOMES.flatMap((outcome) => {
+        const evidence = (outcome.evidence || []).find(
+          (entry) => entry.caseId === caseId
+        );
+
+        return evidence ? [{ outcome, evidence }] : [];
+      });
+
+      return (
+        <div className="resource-outcome-evidence-list">
+          {evidenceItems.map(({ outcome, evidence }) => (
+            <article
+              className="resource-outcome-evidence"
+              key={`${caseId}-${outcome.id}`}
+            >
+              <h5>{outcome.name}</h5>
+              <p>
+                <CitationText text={evidence.appearance} />
+              </p>
+              <span className="resource-evidence-relationship">
+                {evidence.relationship}
+              </span>
+            </article>
+          ))}
+        </div>
+      );
+    }
+
+    function ResourceCaseExample({ caseId }) {
+      const caseData = CASES[caseId];
+
+      return (
+        <details className="resource-case-item">
+          <summary>
+            <span className="resource-summary-copy">
+              <span className="resource-case-name">
+                {caseData.name}
+                <CitationNumbers ids={CASE_REFERENCE_IDS[caseId]} />
+              </span>
+            </span>
+            <span className="resource-summary-action">
+              <span className="closed-label">View case details</span>
+              <span className="open-label">Hide case details</span>
+              <span className="resource-summary-arrow" aria-hidden="true">↓</span>
+            </span>
+          </summary>
+
+          <div className="resource-case-body">
+            <section className="resource-case-subsection">
+              <h4>Implementation Outcomes</h4>
+              <ResourceCaseOutcomeEvidence caseId={caseId} />
+            </section>
+
+            <section className="resource-case-subsection">
+              <h4>Interest Holders</h4>
+              <CaseNarrative
+                caseId={caseId}
+                variant="interest-holders"
+              />
+            </section>
+
+            <section className="resource-case-subsection">
+              <h4>Evaluation Strategies</h4>
+              <CaseNarrative
+                caseId={caseId}
+                variant="evaluation-strategies"
+              />
+            </section>
+          </div>
+        </details>
+      );
+    }
+
+    function CompleteReferenceList() {
+      return (
+        <>
+          <p className="complete-reference-note">
+            Reference numbers correspond to the order in which sources first appear
+            in the guide.
+          </p>
+
+          <ol className="complete-reference-list">
+            {REFERENCE_ORDER.map((referenceId) => {
+              const reference = REFERENCE_LIBRARY[referenceId];
+              const number = REFERENCE_NUMBER_BY_ID[referenceId];
+
+              return (
+                <li id={`reference-${number}`} key={referenceId}>
+                  {reference.citation}{" "}
+                  <a
+                    href={reference.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {reference.url}
+                  </a>
+                </li>
+              );
+            })}
+          </ol>
+        </>
+      );
+    }
 
     function ResourcesPage() {
       return (
@@ -8601,29 +11930,133 @@
               <h1 id="resources-page-title">Resources</h1>
 
               <p className="lede">
-                Use these resources throughout the guide. They support
-                reasoning and planning but are not a required final
-                step in the workflow.
+                Use these resources to explore the guiding frameworks, review the
+                health care case examples, and access the complete references
+                supporting the guide.
               </p>
             </div>
           </section>
 
           <section className="section">
             <div className="container">
-              <div className="resource-grid">
-                {RESOURCES.map((resource) => (
-                  <article
-                    className="resource-card"
-                    key={resource.title}
-                  >
-                    <h2>{resource.title}</h2>
-                    <p>{resource.description}</p>
-
-                    <span className="placeholder-label">
-                      Content coming in a later pass
+              <div className="resources-library">
+                <details className="resource-section-card">
+                  <summary>
+                    <span className="resource-summary-copy">
+                      <span className="resource-summary-title">
+                        Guiding Frameworks
+                      </span>
+                      <span className="resource-summary-description">
+                        Review implementation, human factors, and design frameworks
+                        that can support mid-design evaluation planning.
+                      </span>
                     </span>
-                  </article>
-                ))}
+                    <span className="resource-summary-action">
+                      <span className="closed-label">View Guiding Frameworks</span>
+                      <span className="open-label">Hide Guiding Frameworks</span>
+                      <span className="resource-summary-arrow" aria-hidden="true">↓</span>
+                    </span>
+                  </summary>
+
+                  <div className="resource-section-content">
+                    <div className="framework-resource-list">
+                      {GUIDING_FRAMEWORKS.map((framework) => (
+                        <details
+                          className="framework-resource-item"
+                          key={framework.id}
+                        >
+                          <summary>
+                            <span className="resource-summary-copy">
+                              <span className="framework-resource-name">
+                                {framework.name}
+                                <CitationNumbers ids={framework.citationIds} />
+                              </span>
+                              <span className="framework-resource-summary">
+                                {framework.summary}
+                              </span>
+                            </span>
+                            <span className="resource-summary-action">
+                              <span className="closed-label">
+                                View framework details
+                              </span>
+                              <span className="open-label">
+                                Hide framework details
+                              </span>
+                              <span
+                                className="resource-summary-arrow"
+                                aria-hidden="true"
+                              >
+                                ↓
+                              </span>
+                            </span>
+                          </summary>
+
+                          <div className="framework-resource-body">
+                            <GuidingFrameworkBody frameworkId={framework.id} />
+                          </div>
+                        </details>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+
+                <details className="resource-section-card">
+                  <summary>
+                    <span className="resource-summary-copy">
+                      <span className="resource-summary-title">
+                        Health Care Case Examples
+                      </span>
+                      <span className="resource-summary-description">
+                        See how implementation outcomes, interest holders, and
+                        evaluation strategies come together across three health
+                        innovation projects.
+                      </span>
+                    </span>
+                    <span className="resource-summary-action">
+                      <span className="closed-label">View Case Examples</span>
+                      <span className="open-label">Hide Case Examples</span>
+                      <span className="resource-summary-arrow" aria-hidden="true">↓</span>
+                    </span>
+                  </summary>
+
+                  <div className="resource-section-content">
+                    <div className="resource-case-list">
+                      {["hpv", "ecv", "contraception"].map((caseId) => (
+                        <ResourceCaseExample
+                          caseId={caseId}
+                          key={caseId}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </details>
+
+                <details className="resource-section-card">
+                  <summary>
+                    <span className="resource-summary-copy">
+                      <span className="resource-summary-title">
+                        Complete References
+                      </span>
+                      <span className="resource-summary-description">
+                        Find the complete APA-formatted references for sources cited
+                        throughout the guide.
+                      </span>
+                    </span>
+                    <span className="resource-summary-action">
+                      <span className="closed-label">
+                        View Complete References
+                      </span>
+                      <span className="open-label">
+                        Hide Complete References
+                      </span>
+                      <span className="resource-summary-arrow" aria-hidden="true">↓</span>
+                    </span>
+                  </summary>
+
+                  <div className="resource-section-content">
+                    <CompleteReferenceList />
+                  </div>
+                </details>
               </div>
             </div>
           </section>
@@ -8654,6 +12087,8 @@
       const [evaluationStrategyNotes, setEvaluationStrategyNotes] =
         useState({});
       const [interviewPromptSelections, setInterviewPromptSelections] =
+        useState({});
+      const [customInterviewPrompts, setCustomInterviewPrompts] =
         useState({});
 
       function toggleImplementationOutcome(outcomeId) {
@@ -8830,6 +12265,29 @@
         });
       }
 
+      function addCustomInterviewPrompt(outcomeId, title, question) {
+        const promptId = `custom-prompt-${Date.now()}-${Math.random()
+          .toString(36)
+          .slice(2, 8)}`;
+
+        setCustomInterviewPrompts((currentPrompts) => ({
+          ...currentPrompts,
+          [outcomeId]: [
+            ...(currentPrompts[outcomeId] || []),
+            { id: promptId, title, question },
+          ],
+        }));
+      }
+
+      function removeCustomInterviewPrompt(outcomeId, promptId) {
+        setCustomInterviewPrompts((currentPrompts) => ({
+          ...currentPrompts,
+          [outcomeId]: (currentPrompts[outcomeId] || []).filter(
+            (prompt) => prompt.id !== promptId
+          ),
+        }));
+      }
+
       useEffect(() => {
         function handleHashChange() {
           const hash = window.location.hash.replace("#", "");
@@ -8938,7 +12396,30 @@
           />
         );
       } else if (route === "final-plan") {
-        currentPage = <FinalEvaluationPlanPage />;
+        currentPage = (
+          <DevelopEvaluationPlanPage
+            implementationOutcomeSelections={implementationOutcomeSelections}
+            onToggleImplementationOutcome={toggleImplementationOutcome}
+            interestHolderSelections={interestHolderSelections}
+            onToggleInterestHolder={toggleInterestHolder}
+            interestHolderDetails={interestHolderDetails}
+            onUpdateInterestHolderDetail={updateInterestHolderDetail}
+            customInterestHolderGroups={customInterestHolderGroups}
+            customInterestHolderSelections={customInterestHolderSelections}
+            onAddCustomInterestHolder={addCustomInterestHolder}
+            onToggleCustomInterestHolder={toggleCustomInterestHolder}
+            onRemoveCustomInterestHolder={removeCustomInterestHolder}
+            evaluationStrategySelections={evaluationStrategySelections}
+            onToggleEvaluationStrategy={toggleEvaluationStrategy}
+            evaluationStrategyNotes={evaluationStrategyNotes}
+            onUpdateEvaluationStrategyNote={updateEvaluationStrategyNote}
+            interviewPromptSelections={interviewPromptSelections}
+            onToggleInterviewPrompt={toggleInterviewPrompt}
+            customInterviewPrompts={customInterviewPrompts}
+            onAddCustomInterviewPrompt={addCustomInterviewPrompt}
+            onRemoveCustomInterviewPrompt={removeCustomInterviewPrompt}
+          />
+        );
       } else if (route === "resources") {
         currentPage = <ResourcesPage />;
       } else {
