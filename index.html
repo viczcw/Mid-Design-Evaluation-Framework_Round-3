@@ -9827,13 +9827,6 @@
                 <CitationNumbers ids={["akl2024"]} />
               </p>
 
-              <p className="source-note">
-                Conceptual basis: interest-holder terminology
-                <CitationNumbers ids={["akl2024"]} />; updated CFIR
-                <CitationNumbers ids={["damschroder2022"]} />; and original CFIR
-                <CitationNumbers ids={["damschroder2009"]} />.
-              </p>
-
               <button
                 className="scroll-prompt interest-scroll-prompt"
                 type="button"
@@ -9888,7 +9881,10 @@
               >
                 <div className="family-overview-heading">
                   <div className="placeholder-label">Broad families</div>
-                  <h3 id="family-overview-title">Preview all recommended interest holder families</h3>
+                  <h3 id="family-overview-title">
+                    Preview all recommended interest holder families
+                    <CitationNumbers ids={["akl2024", "damschroder2022"]} />
+                  </h3>
                 </div>
                 <div className="family-overview-grid">
                   {INTEREST_HOLDER_SCAFFOLD_FAMILIES.map((family) => (
