@@ -3945,6 +3945,71 @@
       line-height: 1.62;
     }
 
+    .reflection-prompt-content {
+      min-width: 0;
+    }
+
+    .reflection-question {
+      display: block;
+      color: var(--ink);
+      font-size: 0.96rem;
+      font-weight: 760;
+      line-height: 1.48;
+    }
+
+    .reflection-guidance {
+      margin: 8px 0 0;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      font-weight: 400;
+      line-height: 1.58;
+    }
+
+    .reflection-notes {
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .reflection-note-helper {
+      display: block;
+      margin: -1px 0 10px;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .reflection-notes textarea {
+      min-height: 128px;
+    }
+
+    .plan-reflection-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .plan-reflection-card {
+      min-width: 0;
+      padding: 16px 17px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    .plan-reflection-card h4 {
+      margin-bottom: 7px;
+      font-size: 0.94rem;
+    }
+
+    .plan-reflection-card p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      line-height: 1.58;
+      white-space: pre-wrap;
+    }
+
     .page-reflection-grid li:last-child:nth-child(odd) {
       grid-column: 1 / -1;
     }
@@ -3952,6 +4017,10 @@
     @media (max-width: 640px) {
       .page-reflection-grid li {
         grid-column: auto !important;
+      }
+
+      .plan-reflection-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -5093,6 +5162,10 @@
       margin-top: 5px;
     }
 
+    .plan-print-group > p {
+      white-space: pre-wrap;
+    }
+
     /* Keep the full decision space visible in the Builder.
        Selected items are emphasized; unselected options remain readable but secondary. */
     .plan-option-legend {
@@ -5853,8 +5926,6 @@
           "Health-intervention effects can extend beyond intervention users to caregivers, family members, coworkers, organizations, and other parties; the relevance of these indirect beneficiaries is context-specific (Mendoza-Jimenez et al., 2024). Health-technology design research similarly argues for looking beyond the direct end user to broader interest holder needs and contexts (Rodriguez et al., 2023). Research on indirect interest holder identification also shows that people who are affected without directly using a technology are easy to overlook in practice (Muller et al., 2022). Recent mHealth evidence reinforces the importance of considering unintended effects on people beyond the intended audience and across interpersonal and community levels (Cao et al., 2025).",
           "It is also recommended to treat direct vs. indirect impact and current vs. future/downstream impact as related but different dimensions. The three specific groups can remain useful categorizations, but they should not be presented as mutually exclusive bins. 'Future/downstream' is best understood as a temporal lens that can overlap with direct or indirect affectedness.",
         ],
-        groupNote:
-          "These affectedness categories are prompts and can overlap. They should not be treated as mutually exclusive bins.",
       },
       {
         id: "use-delivery-learning",
@@ -6053,14 +6124,88 @@
       },
     ];
 
+    const REFLECTION_INTRO =
+      "Use reflection to turn what you learned into your next evaluation decisions. Identify what you can prioritize using this guide, and what you still need to learn or investigate before moving forward.";
+
+    const IMPLEMENTATION_OUTCOME_REFLECTION = [
+      {
+        question:
+          "Which implementation outcomes are most important and actionable for your project at this stage?",
+        guidance:
+          "Several, or even all, implementation outcomes may be relevant to your project, but they may not be equally important to evaluate right now. Review the information provided for each outcome, paying particular attention to its Mid-Design Relevance and Key Considerations, and consider which outcomes address the most important implementation concerns or opportunities for your project. Prioritize those outcomes in your current evaluation plan. You can return to the guide as other outcomes become more important later.",
+      },
+      {
+        question:
+          "How does each priority implementation outcome connect to what your team is currently designing, refining, testing, or preparing for?",
+        guidance:
+          "Consider how the outcome connects to aspects of your innovation or implementation approach that your team can still design, modify, test, or prepare for. Pay particular attention to areas where your team is uncertain about how the innovation will work in practice, or where learning about the outcome could influence the design process, implementation planning, or the resulting design.",
+      },
+      {
+        question:
+          "Which implementation outcomes should you focus on now, and which may be more appropriate to revisit later?",
+        guidance:
+          "Consider what your team already knows, what uncertainties need attention at the current design stage, and what may be more useful to evaluate as the innovation or implementation plan develops. An outcome can be important to your project without needing to be evaluated immediately. Note any outcomes that should remain part of your longer-term evaluation plans.",
+      },
+      {
+        question:
+          "How might your priority implementation outcomes influence, reinforce, or create tradeoffs with one another?",
+        guidance:
+          "Implementation outcomes often interact. For example, improving feasibility may affect implementation cost, or increasing fidelity may influence acceptability. Consider whether examining related outcomes together could help you better understand your project, while recognizing that connected outcomes do not necessarily all need to be evaluated at the same time.",
+      },
+    ];
+
     const GLOBAL_INTEREST_HOLDER_REFLECTION = [
-      "For each implementation outcome you are considering, which interest holders are most likely to experience it, influence it, make decisions about it, or hold relevant knowledge about it? How might the same interest holder be relevant to multiple outcomes in different ways?",
-      "How did you identify the interest holders? How much did you rely on people already known to the team, and where did you deliberately look beyond familiar users, leaders, experts, or existing collaborators?",
-      "What additional networks, organizational resources, existing research, administrative information, community connections, professional associations, or other sources could help you identify interest holders who are not immediately visible to the design team?",
-      "Who is easiest for the team to identify, contact, or engage, and who is more difficult to reach? To what extent might differences in visibility, access, institutional status, or proximity to the design team be shaping whose perspectives are represented?",
-      "What assumptions are shaping who the team considers knowledgeable, relevant, influential, or appropriate to involve? Whose knowledge or experience might be undervalued because it is informal, experiential, locally situated, or held by people with less organizational authority?",
-      "How might roles, power, affectedness, and relevance to particular implementation outcomes change as the innovation moves from design to initial implementation, wider adoption or scale-up, and sustainment? Who may become more or less important at different stages?",
-      "After reviewing the full scaffold, whose perspective is still missing? What would change in your understanding of the innovation or its implementation if that perspective were included?",
+      {
+        question:
+          "Which interest holders can provide the evidence or perspectives your team most needs for the implementation outcomes you are prioritizing?",
+        guidance:
+          "Focus on a manageable set of interest holders whose legitimate interests, experiences, or roles provide important and complementary perspectives on your priority outcomes. When appropriate, an interest holder who can inform multiple implementation outcomes may help make your evaluation more efficient. For each interest-holder group, also consider how many people you may need to engage to understand meaningful variation in perspectives rather than relying on a single individual.",
+      },
+      {
+        question:
+          "How did you identify your interest holders, and whose perspectives might your current approach make easier to see or easier to miss?",
+        guidance:
+          "Look beyond familiar collaborators, formal job titles, and people who are easiest to access. Consider lived experience, locally situated or experiential knowledge, and people whose perspectives may be less visible in traditional design or organizational processes. Perspectives that differ from the design team’s assumptions or expertise may reveal needs, burdens, or implementation conditions that the team would otherwise overlook.",
+      },
+      {
+        question:
+          "What assumptions are shaping who your team considers knowledgeable, relevant, or appropriate to involve?",
+        guidance:
+          "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value. Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation.",
+      },
+      {
+        question:
+          "Given your current time, access, and resources, which interest holders can you realistically engage directly, and which perspectives may need to be addressed later or through other sources?",
+        guidance:
+          "Direct engagement is encouraged when feasible, particularly when an interest holder has lived, experiential, or contextual knowledge that may not be captured elsewhere. When direct engagement is not possible, consider existing research, organizational or administrative data, community or professional intermediaries, or prior engagement findings. These indirect sources can provide useful evidence, but they should not be treated as equivalent to hearing directly from the people whose perspectives they represent.",
+      },
+    ];
+
+    const EVALUATION_STRATEGY_REFLECTION = [
+      {
+        question:
+          "For each priority implementation outcome, which interest holders can provide the evidence you need, and which evaluation strategies are appropriate for learning from them?",
+        guidance:
+          "Trace a clear connection between the implementation outcome you want to understand, the interest holder or evidence source that can inform it, and the evaluation strategy you plan to use. Review how the strategy has been used in existing studies or similar contexts, and consider how the resulting evidence could inform your design or implementation decisions.",
+      },
+      {
+        question:
+          "How should each selected evaluation strategy be adapted to fit your project and the evidence you need?",
+        guidance:
+          "The strategies in this guide are starting points rather than fixed protocols. Consider how each strategy may need to be adapted to your innovation, setting, design stage, interest holders, available resources, and existing evaluation activities. You may modify how a strategy is used, combine elements across approaches, or develop a project-specific approach when appropriate, while keeping a clear rationale for how the adaptation will generate useful evidence.",
+      },
+      {
+        question:
+          "What type of evidence will each selected strategy contribute, and why is that evidence useful for your evaluation?",
+        guidance:
+          "Quantitative and qualitative strategies can provide different and complementary forms of evidence. When useful, combining them can support comparison, explanation, or triangulation. Your goal does not need to be methodological completeness. Each strategy should have a clear reason for being included and should contribute evidence that helps you understand one or more priority implementation outcomes.",
+      },
+      {
+        question:
+          "Looking across your implementation outcomes, interest holders, and evaluation strategies, is anything important missing or no longer necessary?",
+        guidance:
+          "Review the choices and reflections you have made throughout the guide. Add, remove, or revise selections where needed, and note any remaining questions or evidence gaps that require further investigation. When your starting plan feels coherent, continue to Develop Your Evaluation Plan to review and refine the full plan in one place.",
+      },
     ];
 
     const INTEREST_HOLDER_ROLE_FAMILIES = [
@@ -8039,6 +8184,52 @@
       );
     }
 
+    function ReflectionSection({
+      titleId,
+      title,
+      prompts,
+      note,
+      onChangeNote,
+    }) {
+      const noteId = `${titleId}-notes`;
+      const helperId = `${noteId}-helper`;
+
+      return (
+        <section
+          className="global-reflection-panel page-reflection-panel"
+          aria-labelledby={titleId}
+        >
+          <div className="eyebrow">Reflection</div>
+          <h3 id={titleId}>{title}</h3>
+          <p className="page-reflection-subtitle">{REFLECTION_INTRO}</p>
+          <ol className="scaffold-reflection-grid global-reflection-grid page-reflection-grid">
+            {prompts.map((prompt) => (
+              <li key={prompt.question}>
+                <div className="reflection-prompt-content">
+                  <strong className="reflection-question">
+                    {prompt.question}
+                  </strong>
+                  <p className="reflection-guidance">{prompt.guidance}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className="reflection-notes">
+            <label className="custom-notes-field" htmlFor={noteId}>
+              <span>Your reflection / key takeaways</span>
+              <textarea
+                id={noteId}
+                aria-describedby={helperId}
+                value={note}
+                placeholder="Record your reflection, key takeaways, or next steps."
+                onChange={(event) => onChangeNote(event.target.value)}
+              />
+            </label>
+          </div>
+        </section>
+      );
+    }
+
     // ============================================================
     // GLOBAL NAVIGATION
     // ============================================================
@@ -8212,9 +8403,9 @@
                 <p className="definition">
                   <strong>Mid-design</strong> is the period after initial
                   problem definition, idea generation, and concept
-                  development, when a design can still be meaningfully
-                  refined before later-stage validation and
-                  implementation.
+                  development, when a promising concept solution has been
+                  developed but the design can still be meaningfully refined
+                  before later-stage validation and implementation.
                 </p>
 
                 <a
@@ -8843,6 +9034,8 @@
     function ExploreOutcomesPage({
       implementationOutcomeSelections,
       onToggleImplementationOutcome,
+      reflectionNote,
+      onChangeReflectionNote,
     }) {
       const [selectedOutcomeId, setSelectedOutcomeId] = useState(
         OUTCOMES[0].id
@@ -9180,39 +9373,13 @@
               </article>
               </div>
 
-              <section
-                className="global-reflection-panel page-reflection-panel"
-                aria-labelledby="implementation-outcomes-reflection-title"
-              >
-                <div className="eyebrow">Reflection</div>
-                <h3 id="implementation-outcomes-reflection-title">
-                  Reflect on your implementation outcome priorities
-                </h3>
-                <p className="page-reflection-subtitle">
-                  Step back from individual outcomes and consider which implementation
-                  concerns are most important, actionable, and realistic for your project
-                  at this stage.
-                </p>
-                <ol className="scaffold-reflection-grid global-reflection-grid page-reflection-grid">
-                  <li>
-                    Which implementation outcomes are most important and most actionable
-                    for your project at its current stage, and what makes them priorities
-                    right now?
-                  </li>
-                  <li>
-                    Given your project timeline, design stage, available resources, and
-                    access to relevant evidence, which implementation outcomes are
-                    realistic to examine now, and what makes some outcomes more or less
-                    practical to address at this point?
-                  </li>
-                  <li>
-                    How might the implementation outcomes you are considering influence
-                    one another, reinforce one another, or create tradeoffs, for example
-                    across feasibility, acceptability, implementation cost, fidelity,
-                    adoption, penetration, or sustainability?
-                  </li>
-                </ol>
-              </section>
+              <ReflectionSection
+                titleId="implementation-outcomes-reflection-title"
+                title="Reflect on your implementation outcome priorities"
+                prompts={IMPLEMENTATION_OUTCOME_REFLECTION}
+                note={reflectionNote}
+                onChangeNote={onChangeReflectionNote}
+              />
 
               <div className="next-step interest-next-step outcome-next-step">
                 <div>
@@ -9304,7 +9471,6 @@
     }) {
       const familyTitleId = `interest-family-${family.id}-title`;
       const groupHeadingId = `interest-family-${family.id}-groups-title`;
-      const reflectionHeadingId = `interest-family-${family.id}-reflection-title`;
       const isFourGroupFamily = family.groups.length === 4;
 
       return (
@@ -9372,18 +9538,6 @@
                     {family.groupNote.split(". ").slice(1).join(". ")}
                   </p>
                 )}
-              </section>
-
-              <section
-                className="scaffold-family-reflection"
-                aria-labelledby={reflectionHeadingId}
-              >
-                <h4 id={reflectionHeadingId}>Reflect on your project</h4>
-                <ol className="scaffold-reflection-grid">
-                  {family.reflectionPrompts.map((prompt) => (
-                    <li key={prompt}>{prompt}</li>
-                  ))}
-                </ol>
               </section>
 
               <details className="scaffold-evidence" open>
@@ -9703,6 +9857,8 @@
       onAddCustomInterestHolder,
       onToggleCustomInterestHolder,
       onRemoveCustomInterestHolder,
+      reflectionNote,
+      onChangeReflectionNote,
     }) {
       const [selectedOutcomeId, setSelectedOutcomeId] = useState(
         OUTCOMES[0].id
@@ -9891,9 +10047,9 @@
                   same person could occupy more than one role.
                 </li>
                 <li>
-                  Use the family reflection prompts to identify groups that
-                  are easy to overlook or difficult to place in a single
-                  category.
+                  Use the family and specific-group descriptions to identify
+                  groups that are easy to overlook or difficult to place in a
+                  single category.
                 </li>
               </ul>
               <section
@@ -9932,20 +10088,6 @@
 
               <CaseExampleEvidenceSection variant="interest-holders" />
 
-              <section
-                className="global-reflection-panel"
-                aria-labelledby="global-reflection-title"
-              >
-                <div className="eyebrow">Reflection</div>
-                <h3 id="global-reflection-title">
-                  Reflect on your interest holder priorities
-                </h3>
-                <ol className="scaffold-reflection-grid global-reflection-grid">
-                  {GLOBAL_INTEREST_HOLDER_REFLECTION.map((prompt) => (
-                    <li key={prompt}>{prompt}</li>
-                  ))}
-                </ol>
-              </section>
             </div>
           </section>
 
@@ -10168,6 +10310,14 @@
                   />
                 </article>
               </div>
+
+              <ReflectionSection
+                titleId="global-reflection-title"
+                title="Reflect on your interest holder priorities"
+                prompts={GLOBAL_INTEREST_HOLDER_REFLECTION}
+                note={reflectionNote}
+                onChangeNote={onChangeReflectionNote}
+              />
 
               <div className="next-step interest-next-step">
                 <div>
@@ -10426,6 +10576,8 @@
       onUpdateEvaluationStrategyNote,
       interviewPromptSelections,
       onToggleInterviewPrompt,
+      reflectionNote,
+      onChangeReflectionNote,
     }) {
       const [selectedOutcomeId, setSelectedOutcomeId] = useState(
         OUTCOMES[0].id
@@ -10735,55 +10887,13 @@
 
               <CaseExampleEvidenceSection variant="evaluation-strategies" />
 
-              <section
-                className="global-reflection-panel page-reflection-panel"
-                aria-labelledby="evaluation-strategies-reflection-title"
-              >
-                <div className="eyebrow">Reflection</div>
-                <h3 id="evaluation-strategies-reflection-title">
-                  Reflect on your evaluation strategies priorities
-                </h3>
-                <p className="page-reflection-subtitle">
-                  Consider how your evaluation strategies work together, how they are
-                  tailored to your project and interest holders, and whether they can
-                  realistically generate the evidence you need.
-                </p>
-                <ol className="scaffold-reflection-grid global-reflection-grid page-reflection-grid">
-                  <li>
-                    How could you combine qualitative and quantitative strategies in your
-                    project, and how might integrating these forms of evidence support
-                    complementarity, explanation, or triangulation?
-                  </li>
-                  <li>
-                    How have you tailored, or how could you further tailor, the selected
-                    evaluation strategies to your innovation, setting, design stage,
-                    implementation outcomes, and available evidence?
-                  </li>
-                  <li>
-                    How can the interest holders you identified shape the way each
-                    evaluation strategy is used, for example, who should be surveyed, what
-                    or whom should be observed, whose records or data should be examined,
-                    and which perspectives should guide interview questions?
-                  </li>
-                  <li>
-                    What important implementation questions or uncertainties would still
-                    be difficult to answer with your current evaluation strategies, and how
-                    might you modify or add strategies to address those gaps?
-                  </li>
-                  <li>
-                    Are there important perspectives or implementation concerns that may be
-                    difficult to capture with your current questions or measures? If so, could
-                    broader, open-ended interview prompts, including space for participants to
-                    raise issues you did not anticipate, help surface missing information?
-                  </li>
-                  <li>
-                    How do practical constraints, such as time, participant access,
-                    recruitment, burden, expertise, data availability, or resources, shape
-                    which strategies are realistic for your project, and how might you
-                    adapt your evaluation approach in response?
-                  </li>
-                </ol>
-              </section>
+              <ReflectionSection
+                titleId="evaluation-strategies-reflection-title"
+                title="Reflect on your evaluation strategies priorities"
+                prompts={EVALUATION_STRATEGY_REFLECTION}
+                note={reflectionNote}
+                onChangeNote={onChangeReflectionNote}
+              />
 
               <div className="next-step interest-next-step">
                 <div>
@@ -11075,6 +11185,9 @@
       evaluationStrategyNotes,
       interviewPromptSelections,
       customInterviewPrompts,
+      implementationOutcomesReflection,
+      interestHoldersReflection,
+      evaluationStrategiesReflection,
     }) {
       return (
         <div className="plan-print-only">
@@ -11173,6 +11286,26 @@
               );
             })
           )}
+
+          <section className="plan-print-outcome">
+            <h2>Reflection &amp; Remaining Questions</h2>
+            <div className="plan-print-group">
+              <h3>Implementation Outcomes</h3>
+              <p>
+                {implementationOutcomesReflection || "No reflection recorded."}
+              </p>
+            </div>
+            <div className="plan-print-group">
+              <h3>Interest Holders</h3>
+              <p>{interestHoldersReflection || "No reflection recorded."}</p>
+            </div>
+            <div className="plan-print-group">
+              <h3>Evaluation Strategies</h3>
+              <p>
+                {evaluationStrategiesReflection || "No reflection recorded."}
+              </p>
+            </div>
+          </section>
         </div>
       );
     }
@@ -11198,6 +11331,9 @@
       customInterviewPrompts,
       onAddCustomInterviewPrompt,
       onRemoveCustomInterviewPrompt,
+      implementationOutcomesReflection,
+      interestHoldersReflection,
+      evaluationStrategiesReflection,
     }) {
       const selectedOutcomeSet = new Set(implementationOutcomeSelections);
       const selectedOutcomes = OUTCOMES.filter((outcome) => selectedOutcomeSet.has(outcome.id));
@@ -11375,6 +11511,17 @@
           });
           lines.push("------------------------------------------------------------", "");
         });
+
+        lines.push("REFLECTION & REMAINING QUESTIONS", "");
+        lines.push("Implementation Outcomes");
+        lines.push(implementationOutcomesReflection || "No reflection recorded.");
+        lines.push("");
+        lines.push("Interest Holders");
+        lines.push(interestHoldersReflection || "No reflection recorded.");
+        lines.push("");
+        lines.push("Evaluation Strategies");
+        lines.push(evaluationStrategiesReflection || "No reflection recorded.");
+        lines.push("");
 
         const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
         const url = URL.createObjectURL(blob);
@@ -11632,6 +11779,38 @@
                   })()}
                 </div>
 
+                <section
+                  className="global-reflection-panel plan-reflection-summary"
+                  aria-labelledby="plan-reflection-summary-title"
+                >
+                  <div className="eyebrow">Reflection</div>
+                  <h3 id="plan-reflection-summary-title">
+                    Reflection &amp; Remaining Questions
+                  </h3>
+                  <div className="plan-reflection-grid">
+                    <article className="plan-reflection-card">
+                      <h4>Implementation Outcomes</h4>
+                      <p>
+                        {implementationOutcomesReflection ||
+                          "No reflection recorded."}
+                      </p>
+                    </article>
+                    <article className="plan-reflection-card">
+                      <h4>Interest Holders</h4>
+                      <p>
+                        {interestHoldersReflection || "No reflection recorded."}
+                      </p>
+                    </article>
+                    <article className="plan-reflection-card">
+                      <h4>Evaluation Strategies</h4>
+                      <p>
+                        {evaluationStrategiesReflection ||
+                          "No reflection recorded."}
+                      </p>
+                    </article>
+                  </div>
+                </section>
+
                 <div className="next-step interest-next-step">
                   <div>
                     <h2>Keep this plan in motion</h2>
@@ -11656,6 +11835,9 @@
                 evaluationStrategyNotes={evaluationStrategyNotes}
                 interviewPromptSelections={interviewPromptSelections}
                 customInterviewPrompts={customInterviewPrompts}
+                implementationOutcomesReflection={implementationOutcomesReflection}
+                interestHoldersReflection={interestHoldersReflection}
+                evaluationStrategiesReflection={evaluationStrategiesReflection}
               />
             </div>
           </section>
@@ -12119,6 +12301,12 @@
         useState({});
       const [customInterviewPrompts, setCustomInterviewPrompts] =
         useState({});
+      const [implementationOutcomesReflection, setImplementationOutcomesReflection] =
+        useState("");
+      const [interestHoldersReflection, setInterestHoldersReflection] =
+        useState("");
+      const [evaluationStrategiesReflection, setEvaluationStrategiesReflection] =
+        useState("");
 
       function toggleImplementationOutcome(outcomeId) {
         setImplementationOutcomeSelections((currentSelections) => {
@@ -12389,6 +12577,8 @@
             onToggleImplementationOutcome={
               toggleImplementationOutcome
             }
+            reflectionNote={implementationOutcomesReflection}
+            onChangeReflectionNote={setImplementationOutcomesReflection}
           />
         );
       } else if (route === "interest-holders") {
@@ -12403,6 +12593,8 @@
             onAddCustomInterestHolder={addCustomInterestHolder}
             onToggleCustomInterestHolder={toggleCustomInterestHolder}
             onRemoveCustomInterestHolder={removeCustomInterestHolder}
+            reflectionNote={interestHoldersReflection}
+            onChangeReflectionNote={setInterestHoldersReflection}
           />
         );
       } else if (route === "evaluation-strategies") {
@@ -12422,6 +12614,8 @@
               interviewPromptSelections
             }
             onToggleInterviewPrompt={toggleInterviewPrompt}
+            reflectionNote={evaluationStrategiesReflection}
+            onChangeReflectionNote={setEvaluationStrategiesReflection}
           />
         );
       } else if (route === "final-plan") {
@@ -12447,6 +12641,9 @@
             customInterviewPrompts={customInterviewPrompts}
             onAddCustomInterviewPrompt={addCustomInterviewPrompt}
             onRemoveCustomInterviewPrompt={removeCustomInterviewPrompt}
+            implementationOutcomesReflection={implementationOutcomesReflection}
+            interestHoldersReflection={interestHoldersReflection}
+            evaluationStrategiesReflection={evaluationStrategiesReflection}
           />
         );
       } else if (route === "resources") {
