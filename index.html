@@ -6071,6 +6071,114 @@
       }
     }
 
+  
+
+    /* ============================================================
+       FINAL INTRO TYPOGRAPHY + WIDTH CONSISTENCY
+       ============================================================ */
+
+    /* Ensure the previously restored overall interface scale wins the cascade. */
+    body {
+      font-size: 16px;
+      line-height: 1.62;
+    }
+
+    /* Keep the site identity compact so it does not compete with page titles. */
+    .brand {
+      font-size: 0.86rem;
+      line-height: 1.2;
+    }
+
+    /* Give the first-screen introductions a little more horizontal room. */
+    .start-page > .hero > .container,
+    .outcomes-fullscreen-hero > .container,
+    .interest-fullscreen-hero > .container,
+    .evaluation-strategies-fullscreen-hero > .container {
+      width: 100%;
+      padding-inline: clamp(36px, 5vw, 96px);
+    }
+
+    /* Keep the three discovery-page introductions on one consistent measure. */
+    .outcomes-fullscreen-hero .lede,
+    .interest-fullscreen-hero .lede,
+    .interest-fullscreen-hero .interest-intro-context,
+    .interest-fullscreen-hero .interest-definition,
+    .evaluation-strategies-fullscreen-hero .lede,
+    .evaluation-strategies-fullscreen-hero .strategy-intro-detail {
+      width: 100%;
+      max-width: 1080px;
+    }
+
+    /* Ordinary intro paragraphs use the same type scale across discovery pages. */
+    .outcomes-fullscreen-hero .lede,
+    .interest-fullscreen-hero .lede,
+    .interest-fullscreen-hero .interest-intro-context,
+    .evaluation-strategies-fullscreen-hero .lede,
+    .evaluation-strategies-fullscreen-hero .strategy-intro-detail {
+      color: var(--ink-soft);
+      font-size: clamp(1rem, 1.35vw, 1.08rem) !important;
+      line-height: 1.62;
+    }
+
+    .interest-fullscreen-hero .interest-intro-context,
+    .evaluation-strategies-fullscreen-hero .strategy-intro-detail {
+      margin-top: 16px;
+      margin-bottom: 0;
+    }
+
+    /* The legitimate-interest definition is intentionally visually distinct. */
+    .interest-fullscreen-hero .interest-definition {
+      margin-top: 16px;
+      padding-left: 16px;
+      color: var(--ink-soft);
+      border-left: 3px solid var(--accent);
+      font-size: 0.92rem;
+      font-style: italic;
+      line-height: 1.58;
+    }
+
+    /* Keep end-of-sentence citations from becoming a line by themselves. */
+    .citation-keep-with-text {
+      white-space: nowrap;
+    }
+
+    .interest-fullscreen-hero .interest-definition .citation {
+      white-space: nowrap;
+    }
+
+    /* Restore the Mid-Design Evaluation explanation without creating a new card. */
+    .start-page .mid-design-evaluation-definition {
+      width: 100%;
+      max-width: 980px;
+      margin: 10px 0 0;
+      color: var(--ink-soft);
+      font-size: clamp(0.88rem, 0.98vw, 0.98rem);
+      line-height: 1.52;
+    }
+
+    .start-page .mid-design-evaluation-definition strong {
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .start-page .lede,
+    .start-page .definition {
+      max-width: 980px;
+    }
+
+    @media (max-width: 640px) {
+      .start-page > .hero > .container,
+      .outcomes-fullscreen-hero > .container,
+      .interest-fullscreen-hero > .container,
+      .evaluation-strategies-fullscreen-hero > .container {
+        padding-inline: 20px;
+      }
+
+      .interest-fullscreen-hero .interest-definition {
+        font-size: 0.9rem;
+      }
+    }
+
   </style>
 </head>
 
@@ -6805,7 +6913,7 @@
           "Which interest holders can provide the evidence or perspectives your team most needs for the implementation outcomes you are prioritizing?",
         guidance:
           "Focus on a manageable set of interest holders whose legitimate interests, experiences, or roles provide important and complementary perspectives on your priority outcomes. When appropriate, an interest holder who can inform multiple implementation outcomes may help make your evaluation more efficient. For each interest-holder group, also consider how many people you may need to engage to understand meaningful variation in perspectives rather than relying on a single individual.",
-        boldPhrases: [
+        italicPhrases: [
           "Focus on a manageable set of interest holders",
           "consider how many people you may need to engage to understand meaningful variation in perspectives",
         ],
@@ -6815,7 +6923,7 @@
           "How did you identify your interest holders, whose perspectives might your current approach make easier to see or easier to miss, and how will you address perspectives you cannot engage directly at this stage?",
         guidance:
           "Look beyond familiar collaborators, formal job titles, and people who are easiest to access. Consider lived experience, locally situated or experiential knowledge, and people whose perspectives may be less visible in traditional design or organizational processes. Given your current time, access, and resources, consider which groups you can engage directly and where existing research, organizational or administrative data, community or professional intermediaries, or prior engagement findings may help address remaining gaps. Indirect sources can provide useful evidence, but they should not be treated as equivalent to hearing directly from the people whose perspectives they represent.",
-        boldPhrases: [
+        italicPhrases: [
           "Look beyond familiar collaborators, formal job titles, and people who are easiest to access",
           "Consider lived experience, locally situated or experiential knowledge",
           "consider which groups you can engage directly",
@@ -6826,7 +6934,7 @@
           "What assumptions are shaping who your team considers knowledgeable, relevant, or appropriate to involve?",
         guidance:
           "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value. Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation.",
-        boldPhrases: [
+        italicPhrases: [
           "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value",
           "Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation",
         ],
@@ -6839,7 +6947,7 @@
           "For each priority implementation outcome, which evaluation strategies are most appropriate for generating the evidence you need?",
         guidance:
           "Trace a clear connection between the implementation outcome you want to understand and the evaluation strategy you plan to use. Review how the strategy has been used in existing studies or similar contexts, and consider what type of evidence it will generate and how that evidence could inform your design or implementation decisions. Quantitative and qualitative strategies can provide different and complementary forms of evidence. When useful, combining them can support comparison, explanation, or triangulation. Your goal does not need to be methodological completeness. Each selected strategy should have a clear reason for being included and should contribute evidence that helps you understand one or more priority implementation outcomes.",
-        boldPhrases: [
+        italicPhrases: [
           "Trace a clear connection between the implementation outcome you want to understand and the evaluation strategy you plan to use",
           "Review how the strategy has been used in existing studies or similar contexts",
           "Each selected strategy should have a clear reason for being included",
@@ -6850,7 +6958,7 @@
           "How should each selected evaluation strategy be adapted to fit your project and the evidence you need?",
         guidance:
           "The strategies in this guide are starting points rather than fixed protocols. Consider how each strategy may need to be adapted to your innovation, setting, design stage, interest holders, available resources, and existing evaluation activities. You may modify how a strategy is used, combine elements across approaches, or develop a project-specific approach when appropriate, while keeping a clear rationale for how the adaptation will generate useful evidence.",
-        boldPhrases: [
+        italicPhrases: [
           "Consider how each strategy may need to be adapted",
           "keep a clear rationale for how the adaptation will generate useful evidence",
         ],
@@ -6860,7 +6968,7 @@
           "Looking across your priority implementation outcomes and selected evaluation strategies, is anything important missing or no longer necessary?",
         guidance:
           "Review the choices and reflections you have made throughout the guide. Add, remove, or revise selections where needed, and note any remaining questions or evidence gaps that require further investigation. When your starting plan feels coherent, continue to Develop Your Evaluation Plan to review and refine the full plan in one place.",
-        boldPhrases: [
+        italicPhrases: [
           "Review the choices and reflections you have made throughout the guide",
           "Add, remove, or revise selections where needed",
           "note any remaining questions or evidence gaps that require further investigation",
@@ -9003,7 +9111,7 @@
                   <p className="reflection-guidance">
                     <InlineEmphasisText
                       text={prompt.guidance}
-                      boldPhrases={prompt.boldPhrases || []}
+                      italicPhrases={prompt.italicPhrases || []}
                     />
                   </p>
                 </div>
@@ -9202,6 +9310,13 @@
                   development, when a promising concept solution has been
                   developed but the design can still be meaningfully refined
                   before later-stage validation and implementation.
+                </p>
+
+                <p className="mid-design-evaluation-definition">
+                  <strong>Mid-design evaluation</strong> refers to activities
+                  design teams can conduct to evaluate their promising concept
+                  solution at the mid-design point in order to refine the
+                  solution before conducting later-stage validation studies.
                 </p>
 
                 <a
@@ -10969,8 +11084,10 @@
                 innovation. “Interest” does not mean curiosity, attention, or
                 financial return; it is closer to a stake, right, or
                 entitlement. It is inherent to the group, even when the design
-                team has not yet recognized or engaged that group.
-                <CitationNumbers ids={["akl2024"]} />
+                team has not yet recognized or engaged that{" "}
+                <span className="citation-keep-with-text">
+                  group.<CitationNumbers ids={["akl2024"]} />
+                </span>
               </p>
 
               <p className="interest-intro-context">
