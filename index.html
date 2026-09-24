@@ -65,7 +65,7 @@
     }
 
     html {
-      font-size: 90.625%;
+      font-size: 100%;
       scroll-behavior: smooth;
       scroll-padding-top: var(--header-height);
     }
@@ -82,7 +82,7 @@
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-      font-size: 14.5px;
+      font-size: 16px;
       line-height: 1.62;
     }
 
@@ -859,6 +859,126 @@
       border-color: white;
     }
 
+    /* Workflow navigation uses equal outer tracks so the guidance remains
+       geometrically centered. The center track is deliberately wider to reduce
+       line wrapping, while Back and Next use matching button dimensions. */
+    .next-step.has-step-navigation {
+      display: grid;
+      grid-template-columns:
+        minmax(250px, 0.85fr)
+        minmax(520px, 2.3fr)
+        minmax(250px, 0.85fr);
+      align-items: center;
+      gap: clamp(18px, 2.4vw, 30px);
+    }
+
+    .next-step.has-step-navigation .next-step-back,
+    .next-step.has-step-navigation .next-step-back-spacer {
+      grid-column: 1;
+      width: 100%;
+      max-width: 280px;
+      justify-self: start;
+    }
+
+    .next-step.has-step-navigation .next-step-copy {
+      grid-column: 2;
+      width: 100%;
+      max-width: 940px;
+      margin-inline: auto;
+      text-align: center;
+      justify-self: center;
+    }
+
+    .next-step.has-step-navigation .next-step-copy h2 {
+      max-width: 920px;
+      margin: 0 auto;
+      font-size: clamp(1.18rem, 1.45vw, 1.32rem);
+      font-weight: 740;
+      line-height: 1.28;
+    }
+
+    .next-step.has-step-navigation .next-step-copy p {
+      max-width: 900px;
+      margin: 7px auto 0;
+      line-height: 1.45;
+    }
+
+    .next-step.has-step-navigation .next-step-primary-guidance {
+      font-weight: 700;
+    }
+
+    .next-step.has-step-navigation .next-step-supporting-copy {
+      color: #dcebed;
+      font-size: 0.88rem;
+    }
+
+    .next-step.has-step-navigation .next-step-forward,
+    .next-step.has-step-navigation .next-step-forward-spacer {
+      grid-column: 3;
+      width: 100%;
+      max-width: 280px;
+      justify-self: end;
+    }
+
+    .next-step.has-step-navigation .next-step-back .button,
+    .next-step.has-step-navigation .next-step-forward .button {
+      width: 100%;
+      min-height: 54px;
+      padding-inline: 16px;
+      text-align: center;
+    }
+
+    .next-step.has-step-navigation .next-step-back .button.secondary {
+      color: white;
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.68);
+    }
+
+    .next-step.has-step-navigation .next-step-back .button.secondary:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: white;
+    }
+
+    @media (max-width: 1180px) {
+      .next-step.has-step-navigation {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .next-step.has-step-navigation .next-step-copy,
+      .next-step.has-step-navigation .next-step-back,
+      .next-step.has-step-navigation .next-step-forward {
+        grid-column: 1;
+        width: 100%;
+        max-width: none;
+      }
+
+      .next-step.has-step-navigation .next-step-copy {
+        order: 1;
+      }
+
+      .next-step.has-step-navigation .next-step-back {
+        order: 2;
+        justify-self: stretch;
+      }
+
+      .next-step.has-step-navigation .next-step-forward {
+        order: 3;
+        justify-self: stretch;
+      }
+
+      .next-step.has-step-navigation .next-step-back .button,
+      .next-step.has-step-navigation .next-step-forward .button {
+        width: 100%;
+      }
+
+      .next-step.has-step-navigation .next-step-back-spacer,
+      .next-step.has-step-navigation .next-step-forward-spacer {
+        display: none;
+      }
+    }
+
     .outcome-layout {
       display: grid;
       grid-template-columns: minmax(180px, 0.27fr) minmax(0, 1fr);
@@ -1537,6 +1657,28 @@
       position: static;
     }
 
+    .outcome-sidebar-guide {
+      padding: 15px 16px;
+      color: var(--ink-soft);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .outcome-sidebar-guide strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .outcome-sidebar-guide p {
+      margin: 0;
+    }
+
     .outcome-sidebar .button {
       width: 100%;
       min-height: 44px;
@@ -1545,7 +1687,8 @@
       text-align: center;
     }
 
-    .interest-definition {
+    .interest-definition,
+    .interest-intro-context {
       max-width: 860px;
       margin-top: 18px;
       color: var(--ink-soft);
@@ -2287,8 +2430,12 @@
       display: inline-block;
       color: var(--accent-dark);
       font-weight: 800;
-      cursor: help;
+      cursor: pointer;
       text-decoration: none;
+    }
+
+    .citation-number.is-unlinked {
+      cursor: help;
     }
 
     .citation-popover {
@@ -2812,6 +2959,18 @@
         width: 100%;
         flex-direction: column;
         align-items: stretch;
+      }
+
+      .next-step.has-step-navigation {
+        gap: 14px;
+      }
+
+      .next-step.has-step-navigation .next-step-copy {
+        text-align: center;
+      }
+
+      .next-step.has-step-navigation .next-step-copy h2 {
+        font-size: 1.18rem;
       }
 
       .outcome-navigation,
@@ -5189,46 +5348,163 @@
       line-height: 1.55;
     }
 
+    .plan-print-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      background: rgba(10, 41, 47, 0.62);
+      backdrop-filter: blur(4px);
+    }
+
     .plan-print-options {
-      margin-top: 16px;
-      padding: 16px 18px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
+      width: min(560px, 100%);
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      padding: 28px 30px 26px;
+      background: white;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-large);
+      box-shadow: 0 28px 70px rgba(12, 38, 45, 0.28);
+    }
+
+    .plan-print-options-header {
+      margin-bottom: 18px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .plan-print-options-header-copy {
+      min-width: 0;
     }
 
     .plan-print-options h3 {
-      margin-bottom: 5px;
-      font-size: 1rem;
+      margin: 0 0 7px;
+      font-size: 1.35rem;
+      line-height: 1.25;
     }
 
-    .plan-print-options > p {
-      margin: 0 0 12px;
+    .plan-print-options-header-copy > p {
+      margin: 0;
       color: var(--ink-soft);
-      font-size: 0.8rem;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    .plan-print-resources-note {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      color: var(--ink-soft);
+      background: var(--accent-soft);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .plan-print-resources-note strong {
+      color: var(--ink);
+      font-weight: 760;
+    }
+
+    .plan-print-options-close {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      display: grid;
+      flex: 0 0 auto;
+      place-items: center;
+      color: white;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      font-size: 1.45rem;
+      font-weight: 650;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .plan-print-options-close:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
     }
 
     .plan-print-option-list {
       display: grid;
-      gap: 8px;
+      gap: 10px;
     }
 
     .plan-print-option {
+      min-height: 48px;
+      padding: 12px 13px;
       display: flex;
       align-items: flex-start;
-      gap: 9px;
+      gap: 11px;
       color: var(--ink);
-      font-size: 0.82rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      font-size: 0.9rem;
+      line-height: 1.45;
       cursor: pointer;
     }
 
+    .plan-print-option:hover {
+      border-color: var(--accent);
+    }
+
     .plan-print-option input {
-      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+      margin: 2px 0 0;
+      flex: 0 0 auto;
       accent-color: var(--accent);
     }
 
     .plan-print-options .button-row {
-      margin-top: 14px;
+      margin-top: 20px;
+      justify-content: flex-end;
+    }
+
+    .interview-prompt-warning-dialog {
+      width: min(590px, 100%);
+    }
+
+    .interview-prompt-warning-dialog .button-row {
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .interview-prompt-warning-dialog .button-row .button {
+      min-width: 190px;
+    }
+
+    .interview-prompt-warning-outcomes {
+      margin: 14px 0 0;
+      padding: 12px 14px 12px 30px;
+      color: var(--ink-soft);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+    }
+
+    .interview-prompt-warning-outcomes li + li {
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .interview-prompt-warning-dialog .button-row {
+        display: grid;
+      }
+
+      .interview-prompt-warning-dialog .button-row .button {
+        width: 100%;
+        min-width: 0;
+      }
     }
 
     .plan-print-only {
@@ -5412,6 +5688,15 @@
         justify-content: flex-start;
       }
 
+      .plan-print-modal-backdrop {
+        padding: 16px;
+      }
+
+      .plan-print-options {
+        max-height: calc(100vh - 32px);
+        padding: 22px 20px 20px;
+      }
+
       .plan-print-options .button-row,
       .plan-print-options .button {
         width: 100%;
@@ -5452,7 +5737,8 @@
       .plan-workspace-screen,
       .next-step,
       .scroll-prompt,
-      .citation-popover {
+      .citation-popover,
+      .plan-print-modal-backdrop {
         display: none !important;
       }
 
@@ -6496,7 +6782,7 @@
     ];
 
     const REFLECTION_INTRO =
-      "Use reflection to turn what you learned into your next evaluation decisions. Identify what you can prioritize using this guide, and what you still need to learn or investigate before moving forward.";
+      "Use reflection to turn what you learned into your next evaluation decisions. Identify what you can prioritize using this guide, and what you still need to learn or investigate before moving forward. Every project is different, and there is no one-size-fits-all guidance. Therefore, we encourage you to reflect on what is most important to your project at this time.";
 
     const IMPLEMENTATION_OUTCOME_REFLECTION = [
       {
@@ -6519,18 +6805,31 @@
           "Which interest holders can provide the evidence or perspectives your team most needs for the implementation outcomes you are prioritizing?",
         guidance:
           "Focus on a manageable set of interest holders whose legitimate interests, experiences, or roles provide important and complementary perspectives on your priority outcomes. When appropriate, an interest holder who can inform multiple implementation outcomes may help make your evaluation more efficient. For each interest-holder group, also consider how many people you may need to engage to understand meaningful variation in perspectives rather than relying on a single individual.",
+        boldPhrases: [
+          "Focus on a manageable set of interest holders",
+          "consider how many people you may need to engage to understand meaningful variation in perspectives",
+        ],
       },
       {
         question:
           "How did you identify your interest holders, whose perspectives might your current approach make easier to see or easier to miss, and how will you address perspectives you cannot engage directly at this stage?",
         guidance:
           "Look beyond familiar collaborators, formal job titles, and people who are easiest to access. Consider lived experience, locally situated or experiential knowledge, and people whose perspectives may be less visible in traditional design or organizational processes. Given your current time, access, and resources, consider which groups you can engage directly and where existing research, organizational or administrative data, community or professional intermediaries, or prior engagement findings may help address remaining gaps. Indirect sources can provide useful evidence, but they should not be treated as equivalent to hearing directly from the people whose perspectives they represent.",
+        boldPhrases: [
+          "Look beyond familiar collaborators, formal job titles, and people who are easiest to access",
+          "Consider lived experience, locally situated or experiential knowledge",
+          "consider which groups you can engage directly",
+        ],
       },
       {
         question:
           "What assumptions are shaping who your team considers knowledgeable, relevant, or appropriate to involve?",
         guidance:
           "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value. Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation.",
+        boldPhrases: [
+          "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value",
+          "Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation",
+        ],
       },
     ];
 
@@ -6540,18 +6839,32 @@
           "For each priority implementation outcome, which evaluation strategies are most appropriate for generating the evidence you need?",
         guidance:
           "Trace a clear connection between the implementation outcome you want to understand and the evaluation strategy you plan to use. Review how the strategy has been used in existing studies or similar contexts, and consider what type of evidence it will generate and how that evidence could inform your design or implementation decisions. Quantitative and qualitative strategies can provide different and complementary forms of evidence. When useful, combining them can support comparison, explanation, or triangulation. Your goal does not need to be methodological completeness. Each selected strategy should have a clear reason for being included and should contribute evidence that helps you understand one or more priority implementation outcomes.",
+        boldPhrases: [
+          "Trace a clear connection between the implementation outcome you want to understand and the evaluation strategy you plan to use",
+          "Review how the strategy has been used in existing studies or similar contexts",
+          "Each selected strategy should have a clear reason for being included",
+        ],
       },
       {
         question:
           "How should each selected evaluation strategy be adapted to fit your project and the evidence you need?",
         guidance:
           "The strategies in this guide are starting points rather than fixed protocols. Consider how each strategy may need to be adapted to your innovation, setting, design stage, interest holders, available resources, and existing evaluation activities. You may modify how a strategy is used, combine elements across approaches, or develop a project-specific approach when appropriate, while keeping a clear rationale for how the adaptation will generate useful evidence.",
+        boldPhrases: [
+          "Consider how each strategy may need to be adapted",
+          "keep a clear rationale for how the adaptation will generate useful evidence",
+        ],
       },
       {
         question:
           "Looking across your priority implementation outcomes and selected evaluation strategies, is anything important missing or no longer necessary?",
         guidance:
           "Review the choices and reflections you have made throughout the guide. Add, remove, or revise selections where needed, and note any remaining questions or evidence gaps that require further investigation. When your starting plan feels coherent, continue to Develop Your Evaluation Plan to review and refine the full plan in one place.",
+        boldPhrases: [
+          "Review the choices and reflections you have made throughout the guide",
+          "Add, remove, or revise selections where needed",
+          "note any remaining questions or evidence gaps that require further investigation",
+        ],
       },
     ];
 
@@ -8579,6 +8892,84 @@
       );
     }
 
+    function InlineEmphasisText({
+      text,
+      boldPhrases = [],
+      italicPhrases = [],
+    }) {
+      const candidates = [
+        ...boldPhrases.map((phrase) => ({ phrase, type: "bold" })),
+        ...italicPhrases.map((phrase) => ({ phrase, type: "italic" })),
+      ];
+      const matches = [];
+
+      candidates.forEach(({ phrase, type }) => {
+        let searchFrom = 0;
+        let matchIndex = text.indexOf(phrase, searchFrom);
+
+        while (matchIndex !== -1) {
+          matches.push({
+            start: matchIndex,
+            end: matchIndex + phrase.length,
+            phrase,
+            type,
+          });
+          searchFrom = matchIndex + phrase.length;
+          matchIndex = text.indexOf(phrase, searchFrom);
+        }
+      });
+
+      matches.sort((a, b) => {
+        if (a.start !== b.start) return a.start - b.start;
+        return b.end - b.start - (a.end - a.start);
+      });
+
+      const nonOverlappingMatches = [];
+      let coveredUntil = -1;
+
+      matches.forEach((match) => {
+        if (match.start >= coveredUntil) {
+          nonOverlappingMatches.push(match);
+          coveredUntil = match.end;
+        }
+      });
+
+      if (nonOverlappingMatches.length === 0) {
+        return <>{text}</>;
+      }
+
+      const nodes = [];
+      let cursor = 0;
+
+      nonOverlappingMatches.forEach((match, index) => {
+        if (match.start > cursor) {
+          nodes.push(text.slice(cursor, match.start));
+        }
+
+        if (match.type === "bold") {
+          nodes.push(
+            <strong key={`bold-${match.start}-${index}`}>
+              {match.phrase}
+            </strong>
+          );
+        } else {
+          nodes.push(
+            <em key={`italic-${match.start}-${index}`}>
+              {match.phrase}
+            </em>
+          );
+        }
+
+        cursor = match.end;
+      });
+
+      if (cursor < text.length) {
+        nodes.push(text.slice(cursor));
+      }
+
+      return <>{nodes}</>;
+    }
+
     function ReflectionSection({
       titleId,
       title,
@@ -8596,7 +8987,12 @@
         >
           <div className="eyebrow">Reflection</div>
           <h3 id={titleId}>{title}</h3>
-          <p className="page-reflection-subtitle">{REFLECTION_INTRO}</p>
+          <p className="page-reflection-subtitle">
+            <InlineEmphasisText
+              text={REFLECTION_INTRO}
+              italicPhrases={["at this time"]}
+            />
+          </p>
           <ol className="scaffold-reflection-grid global-reflection-grid page-reflection-grid">
             {prompts.map((prompt) => (
               <li key={prompt.question}>
@@ -8604,7 +9000,12 @@
                   <strong className="reflection-question">
                     {prompt.question}
                   </strong>
-                  <p className="reflection-guidance">{prompt.guidance}</p>
+                  <p className="reflection-guidance">
+                    <InlineEmphasisText
+                      text={prompt.guidance}
+                      boldPhrases={prompt.boldPhrases || []}
+                    />
+                  </p>
                 </div>
               </li>
             ))}
@@ -9425,26 +9826,50 @@
           {citationIds.map((referenceId, index) => {
             const reference = REFERENCE_LIBRARY[referenceId];
             const number = REFERENCE_NUMBER_BY_ID[referenceId];
-            const tooltip = `${number}. ${reference.citation} ${reference.url}`;
+            const hasUrl = Boolean(reference?.url);
+            const popoverText = hasUrl
+              ? `${number}. ${reference.citation} ${reference.url}`
+              : `${number}. ${reference.citation}`;
+            const accessibleLabel = hasUrl
+              ? `Open reference ${number}: ${reference.citation}`
+              : `Reference ${number}: ${reference.citation}`;
+            const interactionProps = {
+              "data-citation": popoverText,
+              "aria-label": accessibleLabel,
+              onMouseEnter: showCitationPopover,
+              onMouseLeave: scheduleCitationPopoverHide,
+              onFocus: showCitationPopover,
+              onBlur: scheduleCitationPopoverHide,
+            };
 
             return (
               <React.Fragment key={referenceId}>
-                {index > 0 && <span className="citation-separator">,</span>}
-                <a
-                  className="citation-number"
-                  href={reference.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  data-citation={tooltip}
-                  aria-label={`Reference ${number}: ${reference.citation} Opens source in a new tab.`}
-                  onMouseEnter={showCitationPopover}
-                  onMouseLeave={scheduleCitationPopoverHide}
-                  onFocus={showCitationPopover}
-                  onBlur={scheduleCitationPopoverHide}
-                  onClick={hideCitationPopover}
-                >
-                  {number}
-                </a>
+                {index > 0 && (
+                  <span className="citation-separator" aria-hidden="true">
+                    ,
+                  </span>
+                )}
+
+                {hasUrl ? (
+                  <a
+                    className="citation-number"
+                    href={reference.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    {...interactionProps}
+                    onClick={hideCitationPopover}
+                  >
+                    {number}
+                  </a>
+                ) : (
+                  <span
+                    className="citation-number is-unlinked"
+                    tabIndex="0"
+                    {...interactionProps}
+                  >
+                    {number}
+                  </span>
+                )}
               </React.Fragment>
             );
           })}
@@ -9637,11 +10062,6 @@
                 <CitationNumbers ids={["proctor2011"]} />
               </p>
 
-              <p className="outcome-intro-instruction">
-                Select one outcome at a time to review its definition, mid-design
-                relevance, key considerations, and evidence from case examples.
-              </p>
-
               <button
                 className="scroll-prompt outcomes-scroll-prompt"
                 type="button"
@@ -9667,6 +10087,16 @@
                   className="outcome-sidebar"
                   aria-label="Outcome navigation"
                 >
+                <div className="outcome-sidebar-guide">
+                  <strong>Select one outcome at a time to review</strong>
+                  <p>
+                    Each implementation outcome is displayed individually. Select an
+                    outcome below to review its definition, mid-design relevance, key
+                    considerations, and case evidence. Use the checkmark to mark outcomes
+                    that are relevant to your project.
+                  </p>
+                </div>
+
                 <div
                   className="outcome-navigation"
                   role="tablist"
@@ -9907,20 +10337,28 @@
                 onChangeNote={onChangeReflectionNote}
               />
 
-              <div className="next-step interest-next-step outcome-next-step">
-                <div>
-                  <h2>Continue when your starting implementation-outcome set feels useful</h2>
+              <div className="next-step interest-next-step outcome-next-step has-step-navigation">
+                <div className="next-step-back-spacer" aria-hidden="true"></div>
+
+                <div className="next-step-copy">
+                  <h2>
+                    When you have identified which implementation outcomes feel
+                    relevant to your project at this time, continue to Interest
+                    Holders.
+                  </h2>
                   <p>
-                    Your implementation-outcome selections will carry forward to Develop Your
-                    Evaluation Plan, where you can review and refine them as your
-                    project and evaluation plan develop.
+                    Your implementation-outcome selections will carry forward to
+                    Develop Your Evaluation Plan, where you can review and refine
+                    them as your project and evaluation plan develop.
                   </p>
                 </div>
 
-                <PageLink route="interest-holders">
-                  Continue to Interest Holders
-                  <span aria-hidden="true">→</span>
-                </PageLink>
+                <div className="next-step-forward">
+                  <PageLink route="interest-holders">
+                    Continue to Interest Holders
+                    <span aria-hidden="true">→</span>
+                  </PageLink>
+                </div>
               </div>
             </div>
           </section>
@@ -10249,16 +10687,19 @@
             The project used both patient- and clinician-facing evaluation
             strategies. A crossover study with known HPV-positive women at
             Ghana&apos;s largest referral hospital evaluated feasibility and
-            acceptability using validated questionnaires and Likert-scale
-            measures, including Satisfaction with Decision, Device Usability
-            Questionnaire, System Usability Scale, and Device Preference
-            Questionnaire. A clinician-focused descriptive study with OBGYN
-            clinicians at Korle Bu Teaching Hospital evaluated acceptability,
-            appropriateness, and feasibility using AIM, IAM, and FIM,
-            supplemented by semi-structured interviews guided by the Theoretical
-            Framework of Acceptability. Analyses included descriptive
-            statistics, Wilcoxon signed-rank and binomial tests, and thematic
-            analysis.
+            acceptability using{" "}
+            <strong>validated questionnaires and Likert-scale measures</strong>,
+            including <strong>Satisfaction with Decision</strong>,{" "}
+            <strong>Device Usability Questionnaire</strong>,{" "}
+            <strong>System Usability Scale</strong>, and{" "}
+            <strong>Device Preference Questionnaire</strong>. A
+            clinician-focused descriptive study with OBGYN clinicians at Korle
+            Bu Teaching Hospital evaluated acceptability, appropriateness, and
+            feasibility using <strong>AIM, IAM, and FIM</strong>, supplemented
+            by <strong>semi-structured interviews</strong> guided by the{" "}
+            <strong>Theoretical Framework of Acceptability</strong>. Analyses
+            included descriptive statistics, Wilcoxon signed-rank and binomial
+            tests, and thematic analysis.
           </p>
         );
       }
@@ -10284,16 +10725,20 @@
           <p>
             The program was evaluated through a cluster-randomized study with
             OBGYN clinicians assigned by care team to either the learning group
-            or control group to reduce crossover bias. Learning-group participants
-            completed the educational video, checklist handout, malpresentation
-            counseling role-play, and task-trainer practice as both assisting and
-            primary surgeon. Evaluation included pre/post questionnaires measuring
-            comfort, confidence, and knowledge; a scored procedural checklist
-            assessing ECV skill; simulation procedure success; participant
-            satisfaction; and AIM, IAM, and FIM ratings for acceptability,
-            appropriateness, and feasibility. Open-ended feedback was also analyzed
-            thematically. Statistical analyses included paired and independent t
-            tests, Fisher&apos;s exact tests, and Spearman&apos;s rho to assess
+            or control group to reduce crossover bias. Learning-group
+            participants completed the educational video, checklist handout,
+            malpresentation counseling role-play, and task-trainer practice as
+            both assisting and primary surgeon. Evaluation included{" "}
+            <strong>pre/post questionnaires</strong> measuring comfort,
+            confidence, and knowledge; a{" "}
+            <strong>scored procedural checklist</strong> assessing ECV skill;{" "}
+            <strong>simulation procedure success</strong>;{" "}
+            <strong>participant satisfaction</strong>; and{" "}
+            <strong>AIM, IAM, and FIM</strong> ratings for acceptability,
+            appropriateness, and feasibility.{" "}
+            <strong>Open-ended feedback</strong> was also analyzed thematically.
+            Statistical analyses included paired and independent t tests,
+            Fisher&apos;s exact tests, and Spearman&apos;s rho to assess
             changes in comfort, confidence, knowledge, procedural skill,
             feasibility, acceptability, and relationships among confidence,
             knowledge, and skill.
@@ -10316,20 +10761,23 @@
         </p>
       ) : (
         <p>
-          The case used formative qualitative research, rapid and traditional
-          qualitative analysis, human-centered design, and a six-month
-          longitudinal qualitative pilot. The pilot included serial interviews
-          with 25 mentees at baseline, three months, and six months, plus
-          interviews with 15 comparison-group women. Participants were
-          purposively sampled by contraceptive use, district, and age, and
-          interview analysis was guided by the I-CAN theory of action. The
-          evaluation examined how peer social support influenced contraceptive
-          knowledge, partner communication, access to services, self-injection
-          confidence, and ability to act on contraceptive preferences. This case
-          illustrates how qualitative and mixed-method evaluation can inform
-          early evaluation of acceptability and appropriateness through women&apos;s
-          experiences of peer support and feasibility through implementation by
-          community-based organizations and trained peer mentors.
+          The case used <strong>formative qualitative research</strong>,{" "}
+          <strong>rapid and traditional qualitative analysis</strong>,{" "}
+          <strong>human-centered design</strong>, and a{" "}
+          <strong>six-month longitudinal qualitative pilot</strong>. The pilot
+          included <strong>serial interviews</strong> with 25 mentees at
+          baseline, three months, and six months, plus interviews with 15
+          comparison-group women. Participants were purposively sampled by
+          contraceptive use, district, and age, and interview analysis was
+          guided by the I-CAN theory of action. The evaluation examined how peer
+          social support influenced contraceptive knowledge, partner
+          communication, access to services, self-injection confidence, and
+          ability to act on contraceptive preferences. This case illustrates
+          how <strong>qualitative and mixed-method evaluation</strong> can
+          inform early evaluation of acceptability and appropriateness through
+          women&apos;s experiences of peer support and feasibility through
+          implementation by community-based organizations and trained peer
+          mentors.
         </p>
       );
     }
@@ -10511,24 +10959,26 @@
                     legitimate interests
                   </code>
                 </strong>{" "}
-                in how a health care innovation is designed and
-                implemented, and how it is experienced in use. These 
-                legitimate interests are what make the group’s perspectives 
-                relevant to design and implementation decisions.This
-                guide uses the term to keep attention on responsibility
-                and impact, not simply on organizational authority or a
-                traditional stakeholder label.
+                in how a health care innovation is designed and implemented,
+                and how it is experienced in use.
               </p>
 
               <p className="interest-definition">
-                A legitimate interest arises because people in the
-                group are responsible for, or affected by, decisions
-                connected to the innovation. “Interest” does not mean
-                curiosity, attention, or financial return; it is closer
-                to a stake, right, or entitlement. It is inherent to the
-                group, even when the design team has not yet recognized
-                or engaged that group.
+                A legitimate interest arises because people in the group are
+                responsible for, or affected by, decisions connected to the
+                innovation. “Interest” does not mean curiosity, attention, or
+                financial return; it is closer to a stake, right, or
+                entitlement. It is inherent to the group, even when the design
+                team has not yet recognized or engaged that group.
                 <CitationNumbers ids={["akl2024"]} />
+              </p>
+
+              <p className="interest-intro-context">
+                These legitimate interests are what make the group’s
+                perspectives relevant to design and implementation decisions.
+                This guide uses the term to keep attention on responsibility
+                and impact, not simply on organizational authority or a
+                traditional stakeholder label.
               </p>
 
               <button
@@ -10569,14 +11019,9 @@
                   groups in the project context.
                 </li>
                 <li>
-                  Use the specific-group descriptions to distinguish roles
-                  whose responsibilities or exposure differ, even when the
-                  same person could occupy more than one role.
-                </li>
-                <li>
-                  Use the family and specific-group descriptions to identify
-                  groups that are easy to overlook or difficult to place in a
-                  single category.
+                  Use the specific-group descriptions to distinguish how
+                  legitimate interests may take different forms across roles,
+                  even when the same person could occupy more than one role.
                 </li>
               </ul>
               <section
@@ -10584,7 +11029,7 @@
                 aria-labelledby="family-overview-title"
               >
                 <div className="family-overview-heading">
-                  <div className="placeholder-label">Broad families</div>
+                  <div className="placeholder-label">Broad Families of Interest Holders</div>
                   <h3 id="family-overview-title">
                     Preview all recommended interest holder families
                     <CitationNumbers ids={["akl2024", "damschroder2022"]} />
@@ -10629,10 +11074,15 @@
                 title="Outcome-Specific Interest-Holder Recommendations"
                 titleId="outcome-recommendations-title"
               >
-                These are starting-point recommendations, not
-                prescriptions. Review them after exploring the scaffold, then
-                explicitly select the groups that belong in your evaluation
-                plan based on your project context.
+                These are context-sensitive starting-point recommendations, not
+                a universal priority order. Which interest holders are most
+                informative will depend on your innovation, setting,
+                implementation outcome, and project context. Review the broad
+                families and specific interest-holder groups above, select the
+                groups most relevant to your project, add project-specific
+                interest holders that are not captured in the scaffold, and
+                use the reflection prompts to consider whose perspectives may
+                still be missing.
               </SectionHeading>
 
               <aside
@@ -10765,14 +11215,15 @@
                   </div>
 
                   <p className="recommendation-intro-copy">
-                    The list is ordered as a starting priority for this outcome.
-                    Each recommendation comes from a specific group in the
-                    legitimate-interest scaffold above. Selection is explicit
-                    and stored separately for each outcome during this session.
+                    Use these recommendations as starting points and adapt them
+                    based on your project context. Each recommendation comes
+                    from a specific group in the legitimate-interest scaffold
+                    above. Selection is explicit and stored separately for each
+                    outcome during this session.
                   </p>
 
                   <div className="recommendation-list">
-                    {recommendations.map((recommendation, index) => {
+                    {recommendations.map((recommendation) => {
                       const group =
                         INTEREST_HOLDER_GROUPS_BY_ID[recommendation.groupId];
 
@@ -10811,7 +11262,7 @@
 
                             <span>
                               <span className="recommendation-rank">
-                                Starting priority {index + 1}
+                                Starting-point recommendation
                               </span>
                               <span className="recommendation-title">
                                 {group.label}
@@ -10892,22 +11343,27 @@
                 onChangeNote={onChangeReflectionNote}
               />
 
-              <div className="next-step interest-next-step">
-                <div>
-                  <h2>Continue when your starting interest-holder set feels useful</h2>
-                  <p>
-                    Your interest-holder selections will carry forward to Develop Your
-                    Evaluation Plan, where you can review and refine them as your
-                    project and evaluation plan develop.
-                  </p>
-                </div>
-
-                <div className="next-step-actions">
+              <div className="next-step interest-next-step has-step-navigation">
+                <div className="next-step-back">
                   <PageLink route="outcomes" secondary>
                     <span aria-hidden="true">←</span>
                     Back to Implementation Outcomes
                   </PageLink>
+                </div>
 
+                <div className="next-step-copy">
+                  <h2>
+                    When you have identified the interest holders most relevant
+                    to your priority outcomes, continue to Evaluation Strategies.
+                  </h2>
+                  <p>
+                    Your interest-holder selections will carry forward to Develop
+                    Your Evaluation Plan, where you can review and refine them as
+                    your project and evaluation plan develop.
+                  </p>
+                </div>
+
+                <div className="next-step-forward">
                   <PageLink route="evaluation-strategies">
                     Continue to Evaluation Strategies
                     <span aria-hidden="true">→</span>
@@ -11046,9 +11502,11 @@
 
       return (
         <article
+          id={`interview-strategy-${outcomeId}`}
           className={`strategy-row interview-strategy-row${
             isSelected ? " is-selected" : ""
           }`}
+          tabIndex="-1"
         >
           <button
             className="strategy-row-select-button"
@@ -11165,6 +11623,10 @@
           (implementationOutcomeSelections || []).includes(outcome.id)
         )?.id || OUTCOMES[0].id
       );
+      const [showInterviewPromptWarning, setShowInterviewPromptWarning] =
+        useState(false);
+      const [missingInterviewPromptOutcomeIds, setMissingInterviewPromptOutcomeIds] =
+        useState([]);
       const selectedOutcome =
         OUTCOMES.find(
           (outcome) => outcome.id === selectedOutcomeId
@@ -11243,6 +11705,92 @@
           )
           ?.focus();
       }
+
+      useEffect(() => {
+        if (!showInterviewPromptWarning) return undefined;
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+
+        function handleKeyDown(event) {
+          if (event.key === "Escape") {
+            setShowInterviewPromptWarning(false);
+          }
+        }
+
+        document.addEventListener("keydown", handleKeyDown);
+        window.requestAnimationFrame(() => {
+          document
+            .getElementById("interview-prompt-warning-dialog")
+            ?.focus();
+        });
+
+        return () => {
+          document.body.style.overflow = previousOverflow;
+          document.removeEventListener("keydown", handleKeyDown);
+        };
+      }, [showInterviewPromptWarning]);
+
+      function getOutcomesMissingInterviewPrompts() {
+        return OUTCOMES.filter((outcome) => {
+          const qualitativeSelections =
+            evaluationStrategySelections[outcome.id]?.qualitative || [];
+          const interviewIsSelected = qualitativeSelections.includes(
+            INTERVIEW_STRATEGY.id
+          );
+          const selectedPrompts =
+            interviewPromptSelections[outcome.id] || [];
+
+          return interviewIsSelected && selectedPrompts.length === 0;
+        });
+      }
+
+      function handleContinueToFinalPlan() {
+        const missingOutcomes = getOutcomesMissingInterviewPrompts();
+
+        if (missingOutcomes.length === 0) {
+          window.location.hash = "#final-plan";
+          return;
+        }
+
+        setMissingInterviewPromptOutcomeIds(
+          missingOutcomes.map((outcome) => outcome.id)
+        );
+        setShowInterviewPromptWarning(true);
+      }
+
+      function handleReturnToInterviewPrompts() {
+        const targetOutcomeId = missingInterviewPromptOutcomeIds[0];
+        if (!targetOutcomeId) {
+          setShowInterviewPromptWarning(false);
+          return;
+        }
+
+        setShowInterviewPromptWarning(false);
+        setSelectedOutcomeId(targetOutcomeId);
+
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            const target = document.getElementById(
+              `interview-strategy-${targetOutcomeId}`
+            );
+            target?.scrollIntoView({ behavior: "smooth", block: "center" });
+            target?.focus({ preventScroll: true });
+          });
+        });
+      }
+
+      function handleContinueRegardless() {
+        setShowInterviewPromptWarning(false);
+        window.location.hash = "#final-plan";
+      }
+
+      const missingInterviewPromptOutcomes =
+        missingInterviewPromptOutcomeIds
+          .map((outcomeId) =>
+            OUTCOMES.find((outcome) => outcome.id === outcomeId)
+          )
+          .filter(Boolean);
 
       return (
         <>
@@ -11535,30 +12083,107 @@
                 onChangeNote={onChangeReflectionNote}
               />
 
-              <div className="next-step interest-next-step">
-                <div>
-                  <h2>Continue when your starting evaluation-strategy set feels useful</h2>
-                  <p>
-                    Your evaluation-strategy selections will carry forward to Develop Your
-                    Evaluation Plan, where you can review and refine them as your
-                    project and evaluation plan develop.
-                  </p>
-                </div>
-
-                <div className="next-step-actions">
+              <div className="next-step interest-next-step has-step-navigation">
+                <div className="next-step-back">
                   <PageLink route="interest-holders" secondary>
                     <span aria-hidden="true">←</span>
                     Back to Interest Holders
                   </PageLink>
+                </div>
 
-                  <PageLink route="final-plan">
+                <div className="next-step-copy">
+                  <h2>
+                    When you have identified the evaluation strategies you want
+                    to include in your plan, continue to Develop Your Evaluation
+                    Plan.
+                  </h2>
+                  <p>
+                    Your evaluation-strategy selections will carry forward to
+                    Develop Your Evaluation Plan, where you can review and refine
+                    them as your project and evaluation plan develop.
+                  </p>
+                </div>
+
+                <div className="next-step-forward">
+                  <button
+                    className="button"
+                    type="button"
+                    onClick={handleContinueToFinalPlan}
+                  >
                     Develop Your Evaluation Plan
                     <span aria-hidden="true">→</span>
-                  </PageLink>
+                  </button>
                 </div>
               </div>
             </div>
           </section>
+
+          {showInterviewPromptWarning && (
+            <div
+              className="plan-print-modal-backdrop"
+              role="presentation"
+              onMouseDown={(event) => {
+                if (event.target === event.currentTarget) {
+                  setShowInterviewPromptWarning(false);
+                }
+              }}
+            >
+              <section
+                id="interview-prompt-warning-dialog"
+                className="plan-print-options interview-prompt-warning-dialog"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="interview-prompt-warning-title"
+                aria-describedby="interview-prompt-warning-description"
+                tabIndex="-1"
+              >
+                <div className="plan-print-options-header">
+                  <div className="plan-print-options-header-copy">
+                    <h3 id="interview-prompt-warning-title">
+                      Interview prompts not selected
+                    </h3>
+                    <p id="interview-prompt-warning-description">
+                      You selected Semi-Structured Interview, but no Specific
+                      Interview Prompts are selected for the following implementation
+                      outcome{missingInterviewPromptOutcomes.length === 1 ? "" : "s"}.
+                      Would you like to return and select prompts, or continue to
+                      Develop Your Evaluation Plan without them?
+                    </p>
+                    <ul className="interview-prompt-warning-outcomes">
+                      {missingInterviewPromptOutcomes.map((outcome) => (
+                        <li key={outcome.id}>{outcome.name}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <button
+                    className="plan-print-options-close"
+                    type="button"
+                    aria-label="Close interview prompt reminder"
+                    onClick={() => setShowInterviewPromptWarning(false)}
+                  >
+                    ×
+                  </button>
+                </div>
+
+                <div className="button-row">
+                  <button
+                    className="button secondary"
+                    type="button"
+                    onClick={handleReturnToInterviewPrompts}
+                  >
+                    Back to select prompts
+                  </button>
+                  <button
+                    className="button"
+                    type="button"
+                    onClick={handleContinueRegardless}
+                  >
+                    Continue regardless
+                  </button>
+                </div>
+              </section>
+            </div>
+          )}
         </>
       );
     }
@@ -12464,6 +13089,25 @@
       const [includeGuidingFrameworks, setIncludeGuidingFrameworks] =
         useState(false);
 
+      useEffect(() => {
+        if (!showPrintOptions) return undefined;
+
+        const previousOverflow = document.body.style.overflow;
+        const handleKeyDown = (event) => {
+          if (event.key === "Escape") {
+            setShowPrintOptions(false);
+          }
+        };
+
+        document.body.style.overflow = "hidden";
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+          document.body.style.overflow = previousOverflow;
+          document.removeEventListener("keydown", handleKeyDown);
+        };
+      }, [showPrintOptions]);
+
       const activeOutcome =
         OUTCOMES.find((outcome) => outcome.id === activeOutcomeId) ||
         OUTCOMES[0];
@@ -12717,75 +13361,115 @@
                     <button
                       className="button secondary"
                       type="button"
+                      onClick={handleExport}
+                    >
+                      Export plan (.txt)
+                    </button>
+                    <button
+                      className="button"
+                      type="button"
+                      aria-haspopup="dialog"
                       aria-expanded={showPrintOptions}
                       aria-controls="plan-print-options"
-                      onClick={() => setShowPrintOptions((current) => !current)}
+                      onClick={() => setShowPrintOptions(true)}
                     >
                       Print / Save as PDF
-                    </button>
-                    <button className="button" type="button" onClick={handleExport}>
-                      Export plan (.txt)
                     </button>
                   </div>
                 </div>
 
                 {showPrintOptions && (
-                  <aside
-                    id="plan-print-options"
-                    className="plan-print-options"
-                    aria-labelledby="plan-print-options-title"
+                  <div
+                    className="plan-print-modal-backdrop"
+                    role="presentation"
+                    onMouseDown={(event) => {
+                      if (event.target === event.currentTarget) {
+                        setShowPrintOptions(false);
+                      }
+                    }}
                   >
-                    <h3 id="plan-print-options-title">Print options</h3>
-                    <p>
-                      Choose which supplementary sections to include in the printed
-                      evaluation plan. These options affect print output only.
-                    </p>
+                    <section
+                      id="plan-print-options"
+                      className="plan-print-options"
+                      role="dialog"
+                      aria-modal="true"
+                      aria-labelledby="plan-print-options-title"
+                      aria-describedby="plan-print-options-description"
+                    >
+                      <div className="plan-print-options-header">
+                        <div className="plan-print-options-header-copy">
+                          <h3 id="plan-print-options-title">Print options</h3>
+                          <p id="plan-print-options-description">
+                            Choose which supplementary sections to include in the printed
+                            evaluation plan. These options affect print output only.
+                          </p>
+                          <p className="plan-print-resources-note">
+                            These supplementary materials are also available in the Resources
+                            section of the guide. <strong>We strongly encourage you to explore
+                            the Resources page</strong> for guiding frameworks, health care case
+                            examples, and complete references that may help you refine your
+                            evaluation plan.
+                          </p>
+                        </div>
+                        <button
+                          className="plan-print-options-close"
+                          type="button"
+                          aria-label="Close print options"
+                          onClick={() => setShowPrintOptions(false)}
+                        >
+                          ×
+                        </button>
+                      </div>
 
-                    <div className="plan-print-option-list">
-                      <label className="plan-print-option">
-                        <input
-                          type="checkbox"
-                          checked={includeReferences}
-                          onChange={(event) =>
-                            setIncludeReferences(event.target.checked)
-                          }
-                        />
-                        <span>Include references cited in this plan</span>
-                      </label>
+                      <div className="plan-print-option-list">
+                        <label className="plan-print-option">
+                          <input
+                            type="checkbox"
+                            checked={includeReferences}
+                            onChange={(event) =>
+                              setIncludeReferences(event.target.checked)
+                            }
+                          />
+                          <span>Include references cited in this plan</span>
+                        </label>
 
-                      <label className="plan-print-option">
-                        <input
-                          type="checkbox"
-                          checked={includeCaseExamples}
-                          onChange={(event) =>
-                            setIncludeCaseExamples(event.target.checked)
-                          }
-                        />
-                        <span>Include health care case examples</span>
-                      </label>
+                        <label className="plan-print-option">
+                          <input
+                            type="checkbox"
+                            checked={includeCaseExamples}
+                            onChange={(event) =>
+                              setIncludeCaseExamples(event.target.checked)
+                            }
+                          />
+                          <span>Include health care case examples</span>
+                        </label>
 
-                      <label className="plan-print-option">
-                        <input
-                          type="checkbox"
-                          checked={includeGuidingFrameworks}
-                          onChange={(event) =>
-                            setIncludeGuidingFrameworks(event.target.checked)
-                          }
-                        />
-                        <span>Include guiding frameworks</span>
-                      </label>
-                    </div>
+                        <label className="plan-print-option">
+                          <input
+                            type="checkbox"
+                            checked={includeGuidingFrameworks}
+                            onChange={(event) =>
+                              setIncludeGuidingFrameworks(event.target.checked)
+                            }
+                          />
+                          <span>Include guiding frameworks</span>
+                        </label>
+                      </div>
 
-                    <div className="button-row">
-                      <button
-                        className="button"
-                        type="button"
-                        onClick={() => window.print()}
-                      >
-                        Print / Save as PDF
-                      </button>
-                    </div>
-                  </aside>
+                      <div className="button-row">
+                        <button
+                          className="button"
+                          type="button"
+                          onClick={() => {
+                            setShowPrintOptions(false);
+                            window.setTimeout(() => window.print(), 0);
+                          }}
+                        >
+                          Print / Save as PDF
+                        </button>
+                      </div>
+                    </section>
+                  </div>
                 )}
 
                 <section className="plan-outcome-selector" aria-labelledby="plan-outcomes-title">
@@ -13026,20 +13710,30 @@
                   </div>
                 </section>
 
-                <div className="next-step interest-next-step">
-                  <div>
-                    <h2>Keep this plan in motion</h2>
-                    <p>
-                      Use the plan as a working document for team discussion, evaluation planning, and future refinement.
-                    </p>
-                  </div>
-
-                  <div className="next-step-actions">
+                <div className="next-step interest-next-step has-step-navigation">
+                  <div className="next-step-back">
                     <PageLink route="evaluation-strategies" secondary>
                       <span aria-hidden="true">←</span>
                       Back to Evaluation Strategies
                     </PageLink>
+                  </div>
 
+                  <div className="next-step-copy">
+                    <h2>Keep this plan in motion</h2>
+                    <p className="next-step-primary-guidance">
+                      When you have reviewed and refined your evaluation plan,
+                      explore additional resources to support your next steps.
+                    </p>
+                    <p className="next-step-supporting-copy">
+                      Use the plan as a working document for team discussion,
+                      evaluation planning, and future refinement. Explore the
+                      additional resources for guiding frameworks, health care
+                      case examples, and complete references that can further
+                      support mid-design evaluation.
+                    </p>
+                  </div>
+
+                  <div className="next-step-forward">
                     <PageLink route="resources">
                       Continue to Resources
                       <span aria-hidden="true">→</span>
@@ -13496,8 +14190,15 @@
                 </details>
               </div>
 
-              <div className="next-step resources-back-step">
-                <div>
+              <div className="next-step resources-back-step has-step-navigation">
+                <div className="next-step-back">
+                  <PageLink route="final-plan" secondary>
+                    <span aria-hidden="true">←</span>
+                    Back to Evaluation Plan
+                  </PageLink>
+                </div>
+
+                <div className="next-step-copy">
                   <h2>Return to your evaluation plan</h2>
                   <p>
                     Go back to review or refine your working plan and print or export
@@ -13505,12 +14206,7 @@
                   </p>
                 </div>
 
-                <div className="next-step-actions">
-                  <PageLink route="final-plan" secondary>
-                    <span aria-hidden="true">←</span>
-                    Back to Evaluation Plan
-                  </PageLink>
-                </div>
+                <div className="next-step-forward-spacer" aria-hidden="true"></div>
               </div>
             </div>
           </section>
@@ -13565,7 +14261,23 @@
         });
       }
 
+      function ensureImplementationOutcomeSelected(outcomeId) {
+        setImplementationOutcomeSelections((currentSelections) =>
+          currentSelections.includes(outcomeId)
+            ? currentSelections
+            : [...currentSelections, outcomeId]
+        );
+      }
+
       function toggleInterestHolder(outcomeId, roleId) {
+        const isCurrentlySelected = (
+          interestHolderSelections[outcomeId] || []
+        ).includes(roleId);
+
+        if (!isCurrentlySelected) {
+          ensureImplementationOutcomeSelected(outcomeId);
+        }
+
         setInterestHolderSelections((currentSelections) => {
           const currentOutcomeSelections = new Set(
             currentSelections[outcomeId] || []
@@ -13585,6 +14297,8 @@
       }
 
       function addCustomInterestHolder(outcomeId, name, note) {
+        ensureImplementationOutcomeSelected(outcomeId);
+
         const customId = `custom-${Date.now()}-${Math.random()
           .toString(36)
           .slice(2, 8)}`;
@@ -13608,6 +14322,14 @@
       }
 
       function toggleCustomInterestHolder(outcomeId, customId) {
+        const isCurrentlySelected = (
+          customInterestHolderSelections[outcomeId] || []
+        ).includes(customId);
+
+        if (!isCurrentlySelected) {
+          ensureImplementationOutcomeSelected(outcomeId);
+        }
+
         setCustomInterestHolderSelections((currentSelections) => {
           const currentOutcomeSelections = new Set(
             currentSelections[outcomeId] || []
@@ -13669,6 +14391,14 @@
         groupId,
         strategyId
       ) {
+        const isCurrentlySelected = (
+          evaluationStrategySelections[outcomeId]?.[groupId] || []
+        ).includes(strategyId);
+
+        if (!isCurrentlySelected) {
+          ensureImplementationOutcomeSelected(outcomeId);
+        }
+
         setEvaluationStrategySelections((currentSelections) => {
           const currentOutcomeSelections =
             currentSelections[outcomeId] || {};
