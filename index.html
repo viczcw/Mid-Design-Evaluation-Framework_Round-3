@@ -838,6 +838,27 @@
       border-color: white;
     }
 
+    .next-step-actions {
+      display: flex;
+      flex: 0 0 auto;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .next-step .next-step-actions .button.secondary {
+      color: white;
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.72);
+    }
+
+    .next-step .next-step-actions .button.secondary:hover {
+      color: var(--accent-dark);
+      background: white;
+      border-color: white;
+    }
+
     .outcome-layout {
       display: grid;
       grid-template-columns: minmax(180px, 0.27fr) minmax(0, 1fr);
@@ -1011,9 +1032,26 @@
       gap: 10px;
     }
 
+    .outcome-nav-item {
+      position: relative;
+      min-width: 0;
+    }
+
+    .outcome-nav-item .outcome-button {
+      padding-right: 48px;
+    }
+
+    .outcome-nav-item .outcome-selection-count {
+      margin-right: 28px;
+    }
+
     .outcome-interest-status {
+      position: absolute;
+      top: 50%;
+      right: 12px;
       width: 22px;
       height: 22px;
+      padding: 0;
       display: grid;
       flex: 0 0 auto;
       place-items: center;
@@ -1024,10 +1062,16 @@
       font-size: 0.72rem;
       font-weight: 900;
       line-height: 1;
+      cursor: pointer;
+      transform: translateY(-50%);
       transition:
         color 140ms ease,
         background 140ms ease,
         border-color 140ms ease;
+    }
+
+    .outcome-interest-status:hover {
+      border-color: var(--accent);
     }
 
     .outcome-interest-status.is-selected {
@@ -1793,6 +1837,10 @@
       margin-top: 28px;
     }
 
+    .resources-back-step {
+      margin-top: 28px;
+    }
+
     .outcome-next-step {
       margin-top: clamp(32px, 4vw, 46px);
     }
@@ -1958,7 +2006,6 @@
       border-top: 1px solid var(--line);
     }
 
-    .strategy-visual summary,
     .custom-notes-editor summary {
       color: var(--accent-dark);
       font-size: 0.78rem;
@@ -2237,43 +2284,31 @@
     }
 
     .citation-number {
-      position: relative;
       display: inline-block;
       color: var(--accent-dark);
       font-weight: 800;
       cursor: help;
+      text-decoration: none;
     }
 
-    .citation-number::after {
-      position: absolute;
-      right: 0;
-      bottom: calc(100% + 9px);
+    .citation-popover {
+      position: fixed;
       z-index: 80;
-      width: min(420px, 78vw);
+      width: min(420px, calc(100vw - 24px));
+      max-height: calc(100vh - 24px);
       padding: 11px 12px;
+      overflow-y: auto;
       color: var(--ink);
       background: white;
       border: 1px solid var(--line-strong);
       border-radius: 9px;
       box-shadow: 0 12px 28px rgba(24, 52, 61, 0.16);
-      content: attr(data-citation);
       font-size: 0.78rem;
       font-weight: 500;
       line-height: 1.48;
       text-align: left;
       white-space: normal;
-      opacity: 0;
       pointer-events: none;
-      transform: translateY(4px);
-      transition:
-        opacity 120ms ease,
-        transform 120ms ease;
-    }
-
-    .citation-number:hover::after,
-    .citation-number:focus-visible::after {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     .citation-number:focus-visible {
@@ -2771,6 +2806,12 @@
       .button-row,
       .button-row .button {
         width: 100%;
+      }
+
+      .next-step-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
       }
 
       .outcome-navigation,
@@ -3393,8 +3434,7 @@
       margin-top: 28px;
     }
 
-    .scaffold-groups > h4,
-    .scaffold-family-reflection > h4 {
+    .scaffold-groups > h4 {
       margin: 0 0 14px;
       font-size: 1.04rem;
       line-height: 1.35;
@@ -3515,11 +3555,6 @@
       color: var(--ink);
     }
 
-    .scaffold-family-reflection {
-      margin-top: 30px;
-      padding-top: 27px;
-      border-top: 1px solid var(--line);
-    }
 
     .scaffold-reflection-grid {
       margin: 0;
@@ -4008,6 +4043,30 @@
       font-size: 0.84rem;
       line-height: 1.58;
       white-space: pre-wrap;
+    }
+
+    .plan-reflection-card label {
+      display: block;
+    }
+
+    .plan-reflection-card textarea {
+      width: 100%;
+      min-height: 132px;
+      padding: 11px 12px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      font: inherit;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      resize: vertical;
+    }
+
+    .plan-reflection-card textarea:focus {
+      border-color: var(--accent);
+      outline: 3px solid rgba(23, 108, 116, 0.2);
+      outline-offset: 2px;
     }
 
     .page-reflection-grid li:last-child:nth-child(odd) {
@@ -5130,40 +5189,50 @@
       line-height: 1.55;
     }
 
-    .plan-print-only {
-      display: none;
-    }
-
-    .plan-print-outcome {
-      break-inside: avoid;
-      page-break-inside: avoid;
-      margin-bottom: 28px;
-    }
-
-    .plan-print-outcome h2 {
-      margin-bottom: 8px;
-    }
-
-    .plan-print-group {
+    .plan-print-options {
       margin-top: 16px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
     }
 
-    .plan-print-group h3 {
-      margin-bottom: 7px;
+    .plan-print-options h3 {
+      margin-bottom: 5px;
       font-size: 1rem;
     }
 
-    .plan-print-group ul {
-      margin: 0;
-      padding-left: 20px;
+    .plan-print-options > p {
+      margin: 0 0 12px;
+      color: var(--ink-soft);
+      font-size: 0.8rem;
     }
 
-    .plan-print-group li + li {
-      margin-top: 5px;
+    .plan-print-option-list {
+      display: grid;
+      gap: 8px;
     }
 
-    .plan-print-group > p {
-      white-space: pre-wrap;
+    .plan-print-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      color: var(--ink);
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .plan-print-option input {
+      margin-top: 3px;
+      accent-color: var(--accent);
+    }
+
+    .plan-print-options .button-row {
+      margin-top: 14px;
+    }
+
+    .plan-print-only {
+      display: none;
     }
 
     /* Keep the full decision space visible in the Builder.
@@ -5343,6 +5412,11 @@
         justify-content: flex-start;
       }
 
+      .plan-print-options .button-row,
+      .plan-print-options .button {
+        width: 100%;
+      }
+
       .plan-outcome-options,
       .plan-add-options,
       .plan-builder-sidebar,
@@ -5369,32 +5443,340 @@
 
     @media print {
       @page {
-        margin: 0.55in;
+        margin: 0.58in;
       }
 
       .site-header,
       .site-footer,
       .develop-plan-fullscreen-hero,
-      .plan-workspace-screen {
+      .plan-workspace-screen,
+      .next-step,
+      .scroll-prompt,
+      .citation-popover {
         display: none !important;
+      }
+
+      html,
+      body,
+      #root,
+      main,
+      .develop-plan-page,
+      .plan-builder-section,
+      .plan-builder-section > .container {
+        width: auto !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
       }
 
       .plan-builder-section.section {
         padding: 0 !important;
+        background: white !important;
+        border: 0 !important;
       }
 
       .plan-print-only {
         display: block !important;
+        color: #171717 !important;
+        background: white !important;
+        font-size: 10.5pt;
+        line-height: 1.42;
+      }
+
+      .plan-print-only,
+      .plan-print-only * {
+        box-sizing: border-box;
+        max-width: 100%;
       }
 
       body {
-        color: #111 !important;
+        color: #171717 !important;
         background: white !important;
       }
 
-      a {
+      .plan-print-report-header {
+        margin-bottom: 24px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid #26383e;
+      }
+
+      .plan-print-report-header h1 {
+        margin: 0 0 7px !important;
+        color: #17282f !important;
+        font-size: 21pt !important;
+        line-height: 1.15 !important;
+      }
+
+      .plan-print-report-header p {
+        max-width: 7.2in;
+        margin: 0;
+        color: #465d67 !important;
+        font-size: 10pt;
+      }
+
+      .plan-print-outcome {
+        margin: 0 0 24px;
+        padding: 16px 17px;
+        border: 1px solid #b9c6ca;
+        border-radius: 8px;
+        break-inside: auto;
+        page-break-inside: auto;
+      }
+
+      .plan-print-outcome > h2 {
+        margin: 0 0 7px !important;
+        color: #0e5057 !important;
+        font-size: 15pt !important;
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .plan-print-outcome-definition {
+        margin: 0 0 14px;
+        color: #344b54;
+      }
+
+      .plan-print-section {
+        margin-top: 16px;
+        padding-top: 12px;
+        border-top: 1px solid #d7e1e4;
+      }
+
+      .plan-print-section > h3 {
+        margin: 0 0 9px !important;
+        color: #17282f !important;
+        font-size: 11.5pt !important;
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .plan-print-item {
+        margin: 0 0 9px;
+        padding: 9px 10px;
+        border: 1px solid #d7e1e4;
+        border-radius: 5px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .plan-print-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .plan-print-item-title {
+        margin: 0 0 4px;
+        color: #17282f;
+        font-weight: 700;
+      }
+
+      .plan-print-item-description {
+        margin: 0 0 7px;
+        color: #465d67;
+        font-size: 9.4pt;
+      }
+
+      .plan-print-field {
+        display: grid;
+        grid-template-columns: 1.35in minmax(0, 1fr);
+        gap: 8px;
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px solid #edf1f2;
+      }
+
+      .plan-print-field-label {
+        color: #465d67;
+        font-size: 8.5pt;
+        font-weight: 700;
+      }
+
+      .plan-print-field-value {
+        min-height: 1.05em;
+        margin: 0;
+        color: #171717;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
+      .plan-print-prompt-list {
+        margin: 7px 0 0;
+        padding-left: 18px;
+      }
+
+      .plan-print-prompt-list li {
+        margin: 3px 0;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .plan-print-empty {
+        margin: 0;
+        color: #667982;
+        font-style: italic;
+      }
+
+      .plan-print-major-section {
+        margin-top: 24px;
+      }
+
+      .plan-print-major-section > h2 {
+        margin: 0 0 12px !important;
+        color: #17282f !important;
+        font-size: 15pt !important;
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .plan-print-reflection-section,
+      .plan-print-references,
+      .plan-print-appendix {
+        break-before: auto;
+        page-break-before: auto;
+      }
+
+      .plan-print-reflection-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .plan-print-reflection-card {
+        padding: 10px 11px;
+        border: 1px solid #c7d2d5;
+        border-radius: 5px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .plan-print-reflection-card h3 {
+        margin: 0 0 5px !important;
+        font-size: 10.5pt !important;
+      }
+
+      .plan-print-reflection-card p {
+        min-height: 1.1em;
+        margin: 0;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
+      .plan-print-reference-list {
+        margin: 0;
+        padding-left: 28px;
+      }
+
+      .plan-print-reference-list li {
+        margin: 0 0 7px;
+        padding-left: 3px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        overflow-wrap: anywhere;
+      }
+
+      .plan-print-reference-list a {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .plan-print-appendix {
+        break-before: page;
+        page-break-before: always;
+      }
+
+      .plan-print-case,
+      .plan-print-framework {
+        margin: 0 0 18px;
+        padding: 12px;
+        border: 1px solid #d7e1e4;
+        border-radius: 6px;
+        break-inside: auto;
+      }
+
+      .plan-print-case > h3,
+      .plan-print-framework > h3 {
+        margin: 0 0 6px !important;
+        color: #0e5057 !important;
+        font-size: 12pt !important;
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .plan-print-case h4,
+      .plan-print-framework h4 {
+        margin: 10px 0 5px !important;
+        font-size: 10pt !important;
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .plan-print-case .resource-case-context {
+        margin: 6px 0 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1.25in minmax(0, 1fr);
+        gap: 4px 10px;
+        background: transparent;
+      }
+
+      .plan-print-case .resource-case-context dt {
+        font-weight: 700;
+      }
+
+      .plan-print-case .resource-case-context dd {
+        margin: 0;
+      }
+
+      .plan-print-case .resource-outcome-evidence {
+        margin: 0 0 7px;
+        padding: 8px;
+        border: 1px solid #e1e7e9;
+        border-radius: 4px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .plan-print-case .resource-outcome-evidence h5 {
+        margin: 0 0 3px;
+        font-size: 9.5pt;
+      }
+
+      .plan-print-case .resource-evidence-relationship {
+        display: block;
+        margin-top: 3px;
+        color: #465d67;
+        font-size: 8.5pt;
+        font-weight: 700;
+      }
+
+      .plan-print-framework p,
+      .plan-print-case p {
+        overflow-wrap: anywhere;
+      }
+
+      .plan-print-framework .citation,
+      .plan-print-case .citation,
+      .plan-print-only .citation {
+        white-space: nowrap;
+      }
+
+      .plan-print-only a {
         color: inherit !important;
         text-decoration: none !important;
+      }
+
+      .plan-print-only h1,
+      .plan-print-only h2,
+      .plan-print-only h3,
+      .plan-print-only h4 {
+        orphans: 3;
+        widows: 3;
+      }
+
+      .plan-print-only p,
+      .plan-print-only li,
+      .plan-print-only dd {
+        orphans: 3;
+        widows: 3;
       }
 
       * {
@@ -5477,8 +5859,9 @@
       "proctor2011",
       "lewis2015",
       "thiyagarajan2025hpv",
+      "frankowitz2026",
       "thiyagarajan2025ecv",
-      "suchman2023",
+      "birabwa2025",
       "sedlander2025",
       "gaglio2013",
       "glasgow2018",
@@ -5486,7 +5869,6 @@
       "shaw2019",
       "klaic2022",
       "bowen2009",
-      "frankowitz2026",
       "miakelye2017",
       "gold2022",
       "carroll2007",
@@ -5508,6 +5890,7 @@
       "green2015",
       "palinkas2011",
       "hamilton2019",
+      "suchman2023",
       "weiner2017",
       "lyon2021",
       "atkins2017",
@@ -5519,6 +5902,7 @@
       "harris1997",
       "rahimi2018",
       "shea2014",
+      "wagner2020",
       "gray2023",
       "seagull2014",
       "forgatch2005",
@@ -5555,6 +5939,10 @@
       "thiyagarajan2025ecv": {
             "citation": "Thiyagarajan, D., Gauger, M., Patel, R., Quarshie, T., Adanu, E. A., Kramer, J., Sienko, K. H., Moyer, C. A., Stout, M., Rooney, D. M., Oppong, S. A., Swarray-Deen, A., & Lawrence, E. (2025). Development and evaluation of an external cephalic version simulation-based educational program. AJOG Global Reports, 6(1), Article 100577.",
             "url": "https://doi.org/10.1016/j.xagr.2025.100577"
+      },
+      "birabwa2025": {
+            "citation": "Birabwa, C., Phillips, B., Amongin, D., Atuyambe, L., Turinayo, A., Etap, J., Kaudha, B., Alum, S., Agnes, K., Kramer, J., Sedlander, E., Liu, J., Holt, K., & Waiswa, P. (2025). Development of a community-based peer-support intervention to improve contraceptive agency and diffuse self-injectable contraception in Uganda: Application of the human-centered design approach. BMC Women’s Health, 25(S1), 110.",
+            "url": "https://doi.org/10.1186/s12905-025-03614-5"
       },
       "suchman2023": {
             "citation": "Suchman, L., Omoluabi, E., Kramer, J., Vallin, J., Sedlander, E., Gitome, S., Wekesa, P., Kwena, Z., Granovsky, R., Kayego, A., Kaudha, B., Atuyambe, L., Amongin, D., Alitubeera, P., Tijani, A., Okoli, C., Jegede, A., Kamanga, M., Nyando, M., Ndunyu, L., Holt, K., & The I-CAN Contraceptive Self-Injection Support Program in Uganda Research Consortium. (2023). Analyzing fast and slow: Combining traditional and rapid qualitative analysis to meet multiple objectives of a complex transnational study. Frontiers in Sociology, 8, Article 961202.",
@@ -5720,6 +6108,10 @@
             "citation": "Shea, C. M., Jacobs, S. R., Esserman, D. A., Bruce, K., & Weiner, B. J. (2014). Organizational readiness for implementing change: A psychometric assessment of a new measure. Implementation Science, 9, Article 7.",
             "url": "https://doi.org/10.1186/1748-5908-9-7"
       },
+      "wagner2020": {
+            "citation": "Wagner, T. H., Yoon, J., Jacobs, J. C., So, A., Kilbourne, A. M., Yu, W., & Goodrich, D. E. (2020). Estimating Costs of an Implementation Intervention. Medical Decision Making, 40(8), 959–967.",
+            "url": "https://doi.org/10.1177/0272989X20960455"
+      },
       "gray2023": {
             "citation": "Gray, J., Thynne, T. R., Eaton, V., Reade, B., Larcombe, R., Baldacchino, L., Gehlert, J., Hakendorf, P., Karnon, J., & Southern Adelaide Local Health Network’s (SALHN) Hypoglycaemia Clinical Working Group. (2023). A framework for local-level economic evaluation to inform implementation decisions: Health service interventions to prevent hospital-acquired hypoglycemia. International Journal of Technology Assessment in Health Care, 39(1), Article e74.",
             "url": "https://doi.org/10.1017/S0266462323002775"
@@ -5848,6 +6240,7 @@
       "Harris et al., 1997": "harris1997",
       "Rahimi et al., 2018": "rahimi2018",
       "Shea et al., 2014": "shea2014",
+      "Wagner et al., 2020": "wagner2020",
       "Gray et al., 2023": "gray2023",
       "Seagull & Rooney, 2014": "seagull2014",
       "Forgatch et al., 2005": "forgatch2005",
@@ -5865,8 +6258,11 @@
       "Feldstein & Glasgow, 2008": "feldstein2008",
       "McCreight et al., 2019": "mccreight2019",
       "Lyon et al., 2019": "lyon2019",
-      "Carayon et al., 2006": "carayon2006"
-};
+      "Carayon et al., 2006": "carayon2006",
+      "Birabwa et al., 2025": "birabwa2025",
+      "Sedlander et al., 2025": "sedlander2025",
+      "Suchman et al., 2023": "suchman2023"
+    };
 
     const REFERENCE_NUMBER_BY_ID = Object.fromEntries(
       REFERENCE_ORDER.map((referenceId, index) => [referenceId, index + 1])
@@ -5875,7 +6271,7 @@
     const CASE_REFERENCE_IDS = {
       hpv: ["thiyagarajan2025hpv", "frankowitz2026"],
       ecv: ["thiyagarajan2025ecv"],
-      contraception: ["suchman2023", "sedlander2025"],
+      contraception: ["birabwa2025", "sedlander2025"],
     };
 
     const GUIDE_CITATION_TEXT =
@@ -5916,12 +6312,6 @@
               "Future patients; later cohorts of learners; populations at expansion sites; communities reached after scale-up.",
           },
         ],
-        reflectionPrompts: [
-          "Who experiences the innovation's effects most directly, and who may experience consequences without directly receiving or using it?",
-          "Are you considering both proximity of impact (direct vs. indirect) and timing of impact (current vs. future/downstream)? Why?",
-          "What are some groups that may be indirectly affected now but directly affected later, or otherwise fit more than one affectedness category?",
-          "Who may experience burden, risk, exclusion, or unintended consequences even if they are not an intended beneficiary?",
-        ],
         evidenceGuidance: [
           "Health-intervention effects can extend beyond intervention users to caregivers, family members, coworkers, organizations, and other parties; the relevance of these indirect beneficiaries is context-specific (Mendoza-Jimenez et al., 2024). Health-technology design research similarly argues for looking beyond the direct end user to broader interest holder needs and contexts (Rodriguez et al., 2023). Research on indirect interest holder identification also shows that people who are affected without directly using a technology are easy to overlook in practice (Muller et al., 2022). Recent mHealth evidence reinforces the importance of considering unintended effects on people beyond the intended audience and across interpersonal and community levels (Cao et al., 2025).",
           "It is also recommended to treat direct vs. indirect impact and current vs. future/downstream impact as related but different dimensions. The three specific groups can remain useful categorizations, but they should not be presented as mutually exclusive bins. 'Future/downstream' is best understood as a temporal lens that can overlap with direct or indirect affectedness.",
@@ -5961,13 +6351,6 @@
               "Residents learning a procedure; nurses trained on a device; community workers preparing to deliver a program; patients or caregivers learning self-use.",
           },
         ],
-        reflectionPrompts: [
-          "Who will actually operate the innovation, and is that the same person or group that receives its intended benefit?",
-          "How might people’s roles, working conditions, or available resources shape their experience with the innovation?",
-          "How might the innovation distribute workload, responsibility, risk, or benefit differently across the people who use or deliver it?",
-          "Whose knowledge, skills, or lived experience should inform how the innovation is designed, implemented, or taught?",
-          "Who might be overlooked, excluded, or disproportionately burdened by the way the innovation is currently designed or introduced?",
-        ],
         evidenceGuidance: [
           "The updated Consolidated Framework for Implementation Research (CFIR) explicitly separates Innovation Deliverers from Innovation Recipients (Damschroder et al., 2022). Medical-device design research also shows that the patient, intended beneficiary, device operator, and other engaged stakeholders cannot be assumed to be the same person (Coulentianos et al., 2022; Rodriguez et al., 2023). It is thus recommended to keep user/operator, deliverer, and learner as distinct prompts, while explicitly allowing overlap. Role overlap is informative rather than a classification mistake because the same person can experience multiple kinds of responsibility and impact.",
         ],
@@ -6005,13 +6388,6 @@
             examples:
               "IT or clinical informatics; EMR support; biomedical engineering; specialist or maintenance; sterile processing; supply chain; workflow or QI staff.",
           },
-        ],
-        reflectionPrompts: [
-          "Who is expected to make implementation happen in practice, and who has the authority to decide how implementation should proceed or change?",
-          "How might implementation leads, team members, and facilitators or coaches differ in their authority, proximity to day-to-day implementation, and ability to influence decisions? Whose perspective may be more likely to shape decisions, and whose may be overlooked?",
-          "Looking across the interest holders you have already identified, who may also be taking on implementation work by coordinating people, adapting workflows, troubleshooting problems, connecting teams, or supporting continued use?",
-          "Who is doing implementation work that may be informal, invisible, or not reflected in their job title? Who tends to absorb extra coordination, troubleshooting, follow-up, or adaptation work when implementation becomes difficult?",
-          "What existing project information could help you identify these groups, for example, implementation plans, workflow maps, or budget ownership?",
         ],
         evidenceGuidance: [
           "The updated Consolidated Framework for Implementation Research (CFIR) distinguishes Implementation Facilitators, Implementation Leads, Implementation Team Members, Other Implementation Support, Innovation Deliverers, and Innovation Recipients, reflecting different implementation responsibilities (Damschroder et al., 2022). It is important to reflect on different responsibilities to identify whose workload, expertise, infrastructure, or accountability is actually affected by the design.",
@@ -6059,12 +6435,6 @@
               "Budget officers; procurement staff; finance leaders; contracting teams.",
           },
         ],
-        reflectionPrompts: [
-          "How is formal decision-making authority distributed across organizational, clinical, operational, and financial levels? What decisions can people at different levels make about approving, prioritizing, resourcing, modifying, or discontinuing the innovation?",
-          "Who influences how others interpret or respond to a new innovation without holding formal decision authority? How might you identify these people, for example, by asking who others seek out for advice, whose endorsement carries weight, or who has shaped previous changes in the setting?",
-          "Where do formal authority and informal influence align, and where do they diverge? How might implementation be affected when someone has decision-making authority but limited local credibility, or substantial influence but little formal authority?",
-          "When priorities or perspectives conflict across levels, who ultimately determines what happens, who is expected to accommodate the decision, and who experiences the consequences?",
-        ],
         evidenceGuidance: [
           "It is recommended to preserve distinctions among strategic authority, operational authority, informal influence, and internal financial/procurement responsibility. Combining them under a single 'decision-maker' label risks obscuring different evidence needs and different forms of accountability.",
         ],
@@ -6103,6 +6473,14 @@
               "Product developers; manufacturers; software vendors; component suppliers; service or maintenance partners.",
           },
           {
+            id: "competitors-alternative-solution-providers",
+            label: "Competitors / alternative solution providers",
+            explanation:
+              "People, organizations, or groups offering existing or emerging products, services, programs, or workflows that address the same need or compete for adoption, purchasing, use, or resources. Their approaches can shape expectations for functionality, workflow fit, interoperability, cost, support, and implementation. Examining where competing approaches succeed or struggle can help benchmark implementation requirements and identify opportunities for differentiation or improvement.",
+            examples:
+              "Competing product or device developers; alternative diagnostic, treatment, or service providers; incumbent software vendors; alternative workflows or service models.",
+          },
+          {
             id: "community-advocacy-partners",
             label: "Community/advocacy/partner organizations",
             explanation:
@@ -6110,13 +6488,6 @@
             examples:
               "Patient advocacy groups; community-based organizations; NGOs; local partner organizations; public representatives.",
           },
-        ],
-        reflectionPrompts: [
-          "What counts as “external” in your project context? Which organizations, units, or groups sit outside the immediate implementation setting but still shape requirements, access, resources, technical continuity, or public legitimacy?",
-          "How might similar functions be organized differently across institutions, health systems, states, countries, or other local contexts? What titles, departments, or organizational structures would you need to understand before deciding who fits within this family?",
-          "Which external interest holders are difficult to access directly, and what other sources could help you understand their perspectives? Consider policy documents, regulatory guidance, procurement criteria, reimbursement policies, contracts, market reports, prior studies, community reports, or other existing evidence.",
-          "Which affected communities, advocacy groups, professional associations, or organized constituencies sit outside the design team’s current network but may hold relevant interests? What relationships, intermediaries, or existing networks could help identify or reach them?",
-          "How might the external ecosystem differ if the innovation is used in another state, country, health system, or organizational setting? Which regulatory requirements, financing or reimbursement arrangements, procurement pathways, supply relationships, or community structures may change across contexts, and which are likely to remain stable?",
         ],
         evidenceGuidance: [
           "Health-technology design research emphasizes the need to look beyond direct users to the wider technical, organizational, regulatory, financial, and community context (Coulentianos et al., 2022; Rodriguez et al., 2023). It is recommended to not treat every ecosystem actor as universally relevant. Relevance should be determined by the actor's responsibility, exposure, or effect on the specific innovation and implementation outcome(s) of interest.",
@@ -6132,19 +6503,7 @@
         question:
           "Which implementation outcomes are most important and actionable for your project at this stage?",
         guidance:
-          "Several, or even all, implementation outcomes may be relevant to your project, but they may not be equally important to evaluate right now. Review the information provided for each outcome, paying particular attention to its Mid-Design Relevance and Key Considerations, and consider which outcomes address the most important implementation concerns or opportunities for your project. Prioritize those outcomes in your current evaluation plan. You can return to the guide as other outcomes become more important later.",
-      },
-      {
-        question:
-          "How does each priority implementation outcome connect to what your team is currently designing, refining, testing, or preparing for?",
-        guidance:
-          "Consider how the outcome connects to aspects of your innovation or implementation approach that your team can still design, modify, test, or prepare for. Pay particular attention to areas where your team is uncertain about how the innovation will work in practice, or where learning about the outcome could influence the design process, implementation planning, or the resulting design.",
-      },
-      {
-        question:
-          "Which implementation outcomes should you focus on now, and which may be more appropriate to revisit later?",
-        guidance:
-          "Consider what your team already knows, what uncertainties need attention at the current design stage, and what may be more useful to evaluate as the innovation or implementation plan develops. An outcome can be important to your project without needing to be evaluated immediately. Note any outcomes that should remain part of your longer-term evaluation plans.",
+          "Several, or even all, implementation outcomes may be relevant to your project, but they may not be equally important to evaluate right now. Review the information provided for each outcome, paying particular attention to its Mid-Design Relevance and Key Considerations, and consider which outcomes address the most important implementation concerns or opportunities for your project. Consider how each outcome connects to aspects of your innovation or implementation approach that your team can still design, modify, test, or prepare for, especially where your team is uncertain about how the innovation will work in practice or where learning about the outcome could influence the design process, implementation planning, or the resulting design. Also consider what your team already knows and which outcomes may be more useful to revisit as the innovation or implementation plan develops. You can return to the guide as other outcomes become more important later.",
       },
       {
         question:
@@ -6163,9 +6522,9 @@
       },
       {
         question:
-          "How did you identify your interest holders, and whose perspectives might your current approach make easier to see or easier to miss?",
+          "How did you identify your interest holders, whose perspectives might your current approach make easier to see or easier to miss, and how will you address perspectives you cannot engage directly at this stage?",
         guidance:
-          "Look beyond familiar collaborators, formal job titles, and people who are easiest to access. Consider lived experience, locally situated or experiential knowledge, and people whose perspectives may be less visible in traditional design or organizational processes. Perspectives that differ from the design team’s assumptions or expertise may reveal needs, burdens, or implementation conditions that the team would otherwise overlook.",
+          "Look beyond familiar collaborators, formal job titles, and people who are easiest to access. Consider lived experience, locally situated or experiential knowledge, and people whose perspectives may be less visible in traditional design or organizational processes. Given your current time, access, and resources, consider which groups you can engage directly and where existing research, organizational or administrative data, community or professional intermediaries, or prior engagement findings may help address remaining gaps. Indirect sources can provide useful evidence, but they should not be treated as equivalent to hearing directly from the people whose perspectives they represent.",
       },
       {
         question:
@@ -6173,20 +6532,14 @@
         guidance:
           "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value. Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation.",
       },
-      {
-        question:
-          "Given your current time, access, and resources, which interest holders can you realistically engage directly, and which perspectives may need to be addressed later or through other sources?",
-        guidance:
-          "Direct engagement is encouraged when feasible, particularly when an interest holder has lived, experiential, or contextual knowledge that may not be captured elsewhere. When direct engagement is not possible, consider existing research, organizational or administrative data, community or professional intermediaries, or prior engagement findings. These indirect sources can provide useful evidence, but they should not be treated as equivalent to hearing directly from the people whose perspectives they represent.",
-      },
     ];
 
     const EVALUATION_STRATEGY_REFLECTION = [
       {
         question:
-          "For each priority implementation outcome, which interest holders can provide the evidence you need, and which evaluation strategies are appropriate for learning from them?",
+          "For each priority implementation outcome, which evaluation strategies are most appropriate for generating the evidence you need?",
         guidance:
-          "Trace a clear connection between the implementation outcome you want to understand, the interest holder or evidence source that can inform it, and the evaluation strategy you plan to use. Review how the strategy has been used in existing studies or similar contexts, and consider how the resulting evidence could inform your design or implementation decisions.",
+          "Trace a clear connection between the implementation outcome you want to understand and the evaluation strategy you plan to use. Review how the strategy has been used in existing studies or similar contexts, and consider what type of evidence it will generate and how that evidence could inform your design or implementation decisions. Quantitative and qualitative strategies can provide different and complementary forms of evidence. When useful, combining them can support comparison, explanation, or triangulation. Your goal does not need to be methodological completeness. Each selected strategy should have a clear reason for being included and should contribute evidence that helps you understand one or more priority implementation outcomes.",
       },
       {
         question:
@@ -6196,13 +6549,7 @@
       },
       {
         question:
-          "What type of evidence will each selected strategy contribute, and why is that evidence useful for your evaluation?",
-        guidance:
-          "Quantitative and qualitative strategies can provide different and complementary forms of evidence. When useful, combining them can support comparison, explanation, or triangulation. Your goal does not need to be methodological completeness. Each strategy should have a clear reason for being included and should contribute evidence that helps you understand one or more priority implementation outcomes.",
-      },
-      {
-        question:
-          "Looking across your implementation outcomes, interest holders, and evaluation strategies, is anything important missing or no longer necessary?",
+          "Looking across your priority implementation outcomes and selected evaluation strategies, is anything important missing or no longer necessary?",
         guidance:
           "Review the choices and reflections you have made throughout the guide. Add, remove, or revise selections where needed, and note any remaining questions or evidence gaps that require further investigation. When your starting plan feels coherent, continue to Develop Your Evaluation Plan to review and refine the full plan in one place.",
       },
@@ -6637,6 +6984,13 @@
               "Use the Organizational Readiness for Implementing Change instrument to evaluate whether an organization is prepared to adopt and implement a health care innovation. ORIC measures two dimensions of readiness: change commitment, or shared resolve to implement the change, and change efficacy, or shared confidence in the organization’s collective ability to implement the change successfully. In mid-design, ORIC can help designers identify whether adoption may be limited by low organizational motivation, low confidence, unclear implementation capacity, or insufficient collective readiness before the innovation is finalized for implementation.",
           },
           {
+            id: "prospective-micro-costing",
+            outcomeId: "implementation-cost",
+            name: "Prospective Micro-Costing for Implementation Cost Estimation",
+            description:
+              "Use micro-costing to prospectively estimate the resources required to implement a health care innovation. Identify the implementation activities that are expected to occur and the inputs they require, such as personnel time, supplies, space, and information technology. Measure or estimate the quantity of each input, assign an appropriate unit cost, and aggregate these costs over the relevant implementation period. When existing cost data are unavailable or do not apply to the planned implementation, direct measurement of activities and resource use can provide more context-specific estimates. The level of measurement precision should reflect the evaluation need and available resources, and implementation costs should be distinguished from the costs of the innovation itself and other research or downstream costs.",
+          },
+          {
             id: "adaptable-fidelity-evaluation",
             outcomeId: "fidelity",
             name: "Adaptable fidelity evaluation using FIMP-informed or protocol-specific structured evaluation",
@@ -6837,6 +7191,14 @@
         label: "Shea et al., 2014",
         url: "https://doi.org/10.1186/1748-5908-9-7",
       },
+      wagner2020: {
+        label: "Wagner et al., 2020",
+        url: "https://doi.org/10.1177/0272989X20960455",
+      },
+      gold2022: {
+        label: "Gold et al., 2022",
+        url: "https://doi.org/10.1186/s13012-021-01172-6",
+      },
       gray2023: {
         label: "Gray et al., 2023",
         url: "https://doi.org/10.1017/S0266462323002775",
@@ -7006,6 +7368,12 @@
             label: "ORIC instrument",
             url: "https://dissemination-implementation.org/wp-content/uploads/2024/09/ORIC_English.pdf",
           },
+        ],
+      },
+      "prospective-micro-costing": {
+        citations: [
+          STRATEGY_CITATIONS.wagner2020,
+          STRATEGY_CITATIONS.gold2022,
         ],
       },
       "adaptable-fidelity-evaluation": {
@@ -7235,7 +7603,7 @@
         ],
         [
           "Personal willingness to participate",
-          "If this innovation were available to you, would you want to receive or participate in it? Why or why not?",
+          "How interested, if at all, would you be in receiving or participating in this innovation if it were available to you? Please explain.",
         ],
         [
           "Features (dis)encouraging personal participation",
@@ -7572,7 +7940,7 @@
           "Contraceptive Self-Injection Peer-Support Program · Uganda",
         description: {
           text: "A community-based peer-mentorship intervention designed to strengthen contraceptive agency and support women interested in self-injectable contraception.",
-          citations: [9, 10],
+          citations: ["birabwa2025", "sedlander2025"],
         },
         context: [
           {
@@ -7647,7 +8015,7 @@
             caseId: "contraception",
             appearance: {
               text: "The program was developed from women's contraceptive experiences and support needs. Local mentors could provide culturally and contextually relevant support around side effects, partner dynamics, confidentiality, health-service navigation, and self-injection.",
-              citations: [9, 10],
+              citations: ["birabwa2025", "sedlander2025"],
             },
             relationship: "Related / strong evidence",
           },
@@ -7659,6 +8027,8 @@
         definition:
           "The extent to which an innovation is expected to engage its intended recipient population, including the number, proportion, and representativeness of eligible individuals who are willing and likely to be exposed to, receive, or participate in the innovation, as well as who may be missed and why (Gaglio et al., 2013; Glasgow & Estabrooks, 2018).",
         relevance: {
+          tag: "Anticipate & Shape",
+          orientation: "forward",
           text: "Reach is usually not fully evaluable during mid-design because actual exposure and participation depend on how the innovation is offered and accessed in practice. Prospective evaluation can identify who is likely to be reached or missed, why differences may occur, and whether current design and implementation plan can be improved to maximize the potential reach of the intended population.",
         },
         considerations: [
@@ -7667,7 +8037,32 @@
           "Compare the characteristics of people who are reached with those who are eligible but are not reached. Differences across relevant populations can reveal inequities or systematic gaps in access and participation. (Glasgow & Estabrooks, 2018; Holtrop et al., 2021; Shaw et al., 2019)",
           "Examine reasons for participation, nonparticipation, or exclusion. These may arise from the innovation itself, the pathway through which it is offered or accessed, the implementation setting, or individual circumstances. (Glasgow & Estabrooks, 2018; Holtrop et al., 2021; Shaw et al., 2019)",
         ],
-        evidence: [],
+        evidence: [
+          {
+            caseId: "hpv",
+            appearance: {
+              text: "The design explicitly addressed barriers that could limit who is reached by HPV screening in Ghana, where fewer than 5% of women had been screened. Cost, limited access to trained clinicians, and patient discomfort were identified as barriers and design motivations, and the urine-based device was developed to increase screening accessibility in low-resource settings. Population-level reach or representativeness was not directly evaluated.",
+              citations: ["thiyagarajan2025hpv"],
+            },
+            relationship: "Related / strong evidence",
+          },
+          {
+            caseId: "ecv",
+            appearance: {
+              text: "Eligible participants were clinicians who were completing or supervising ward rotations during the three-week program. Forty-two clinicians across house officer, junior resident, senior resident/fellow, and consultant/attending levels enrolled, providing evidence about who participated in the program. However, the proportion or representativeness of all eligible clinicians reached was not directly evaluated.",
+              citations: ["thiyagarajan2025ecv"],
+            },
+            relationship: "Related / strong evidence",
+          },
+          {
+            caseId: "contraception",
+            appearance: {
+              text: "The intervention was designed for mentors to recruit women through community outreach and provide support in community-based settings. During the pilot, 302 mentees received the intervention, and the evaluation intentionally included women across contraceptive-use groups, districts, and age groups. Population-level reach or representativeness of all eligible women was not directly evaluated.",
+              citations: ["birabwa2025", "sedlander2025"],
+            },
+            relationship: "Related / strong evidence",
+          },
+        ],
       },
       {
         id: "feasibility",
@@ -8897,6 +9292,127 @@
       );
     }
 
+    let activeCitationTrigger = null;
+    let citationPopoverElement = null;
+    let citationPopoverFrame = null;
+
+    function ensureCitationPopover() {
+      if (citationPopoverElement) {
+        return citationPopoverElement;
+      }
+
+      citationPopoverElement = document.createElement("div");
+      citationPopoverElement.id = "citation-reference-popover";
+      citationPopoverElement.className = "citation-popover";
+      citationPopoverElement.setAttribute("role", "tooltip");
+      citationPopoverElement.hidden = true;
+      document.body.appendChild(citationPopoverElement);
+      return citationPopoverElement;
+    }
+
+    function positionCitationPopover(trigger, popover) {
+      const viewportMargin = 12;
+      const triggerGap = 9;
+      const triggerRect = trigger.getBoundingClientRect();
+
+      popover.hidden = false;
+      popover.style.visibility = "hidden";
+      popover.style.left = `${viewportMargin}px`;
+      popover.style.top = `${viewportMargin}px`;
+
+      const popoverRect = popover.getBoundingClientRect();
+      const preferredLeft = triggerRect.right - popoverRect.width;
+      const flippedLeft = triggerRect.left;
+      const maximumLeft = Math.max(
+        viewportMargin,
+        window.innerWidth - popoverRect.width - viewportMargin
+      );
+      let left = preferredLeft;
+
+      if (
+        preferredLeft < viewportMargin &&
+        flippedLeft + popoverRect.width <= window.innerWidth - viewportMargin
+      ) {
+        left = flippedLeft;
+      }
+
+      left = Math.min(Math.max(left, viewportMargin), maximumLeft);
+
+      let top = triggerRect.top - popoverRect.height - triggerGap;
+      if (top < viewportMargin) {
+        top = triggerRect.bottom + triggerGap;
+      }
+
+      const maximumTop = Math.max(
+        viewportMargin,
+        window.innerHeight - popoverRect.height - viewportMargin
+      );
+      top = Math.min(Math.max(top, viewportMargin), maximumTop);
+
+      popover.style.left = `${Math.round(left)}px`;
+      popover.style.top = `${Math.round(top)}px`;
+      popover.style.visibility = "visible";
+    }
+
+    function showCitationPopover(event) {
+      const trigger = event.currentTarget;
+      const popover = ensureCitationPopover();
+
+      activeCitationTrigger = trigger;
+      popover.textContent = trigger.dataset.citation || "";
+      positionCitationPopover(trigger, popover);
+    }
+
+    function hideCitationPopover() {
+      if (citationPopoverElement) {
+        citationPopoverElement.hidden = true;
+      }
+      activeCitationTrigger = null;
+    }
+
+    function scheduleCitationPopoverHide(event) {
+      const trigger = event.currentTarget;
+
+      window.setTimeout(() => {
+        if (
+          activeCitationTrigger === trigger &&
+          document.activeElement !== trigger &&
+          !trigger.matches(":hover")
+        ) {
+          hideCitationPopover();
+        }
+      }, 0);
+    }
+
+    function refreshCitationPopoverPosition() {
+      if (
+        !activeCitationTrigger ||
+        !citationPopoverElement ||
+        citationPopoverElement.hidden
+      ) {
+        return;
+      }
+
+      if (citationPopoverFrame) {
+        window.cancelAnimationFrame(citationPopoverFrame);
+      }
+
+      citationPopoverFrame = window.requestAnimationFrame(() => {
+        if (activeCitationTrigger?.isConnected) {
+          positionCitationPopover(
+            activeCitationTrigger,
+            citationPopoverElement
+          );
+        } else {
+          hideCitationPopover();
+        }
+        citationPopoverFrame = null;
+      });
+    }
+
+    window.addEventListener("resize", refreshCitationPopoverPosition);
+    window.addEventListener("scroll", refreshCitationPopoverPosition, true);
+
     function CitationNumbers({ ids }) {
       const citationIds = normalizeCitationIds(ids);
 
@@ -8914,15 +9430,21 @@
             return (
               <React.Fragment key={referenceId}>
                 {index > 0 && <span className="citation-separator">,</span>}
-                <span
+                <a
                   className="citation-number"
-                  tabIndex="0"
-                  title={tooltip}
+                  href={reference.url}
+                  target="_blank"
+                  rel="noreferrer"
                   data-citation={tooltip}
-                  aria-label={`Reference ${number}: ${reference.citation}`}
+                  aria-label={`Reference ${number}: ${reference.citation} Opens source in a new tab.`}
+                  onMouseEnter={showCitationPopover}
+                  onMouseLeave={scheduleCitationPopoverHide}
+                  onFocus={showCitationPopover}
+                  onBlur={scheduleCitationPopoverHide}
+                  onClick={hideCitationPopover}
                 >
                   {number}
-                </span>
+                </a>
               </React.Fragment>
             );
           })}
@@ -9150,43 +9672,47 @@
                   role="tablist"
                   aria-label="Implementation outcomes"
                 >
-                  {OUTCOMES.map((outcome, index) => (
-                    <button
-                      key={outcome.id}
-                      id={`outcome-tab-${outcome.id}`}
-                      className="outcome-button"
-                      type="button"
-                      role="tab"
-                      aria-selected={
-                        selectedOutcome.id === outcome.id
-                      }
-                      aria-controls="outcome-detail-panel"
-                      tabIndex={
-                        selectedOutcome.id === outcome.id ? 0 : -1
-                      }
-                      onClick={() => selectOutcome(outcome.id)}
-                      onKeyDown={(event) =>
-                        handleOutcomeKeyDown(event, index)
-                      }
-                      aria-label={`${outcome.name}${
-                        selectedOutcomeIds.has(outcome.id)
-                          ? ", marked relevant"
-                          : ""
-                      }`}
-                    >
-                      <span>{outcome.name}</span>
-                      <span
-                        className={`outcome-interest-status${
-                          selectedOutcomeIds.has(outcome.id)
-                            ? " is-selected"
-                            : ""
-                        }`}
-                        aria-hidden="true"
-                      >
-                        ✓
-                      </span>
-                    </button>
-                  ))}
+                  {OUTCOMES.map((outcome, index) => {
+                    const isRelevant = selectedOutcomeIds.has(outcome.id);
+
+                    return (
+                      <div className="outcome-nav-item" role="presentation" key={outcome.id}>
+                        <button
+                          id={`outcome-tab-${outcome.id}`}
+                          className="outcome-button"
+                          type="button"
+                          role="tab"
+                          aria-selected={selectedOutcome.id === outcome.id}
+                          aria-controls="outcome-detail-panel"
+                          tabIndex={selectedOutcome.id === outcome.id ? 0 : -1}
+                          onClick={() => selectOutcome(outcome.id)}
+                          onKeyDown={(event) =>
+                            handleOutcomeKeyDown(event, index)
+                          }
+                        >
+                          <span>{outcome.name}</span>
+                        </button>
+
+                        <button
+                          className={`outcome-interest-status${
+                            isRelevant ? " is-selected" : ""
+                          }`}
+                          type="button"
+                          aria-pressed={isRelevant}
+                          aria-label={`${
+                            isRelevant ? "Remove" : "Mark"
+                          } ${outcome.name} ${
+                            isRelevant ? "from" : "as relevant for"
+                          } the evaluation plan`}
+                          onClick={() =>
+                            onToggleImplementationOutcome(outcome.id)
+                          }
+                        >
+                          ✓
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
 
               </aside>
@@ -9507,6 +10033,21 @@
                 <p>{family.legitimateInterest}</p>
               </aside>
 
+              <details className="scaffold-evidence" open>
+                <summary>
+                  <span className="scaffold-evidence-title">
+                    Evidence-Informed Guidance
+                  </span>
+                </summary>
+                <div className="scaffold-evidence-content">
+                  {family.evidenceGuidance.map((paragraph) => (
+                    <p key={paragraph}>
+                      <CitationText text={paragraph} />
+                    </p>
+                  ))}
+                </div>
+              </details>
+
               <section
                 className="scaffold-groups"
                 aria-labelledby={groupHeadingId}
@@ -9539,21 +10080,6 @@
                   </p>
                 )}
               </section>
-
-              <details className="scaffold-evidence" open>
-                <summary>
-                  <span className="scaffold-evidence-title">
-                    Evidence-Informed Guidance
-                  </span>
-                </summary>
-                <div className="scaffold-evidence-content">
-                  {family.evidenceGuidance.map((paragraph) => (
-                    <p key={paragraph}>
-                      <CitationText text={paragraph} />
-                    </p>
-                  ))}
-                </div>
-              </details>
             </div>
           )}
         </section>
@@ -9711,13 +10237,12 @@
         return isInterestHolderEvidence ? (
           <p>
             Key interest holders included patients using the urine-collection
-            device as <strong>Immediate/direct beneficiaries</strong>; OBGYN
-            clinicians as <strong>Users/operators</strong> and clinical
-            evaluators; and <strong>Learners/people being trained</strong>,
-            including house officers, junior residents, and senior residents,
-            alongside consultant clinicians at Korle Bu Teaching Hospital. The
-            clinician validation study enrolled 36 OBGYNs across these four
-            clinician groups.
+            device as <strong>Immediate/direct beneficiaries</strong> and OBGYN
+            clinicians as <strong>Users/operators</strong>, whose perspectives
+            helped evaluate how the device could fit clinical use and
+            implementation conditions. The clinician validation study enrolled
+            36 OBGYNs across house officers, junior residents, senior residents,
+            and consultant clinicians at Korle Bu Teaching Hospital.
           </p>
         ) : (
           <p>
@@ -9741,27 +10266,19 @@
       if (caseId === "ecv") {
         return isInterestHolderEvidence ? (
           <p>
-            Key interest holders included{" "}
-            <strong>Learners/people being trained</strong>, such as OBGYN house
-            officers, junior residents, and senior residents/fellows, who were
-            direct participants in the training and evaluation.{" "}
-            <strong>Users/operators</strong> included clinicians expected to
-            counsel patients about ECV and perform or assist with the procedure
-            in clinical practice.{" "}
-            <strong>
-              Clinical/professional/community opinion leaders
-            </strong>{" "}
-            included consultants/attendings and supervising clinicians, whose
-            support is important because participants identified supervision
-            availability as a barrier to offering ECV.{" "}
-            <strong>Implementation facilitators/change-support personnel</strong>{" "}
-            included educators and simulation facilitators involved in delivering
-            the program, organizing training, providing feedback, and supporting
-            integration of ECV skill-building into obstetric workflow.{" "}
-            <strong>Future/downstream beneficiaries</strong> were pregnant
-            patients with fetal malpresentation who may benefit from improved
-            clinician counseling, access to ECV, and reduced avoidable cesarean
-            delivery.
+            Key interest holders included OBGYN clinicians participating in the
+            program as <strong>Learners/people being trained</strong> and as{" "}
+            <strong>Users/operators</strong> who would apply ECV counseling and
+            procedural skills in practice. Educational professionals and
+            simulation trainers were <strong>Innovation deliverers</strong>{" "}
+            responsible for delivering the training program. Department and
+            clinical leadership were{" "}
+            <strong>Clinical/professional/community opinion leaders</strong>{" "}
+            whose support could shape whether the training program and ECV
+            procedure were prioritized and supported in practice.{" "}
+            <strong>Future/downstream beneficiaries</strong> included pregnant
+            patients and fetuses, who may benefit from improved access to skilled
+            ECV and fewer avoidable cesarean deliveries.
           </p>
         ) : (
           <p>
@@ -9848,6 +10365,8 @@
     }
 
     function ExploreInterestHoldersPage({
+      implementationOutcomeSelections,
+      onToggleImplementationOutcome,
       interestHolderSelections,
       onToggleInterestHolder,
       interestHolderDetails,
@@ -9860,8 +10379,10 @@
       reflectionNote,
       onChangeReflectionNote,
     }) {
-      const [selectedOutcomeId, setSelectedOutcomeId] = useState(
-        OUTCOMES[0].id
+      const [selectedOutcomeId, setSelectedOutcomeId] = useState(() =>
+        OUTCOMES.find((outcome) =>
+          (implementationOutcomeSelections || []).includes(outcome.id)
+        )?.id || OUTCOMES[0].id
       );
       const [openFamilyIds, setOpenFamilyIds] = useState(
         () => new Set([INTEREST_HOLDER_SCAFFOLD_FAMILIES[0].id])
@@ -9902,6 +10423,12 @@
       ).length;
       const activeOutcomeSelectionCount =
         selectedForOutcome.size + selectedCustomForOutcome.size;
+      const selectedOutcomeIds = new Set(
+        implementationOutcomeSelections || []
+      );
+      const isSelectedForPlan = selectedOutcomeIds.has(
+        selectedOutcome.id
+      );
 
       function toggleFamily(familyId) {
         setOpenFamilyIds((current) => {
@@ -10153,29 +10680,50 @@
                       (interestHolderSelections[outcome.id]?.length || 0) +
                       (customInterestHolderSelections[outcome.id]?.length || 0);
 
+                    const isRelevant = selectedOutcomeIds.has(outcome.id);
+
                     return (
-                      <button
-                        key={outcome.id}
-                        id={`interest-outcome-tab-${outcome.id}`}
-                        className="outcome-button"
-                        type="button"
-                        role="tab"
-                        aria-selected={selectedOutcome.id === outcome.id}
-                        aria-controls="interest-outcome-detail-panel"
-                        tabIndex={selectedOutcome.id === outcome.id ? 0 : -1}
-                        onClick={() => selectOutcome(outcome.id)}
-                        onKeyDown={(event) => handleOutcomeKeyDown(event, index)}
-                      >
-                        <span>{outcome.name}</span>
-                        {selectionCount > 0 && (
-                          <span
-                            className="outcome-selection-count"
-                            aria-label={`${selectionCount} selected`}
-                          >
-                            {selectionCount}
-                          </span>
-                        )}
-                      </button>
+                      <div className="outcome-nav-item" role="presentation" key={outcome.id}>
+                        <button
+                          id={`interest-outcome-tab-${outcome.id}`}
+                          className="outcome-button"
+                          type="button"
+                          role="tab"
+                          aria-selected={selectedOutcome.id === outcome.id}
+                          aria-controls="interest-outcome-detail-panel"
+                          tabIndex={selectedOutcome.id === outcome.id ? 0 : -1}
+                          onClick={() => selectOutcome(outcome.id)}
+                          onKeyDown={(event) => handleOutcomeKeyDown(event, index)}
+                        >
+                          <span>{outcome.name}</span>
+                          {selectionCount > 0 && (
+                            <span
+                              className="outcome-selection-count"
+                              aria-label={`${selectionCount} selected`}
+                            >
+                              {selectionCount}
+                            </span>
+                          )}
+                        </button>
+
+                        <button
+                          className={`outcome-interest-status${
+                            isRelevant ? " is-selected" : ""
+                          }`}
+                          type="button"
+                          aria-pressed={isRelevant}
+                          aria-label={`${
+                            isRelevant ? "Remove" : "Mark"
+                          } ${outcome.name} ${
+                            isRelevant ? "from" : "as relevant for"
+                          } the evaluation plan`}
+                          onClick={() =>
+                            onToggleImplementationOutcome(outcome.id)
+                          }
+                        >
+                          ✓
+                        </button>
+                      </div>
                     );
                   })}
                 </div>
@@ -10187,9 +10735,34 @@
                   aria-live="polite"
                   aria-labelledby={`interest-outcome-tab-${selectedOutcome.id}`}
                 >
-                  <div className="eyebrow">{selectedOutcome.name}</div>
+                  <div className="outcome-detail-header">
+                    <div className="outcome-detail-heading">
+                      <div className="eyebrow">{selectedOutcome.name}</div>
 
-                  <h2>Select potentially relevant interest holders</h2>
+                      <h2>Select potentially relevant interest holders</h2>
+                    </div>
+
+                    <label
+                      className={`outcome-interest-control${
+                        isSelectedForPlan ? " is-selected" : ""
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelectedForPlan}
+                        onChange={() =>
+                          onToggleImplementationOutcome(selectedOutcome.id)
+                        }
+                      />
+                      <span
+                        className="outcome-interest-check"
+                        aria-hidden="true"
+                      >
+                        ✓
+                      </span>
+                      <span>Mark as relevant</span>
+                    </label>
+                  </div>
 
                   <p className="recommendation-intro-copy">
                     The list is ordered as a starting priority for this outcome.
@@ -10329,10 +10902,17 @@
                   </p>
                 </div>
 
-                <PageLink route="evaluation-strategies">
-                  Continue to Evaluation Strategies
-                  <span aria-hidden="true">→</span>
-                </PageLink>
+                <div className="next-step-actions">
+                  <PageLink route="outcomes" secondary>
+                    <span aria-hidden="true">←</span>
+                    Back to Implementation Outcomes
+                  </PageLink>
+
+                  <PageLink route="evaluation-strategies">
+                    Continue to Evaluation Strategies
+                    <span aria-hidden="true">→</span>
+                  </PageLink>
+                </div>
               </div>
             </div>
           </section>
@@ -10417,8 +10997,7 @@
           <StrategyReferenceLinks metadata={metadata} />
 
           {metadata.visual && (
-            <details className="strategy-visual">
-              <summary>View supporting visual</summary>
+            <div className="strategy-visual">
               <figure>
                 <img
                   src={metadata.visual.url}
@@ -10427,7 +11006,7 @@
                 />
                 <figcaption>{metadata.visual.label}</figcaption>
               </figure>
-            </details>
+            </div>
           )}
 
           <details className="custom-notes-editor">
@@ -10570,6 +11149,8 @@
     }
 
     function ExploreEvaluationStrategiesPage({
+      implementationOutcomeSelections,
+      onToggleImplementationOutcome,
       evaluationStrategySelections,
       onToggleEvaluationStrategy,
       evaluationStrategyNotes,
@@ -10579,8 +11160,10 @@
       reflectionNote,
       onChangeReflectionNote,
     }) {
-      const [selectedOutcomeId, setSelectedOutcomeId] = useState(
-        OUTCOMES[0].id
+      const [selectedOutcomeId, setSelectedOutcomeId] = useState(() =>
+        OUTCOMES.find((outcome) =>
+          (implementationOutcomeSelections || []).includes(outcome.id)
+        )?.id || OUTCOMES[0].id
       );
       const selectedOutcome =
         OUTCOMES.find(
@@ -10610,6 +11193,12 @@
         (total, promptSelections) =>
           total + promptSelections.length,
         0
+      );
+      const selectedOutcomeIds = new Set(
+        implementationOutcomeSelections || []
+      );
+      const isSelectedForPlan = selectedOutcomeIds.has(
+        selectedOutcome.id
       );
 
       function getOutcomeSelectionCount(outcomeId) {
@@ -10691,7 +11280,12 @@
                 evidence are intentionally integrated, mixed methods can support more
                 informed mid-design decisions.
                 <CitationNumbers
-                  ids={["green2015", "palinkas2011", "hamilton2019"]}
+                  ids={[
+                    "green2015",
+                    "palinkas2011",
+                    "hamilton2019",
+                    "suchman2023",
+                  ]}
                 />
               </p>
 
@@ -10743,35 +11337,56 @@
                     const selectionCount =
                       getOutcomeSelectionCount(outcome.id);
 
+                    const isRelevant = selectedOutcomeIds.has(outcome.id);
+
                     return (
-                      <button
-                        key={outcome.id}
-                        id={`strategy-outcome-tab-${outcome.id}`}
-                        className="outcome-button"
-                        type="button"
-                        role="tab"
-                        aria-selected={
-                          selectedOutcome.id === outcome.id
-                        }
-                        aria-controls="strategy-outcome-detail-panel"
-                        tabIndex={
-                          selectedOutcome.id === outcome.id ? 0 : -1
-                        }
-                        onClick={() => selectOutcome(outcome.id)}
-                        onKeyDown={(event) =>
-                          handleOutcomeKeyDown(event, index)
-                        }
-                      >
-                        <span>{outcome.name}</span>
-                        {selectionCount > 0 && (
-                          <span
-                            className="outcome-selection-count"
-                            aria-label={`${selectionCount} selected`}
-                          >
-                            {selectionCount}
-                          </span>
-                        )}
-                      </button>
+                      <div className="outcome-nav-item" role="presentation" key={outcome.id}>
+                        <button
+                          id={`strategy-outcome-tab-${outcome.id}`}
+                          className="outcome-button"
+                          type="button"
+                          role="tab"
+                          aria-selected={
+                            selectedOutcome.id === outcome.id
+                          }
+                          aria-controls="strategy-outcome-detail-panel"
+                          tabIndex={
+                            selectedOutcome.id === outcome.id ? 0 : -1
+                          }
+                          onClick={() => selectOutcome(outcome.id)}
+                          onKeyDown={(event) =>
+                            handleOutcomeKeyDown(event, index)
+                          }
+                        >
+                          <span>{outcome.name}</span>
+                          {selectionCount > 0 && (
+                            <span
+                              className="outcome-selection-count"
+                              aria-label={`${selectionCount} selected`}
+                            >
+                              {selectionCount}
+                            </span>
+                          )}
+                        </button>
+
+                        <button
+                          className={`outcome-interest-status${
+                            isRelevant ? " is-selected" : ""
+                          }`}
+                          type="button"
+                          aria-pressed={isRelevant}
+                          aria-label={`${
+                            isRelevant ? "Remove" : "Mark"
+                          } ${outcome.name} ${
+                            isRelevant ? "from" : "as relevant for"
+                          } the evaluation plan`}
+                          onClick={() =>
+                            onToggleImplementationOutcome(outcome.id)
+                          }
+                        >
+                          ✓
+                        </button>
+                      </div>
                     );
                   })}
                 </div>
@@ -10783,13 +11398,38 @@
                   aria-live="polite"
                   aria-labelledby={`strategy-outcome-tab-${selectedOutcome.id}`}
                 >
-                  <div className="eyebrow">
-                    {selectedOutcome.name}
-                  </div>
+                  <div className="outcome-detail-header">
+                    <div className="outcome-detail-heading">
+                      <div className="eyebrow">
+                        {selectedOutcome.name}
+                      </div>
 
-                  <h2>
-                    Evaluation strategies for {selectedOutcome.name}
-                  </h2>
+                      <h2>
+                        Evaluation strategies for {selectedOutcome.name}
+                      </h2>
+                    </div>
+
+                    <label
+                      className={`outcome-interest-control${
+                        isSelectedForPlan ? " is-selected" : ""
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelectedForPlan}
+                        onChange={() =>
+                          onToggleImplementationOutcome(selectedOutcome.id)
+                        }
+                      />
+                      <span
+                        className="outcome-interest-check"
+                        aria-hidden="true"
+                      >
+                        ✓
+                      </span>
+                      <span>Mark as relevant</span>
+                    </label>
+                  </div>
 
                   {EVALUATION_STRATEGY_GROUPS.map((group) => {
                     const strategies = group.strategies.filter(
@@ -10905,10 +11545,17 @@
                   </p>
                 </div>
 
-                <PageLink route="final-plan">
-                  Develop Your Evaluation Plan
-                  <span aria-hidden="true">→</span>
-                </PageLink>
+                <div className="next-step-actions">
+                  <PageLink route="interest-holders" secondary>
+                    <span aria-hidden="true">←</span>
+                    Back to Interest Holders
+                  </PageLink>
+
+                  <PageLink route="final-plan">
+                    Develop Your Evaluation Plan
+                    <span aria-hidden="true">→</span>
+                  </PageLink>
+                </div>
               </div>
             </div>
           </section>
@@ -11175,6 +11822,308 @@
       );
     }
 
+    function getReferenceIdsFromTextValue(value) {
+      const referenceIds = new Set();
+      const structured = value !== null && typeof value === "object";
+      const textValue = structured ? value.text : value;
+
+      if (structured && value.citations?.length) {
+        normalizeCitationIds(value.citations).forEach((referenceId) =>
+          referenceIds.add(referenceId)
+        );
+      }
+
+      if (typeof textValue === "string") {
+        const citationPattern = /\(([^()]*(?:19|20)\d{2}[^()]*)\)/g;
+        let match;
+
+        while ((match = citationPattern.exec(textValue)) !== null) {
+          match[1]
+            .split(";")
+            .map((label) => label.trim())
+            .map((label) => REFERENCE_ID_BY_LABEL[label])
+            .filter(Boolean)
+            .forEach((referenceId) => referenceIds.add(referenceId));
+        }
+      }
+
+      return Array.from(referenceIds);
+    }
+
+    function getReferenceIdsFromStrategyCitations(citations = []) {
+      return citations
+        .map((citation) => {
+          if (!citation) return null;
+
+          if (typeof citation === "string") {
+            return REFERENCE_LIBRARY[citation]
+              ? citation
+              : REFERENCE_ID_BY_LABEL[citation] || null;
+          }
+
+          const labelMatch = REFERENCE_ID_BY_LABEL[citation.label];
+          if (labelMatch) return labelMatch;
+
+          return (
+            REFERENCE_ORDER.find(
+              (referenceId) =>
+                REFERENCE_LIBRARY[referenceId]?.url === citation.url
+            ) || null
+          );
+        })
+        .filter(Boolean);
+    }
+
+    function collectPlanReferenceIds({
+      selectedOutcomes,
+      evaluationStrategySelections,
+      interviewPromptSelections,
+      includeCaseExamples,
+      includeGuidingFrameworks,
+    }) {
+      const referenceIds = new Set();
+
+      function addReferenceIds(ids = []) {
+        ids.forEach((referenceId) => {
+          if (REFERENCE_LIBRARY[referenceId]) {
+            referenceIds.add(referenceId);
+          }
+        });
+      }
+
+      selectedOutcomes.forEach((outcome) => {
+        addReferenceIds(getReferenceIdsFromTextValue(outcome.definition));
+
+        const outcomeStrategySelections =
+          evaluationStrategySelections[outcome.id] || {};
+
+        EVALUATION_STRATEGY_GROUPS.forEach((strategyGroup) => {
+          const selectedIds = new Set(
+            outcomeStrategySelections[strategyGroup.id] || []
+          );
+
+          strategyGroup.strategies
+            .filter(
+              (strategy) =>
+                strategy.outcomeId === outcome.id &&
+                selectedIds.has(strategy.id)
+            )
+            .forEach((strategy) => {
+              addReferenceIds(
+                getReferenceIdsFromStrategyCitations(
+                  EVALUATION_STRATEGY_METADATA[strategy.id]?.citations || []
+                )
+              );
+              addReferenceIds(
+                getReferenceIdsFromTextValue(strategy.description)
+              );
+            });
+
+          if (
+            strategyGroup.id === "qualitative" &&
+            selectedIds.has(INTERVIEW_STRATEGY.id)
+          ) {
+            addReferenceIds(
+              getReferenceIdsFromStrategyCitations(
+                INTERVIEW_STRATEGY.citations || []
+              )
+            );
+
+            if ((interviewPromptSelections[outcome.id] || []).length > 0) {
+              addReferenceIds(
+                getReferenceIdsFromStrategyCitations(
+                  INTERVIEW_PROMPT_CITATIONS_BY_OUTCOME[outcome.id] || []
+                )
+              );
+            }
+          }
+        });
+      });
+
+      if (includeCaseExamples) {
+        ["hpv", "ecv", "contraception"].forEach((caseId) => {
+          addReferenceIds(normalizeCitationIds(CASE_REFERENCE_IDS[caseId] || []));
+          addReferenceIds(
+            getReferenceIdsFromTextValue(CASES[caseId]?.description)
+          );
+
+          OUTCOMES.forEach((outcome) => {
+            const caseEvidence = (outcome.evidence || []).find(
+              (entry) => entry.caseId === caseId
+            );
+            if (caseEvidence) {
+              addReferenceIds(
+                getReferenceIdsFromTextValue(caseEvidence.appearance)
+              );
+            }
+          });
+        });
+      }
+
+      if (includeGuidingFrameworks) {
+        GUIDING_FRAMEWORKS.forEach((framework) =>
+          addReferenceIds(normalizeCitationIds(framework.citationIds || []))
+        );
+      }
+
+      return REFERENCE_ORDER.filter((referenceId) =>
+        referenceIds.has(referenceId)
+      );
+    }
+
+    function PlanPrintField({ label, value }) {
+      return (
+        <div className="plan-print-field">
+          <div className="plan-print-field-label">{label}</div>
+          <p className="plan-print-field-value">{value || ""}</p>
+        </div>
+      );
+    }
+
+    function PlanPrintStrategyItem({
+      strategy,
+      outcomeId,
+      note,
+      selectedInterviewPromptIds,
+      customPrompts,
+      isInterview = false,
+    }) {
+      return (
+        <article className="plan-print-item">
+          <p className="plan-print-item-title">
+            {strategy.name}
+            {isInterview && strategy.citations?.length > 0 && (
+              <CitationNumbers
+                ids={getReferenceIdsFromStrategyCitations(strategy.citations)}
+              />
+            )}
+            {!isInterview &&
+              EVALUATION_STRATEGY_METADATA[strategy.id]?.citations?.length >
+                0 && (
+                <CitationNumbers
+                  ids={getReferenceIdsFromStrategyCitations(
+                    EVALUATION_STRATEGY_METADATA[strategy.id].citations
+                  )}
+                />
+              )}
+          </p>
+
+          {strategy.description && (
+            <p className="plan-print-item-description">
+              <CitationText text={strategy.description} />
+            </p>
+          )}
+
+          {isInterview &&
+            (selectedInterviewPromptIds.size > 0 ||
+              customPrompts.length > 0) && (
+              <>
+                <div className="plan-print-field-label">
+                  Selected interview prompts
+                </div>
+                <ul className="plan-print-prompt-list">
+                  {(INTERVIEW_PROMPTS_BY_OUTCOME[outcomeId] || []).map(
+                    ([title, question], index) => {
+                      const promptId = `prompt-${index + 1}`;
+                      if (!selectedInterviewPromptIds.has(promptId)) {
+                        return null;
+                      }
+
+                      return (
+                        <li key={promptId}>
+                          <strong>{title}:</strong> {question}
+                        </li>
+                      );
+                    }
+                  )}
+                  {customPrompts.map((prompt) => (
+                    <li key={prompt.id}>
+                      <strong>
+                        {prompt.title || "Project-specific prompt"}:
+                      </strong>{" "}
+                      {prompt.question}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+          <PlanPrintField label="Project notes" value={note} />
+        </article>
+      );
+    }
+
+    function PlanPrintCaseAppendix({ title }) {
+      return (
+        <section className="plan-print-major-section plan-print-appendix">
+          <h2>{title}</h2>
+
+          {["hpv", "ecv", "contraception"].map((caseId) => {
+            const caseData = CASES[caseId];
+
+            return (
+              <article className="plan-print-case" key={caseId}>
+                <h3>
+                  {caseData.name}
+                  <CitationNumbers ids={CASE_REFERENCE_IDS[caseId]} />
+                </h3>
+
+                <p className="plan-print-item-description">
+                  <CitationText text={caseData.description} />
+                </p>
+
+                <h4>Case Context</h4>
+                <dl className="resource-case-context">
+                  {caseData.context.map((item) => (
+                    <React.Fragment key={item.label}>
+                      <dt>{item.label}</dt>
+                      <dd>{item.value}</dd>
+                    </React.Fragment>
+                  ))}
+                </dl>
+
+                <h4>Implementation Outcomes</h4>
+                <ResourceCaseOutcomeEvidence caseId={caseId} />
+
+                <h4>Interest Holders</h4>
+                <CaseNarrative
+                  caseId={caseId}
+                  variant="interest-holders"
+                />
+
+                <h4>Evaluation Strategies</h4>
+                <CaseNarrative
+                  caseId={caseId}
+                  variant="evaluation-strategies"
+                />
+              </article>
+            );
+          })}
+        </section>
+      );
+    }
+
+    function PlanPrintFrameworkAppendix({ title }) {
+      return (
+        <section className="plan-print-major-section plan-print-appendix">
+          <h2>{title}</h2>
+
+          {GUIDING_FRAMEWORKS.map((framework) => (
+            <article className="plan-print-framework" key={framework.id}>
+              <h3>
+                {framework.name}
+                <CitationNumbers ids={framework.citationIds} />
+              </h3>
+              <p className="plan-print-item-description">
+                {framework.summary}
+              </p>
+              <GuidingFrameworkBody frameworkId={framework.id} />
+            </article>
+          ))}
+        </section>
+      );
+    }
+
     function PlanPrintSummary({
       selectedOutcomes,
       interestHolderSelections,
@@ -11188,124 +12137,290 @@
       implementationOutcomesReflection,
       interestHoldersReflection,
       evaluationStrategiesReflection,
+      includeReferences,
+      includeCaseExamples,
+      includeGuidingFrameworks,
     }) {
+      const referenceIds = collectPlanReferenceIds({
+        selectedOutcomes,
+        evaluationStrategySelections,
+        interviewPromptSelections,
+        includeCaseExamples,
+        includeGuidingFrameworks,
+      });
+
+      const caseAppendixTitle =
+        includeCaseExamples && includeGuidingFrameworks
+          ? "Appendix A: Health Care Case Examples"
+          : "Appendix: Health Care Case Examples";
+
+      const frameworkAppendixTitle =
+        includeCaseExamples && includeGuidingFrameworks
+          ? "Appendix B: Guiding Frameworks"
+          : "Appendix: Guiding Frameworks";
+
       return (
         <div className="plan-print-only">
-          <h1>Mid-Design Evaluation Plan</h1>
-          <p>
-            Working plan developed using the Mid-Design Evaluation Guide. Review and revise this document as the project develops.
-          </p>
+          <header className="plan-print-report-header">
+            <h1>Mid-Design Evaluation Plan</h1>
+            <p>
+              Working plan developed using the Mid-Design Evaluation Guide.
+              Review and revise this document as the project develops.
+            </p>
+          </header>
 
           {selectedOutcomes.length === 0 ? (
-            <p>No implementation outcomes are currently included in this plan.</p>
+            <p className="plan-print-empty">
+              No implementation outcomes are currently included in this plan.
+            </p>
           ) : (
             selectedOutcomes.map((outcome) => {
               const holderIds = interestHolderSelections[outcome.id] || [];
-              const customHolderIds = new Set(customInterestHolderSelections[outcome.id] || []);
-              const customHolders = customInterestHolderGroups.filter((group) => customHolderIds.has(group.id));
-              const outcomeStrategySelections = evaluationStrategySelections[outcome.id] || {};
-              const selectedInterviewPromptIds = new Set(interviewPromptSelections[outcome.id] || []);
-              const customPrompts = customInterviewPrompts[outcome.id] || [];
-              const interviewSelected = new Set(outcomeStrategySelections.qualitative || []).has(INTERVIEW_STRATEGY.id);
+              const customHolderIds = new Set(
+                customInterestHolderSelections[outcome.id] || []
+              );
+              const customHolders = customInterestHolderGroups.filter((group) =>
+                customHolderIds.has(group.id)
+              );
+              const outcomeStrategySelections =
+                evaluationStrategySelections[outcome.id] || {};
+              const quantitativeSelections = new Set(
+                outcomeStrategySelections.quantitative || []
+              );
+              const qualitativeSelections = new Set(
+                outcomeStrategySelections.qualitative || []
+              );
+              const quantitativeGroup = EVALUATION_STRATEGY_GROUPS.find(
+                (group) => group.id === "quantitative"
+              );
+              const qualitativeGroup = EVALUATION_STRATEGY_GROUPS.find(
+                (group) => group.id === "qualitative"
+              );
+              const quantitativeStrategies = (
+                quantitativeGroup?.strategies || []
+              ).filter(
+                (strategy) =>
+                  strategy.outcomeId === outcome.id &&
+                  quantitativeSelections.has(strategy.id)
+              );
+              const qualitativeStrategies = (
+                qualitativeGroup?.strategies || []
+              ).filter(
+                (strategy) =>
+                  strategy.outcomeId === outcome.id &&
+                  qualitativeSelections.has(strategy.id)
+              );
+              const interviewSelected = qualitativeSelections.has(
+                INTERVIEW_STRATEGY.id
+              );
+              const selectedInterviewPromptIds = new Set(
+                interviewPromptSelections[outcome.id] || []
+              );
+              const customPrompts =
+                customInterviewPrompts[outcome.id] || [];
 
               return (
                 <section className="plan-print-outcome" key={outcome.id}>
                   <h2>{outcome.name}</h2>
-                  <p><CitationText text={outcome.definition} /></p>
+                  <p className="plan-print-outcome-definition">
+                    <CitationText text={outcome.definition} />
+                  </p>
 
-                  <div className="plan-print-group">
-                    <h3>Interest holders</h3>
-                    {(holderIds.length > 0 || customHolders.length > 0) ? (
-                      <ul>
+                  <section className="plan-print-section">
+                    <h3>Interest Holders</h3>
+
+                    {holderIds.length === 0 && customHolders.length === 0 ? (
+                      <p className="plan-print-empty">None selected.</p>
+                    ) : (
+                      <>
                         {holderIds.map((id) => {
                           const group = INTEREST_HOLDER_GROUPS_BY_ID[id];
                           if (!group) return null;
-                          const details = interestHolderDetails[outcome.id]?.[id] || {};
+
+                          const details =
+                            interestHolderDetails[outcome.id]?.[id] || {};
+
                           return (
-                            <li key={id}>
-                              <strong>{group.label}</strong>
-                              {details.examples ? `, Examples: ${details.examples}` : ""}
-                              {details.notes ? `, Notes: ${details.notes}` : ""}
-                            </li>
+                            <article className="plan-print-item" key={id}>
+                              <p className="plan-print-item-title">
+                                {group.label}
+                              </p>
+                              {details.examples && (
+                                <PlanPrintField
+                                  label="Project-specific examples"
+                                  value={details.examples}
+                                />
+                              )}
+                              <PlanPrintField
+                                label="Notes"
+                                value={details.notes || ""}
+                              />
+                            </article>
                           );
                         })}
+
                         {customHolders.map((group) => (
-                          <li key={group.id}>
-                            <strong>{group.name}</strong>{group.note ? `, ${group.note}` : ""}
-                          </li>
+                          <article
+                            className="plan-print-item"
+                            key={group.id}
+                          >
+                            <p className="plan-print-item-title">
+                              {group.name}
+                            </p>
+                            <PlanPrintField
+                              label="Notes"
+                              value={group.note || ""}
+                            />
+                          </article>
                         ))}
-                      </ul>
-                    ) : <p>None selected.</p>}
-                  </div>
+                      </>
+                    )}
+                  </section>
 
-                  {EVALUATION_STRATEGY_GROUPS.map((strategyGroup) => {
-                    const selectedIds = new Set(outcomeStrategySelections[strategyGroup.id] || []);
-                    const strategies = strategyGroup.strategies.filter((strategy) =>
-                      strategy.outcomeId === outcome.id && selectedIds.has(strategy.id)
-                    );
-                    const includeInterview = strategyGroup.id === "qualitative" && interviewSelected;
-                    if (strategies.length === 0 && !includeInterview) return null;
+                  <section className="plan-print-section">
+                    <h3>Quantitative Evaluation Strategies</h3>
 
-                    return (
-                      <div className="plan-print-group" key={strategyGroup.id}>
-                        <h3>{strategyGroup.title}</h3>
-                        <ul>
-                          {includeInterview && (
-                            <li>
-                              <strong>{INTERVIEW_STRATEGY.name}</strong>
-                              {evaluationStrategyNotes[outcome.id]?.[INTERVIEW_STRATEGY.id]
-                                ? `, Notes: ${evaluationStrategyNotes[outcome.id][INTERVIEW_STRATEGY.id]}`
-                                : ""}
-                              {(selectedInterviewPromptIds.size > 0 || customPrompts.length > 0) && (
-                                <ul>
-                                  {(INTERVIEW_PROMPTS_BY_OUTCOME[outcome.id] || []).map(([title, question], index) => {
-                                    const promptId = `prompt-${index + 1}`;
-                                    if (!selectedInterviewPromptIds.has(promptId)) return null;
-                                    return <li key={promptId}><strong>{title}:</strong> {question}</li>;
-                                  })}
-                                  {customPrompts.map((prompt) => (
-                                    <li key={prompt.id}><strong>{prompt.title || "Project-specific prompt"}:</strong> {prompt.question}</li>
-                                  ))}
-                                </ul>
-                              )}
-                            </li>
-                          )}
-                          {strategies.map((strategy) => (
-                            <li key={strategy.id}>
-                              <strong>{strategy.name}</strong>
-                              {evaluationStrategyNotes[outcome.id]?.[strategy.id]
-                                ? `, Notes: ${evaluationStrategyNotes[outcome.id][strategy.id]}`
-                                : ""}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    );
-                  })}
+                    {quantitativeStrategies.length === 0 ? (
+                      <p className="plan-print-empty">None selected.</p>
+                    ) : (
+                      quantitativeStrategies.map((strategy) => (
+                        <PlanPrintStrategyItem
+                          key={strategy.id}
+                          strategy={strategy}
+                          outcomeId={outcome.id}
+                          note={
+                            evaluationStrategyNotes[outcome.id]?.[
+                              strategy.id
+                            ] || ""
+                          }
+                          selectedInterviewPromptIds={
+                            selectedInterviewPromptIds
+                          }
+                          customPrompts={customPrompts}
+                        />
+                      ))
+                    )}
+                  </section>
+
+                  <section className="plan-print-section">
+                    <h3>Qualitative Evaluation Strategies</h3>
+
+                    {!interviewSelected &&
+                    qualitativeStrategies.length === 0 ? (
+                      <p className="plan-print-empty">None selected.</p>
+                    ) : (
+                      <>
+                        {interviewSelected && (
+                          <PlanPrintStrategyItem
+                            strategy={INTERVIEW_STRATEGY}
+                            outcomeId={outcome.id}
+                            note={
+                              evaluationStrategyNotes[outcome.id]?.[
+                                INTERVIEW_STRATEGY.id
+                              ] || ""
+                            }
+                            selectedInterviewPromptIds={
+                              selectedInterviewPromptIds
+                            }
+                            customPrompts={customPrompts}
+                            isInterview
+                          />
+                        )}
+
+                        {qualitativeStrategies.map((strategy) => (
+                          <PlanPrintStrategyItem
+                            key={strategy.id}
+                            strategy={strategy}
+                            outcomeId={outcome.id}
+                            note={
+                              evaluationStrategyNotes[outcome.id]?.[
+                                strategy.id
+                              ] || ""
+                            }
+                            selectedInterviewPromptIds={
+                              selectedInterviewPromptIds
+                            }
+                            customPrompts={customPrompts}
+                          />
+                        ))}
+                      </>
+                    )}
+                  </section>
                 </section>
               );
             })
           )}
 
-          <section className="plan-print-outcome">
+          <section className="plan-print-major-section plan-print-reflection-section">
             <h2>Reflection &amp; Remaining Questions</h2>
-            <div className="plan-print-group">
-              <h3>Implementation Outcomes</h3>
-              <p>
-                {implementationOutcomesReflection || "No reflection recorded."}
-              </p>
-            </div>
-            <div className="plan-print-group">
-              <h3>Interest Holders</h3>
-              <p>{interestHoldersReflection || "No reflection recorded."}</p>
-            </div>
-            <div className="plan-print-group">
-              <h3>Evaluation Strategies</h3>
-              <p>
-                {evaluationStrategiesReflection || "No reflection recorded."}
-              </p>
+            <div className="plan-print-reflection-grid">
+              <article className="plan-print-reflection-card">
+                <h3>Implementation Outcomes</h3>
+                <p>
+                  {implementationOutcomesReflection ||
+                    "No reflection recorded."}
+                </p>
+              </article>
+
+              <article className="plan-print-reflection-card">
+                <h3>Interest Holders</h3>
+                <p>
+                  {interestHoldersReflection ||
+                    "No reflection recorded."}
+                </p>
+              </article>
+
+              <article className="plan-print-reflection-card">
+                <h3>Evaluation Strategies</h3>
+                <p>
+                  {evaluationStrategiesReflection ||
+                    "No reflection recorded."}
+                </p>
+              </article>
             </div>
           </section>
+
+          {includeReferences && (
+            <section className="plan-print-major-section plan-print-references">
+              <h2>References Cited in This Plan</h2>
+
+              {referenceIds.length === 0 ? (
+                <p className="plan-print-empty">
+                  No cited references are associated with the current plan selections.
+                </p>
+              ) : (
+                <ol className="plan-print-reference-list">
+                  {referenceIds.map((referenceId) => {
+                    const reference = REFERENCE_LIBRARY[referenceId];
+                    const number = REFERENCE_NUMBER_BY_ID[referenceId];
+
+                    return (
+                      <li value={number} key={referenceId}>
+                        {reference.citation}{" "}
+                        <a
+                          href={reference.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {reference.url}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
+            </section>
+          )}
+
+          {includeCaseExamples && (
+            <PlanPrintCaseAppendix title={caseAppendixTitle} />
+          )}
+
+          {includeGuidingFrameworks && (
+            <PlanPrintFrameworkAppendix
+              title={frameworkAppendixTitle}
+            />
+          )}
         </div>
       );
     }
@@ -11332,14 +12447,22 @@
       onAddCustomInterviewPrompt,
       onRemoveCustomInterviewPrompt,
       implementationOutcomesReflection,
+      onChangeImplementationOutcomesReflection,
       interestHoldersReflection,
+      onChangeInterestHoldersReflection,
       evaluationStrategiesReflection,
+      onChangeEvaluationStrategiesReflection,
     }) {
       const selectedOutcomeSet = new Set(implementationOutcomeSelections);
       const selectedOutcomes = OUTCOMES.filter((outcome) => selectedOutcomeSet.has(outcome.id));
       const [activeOutcomeId, setActiveOutcomeId] = useState(
         selectedOutcomes[0]?.id || OUTCOMES[0].id
       );
+      const [showPrintOptions, setShowPrintOptions] = useState(false);
+      const [includeReferences, setIncludeReferences] = useState(true);
+      const [includeCaseExamples, setIncludeCaseExamples] = useState(false);
+      const [includeGuidingFrameworks, setIncludeGuidingFrameworks] =
+        useState(false);
 
       const activeOutcome =
         OUTCOMES.find((outcome) => outcome.id === activeOutcomeId) ||
@@ -11591,7 +12714,13 @@
                     </p>
                   </div>
                   <div className="plan-toolbar-actions">
-                    <button className="button secondary" type="button" onClick={() => window.print()}>
+                    <button
+                      className="button secondary"
+                      type="button"
+                      aria-expanded={showPrintOptions}
+                      aria-controls="plan-print-options"
+                      onClick={() => setShowPrintOptions((current) => !current)}
+                    >
                       Print / Save as PDF
                     </button>
                     <button className="button" type="button" onClick={handleExport}>
@@ -11599,6 +12728,65 @@
                     </button>
                   </div>
                 </div>
+
+                {showPrintOptions && (
+                  <aside
+                    id="plan-print-options"
+                    className="plan-print-options"
+                    aria-labelledby="plan-print-options-title"
+                  >
+                    <h3 id="plan-print-options-title">Print options</h3>
+                    <p>
+                      Choose which supplementary sections to include in the printed
+                      evaluation plan. These options affect print output only.
+                    </p>
+
+                    <div className="plan-print-option-list">
+                      <label className="plan-print-option">
+                        <input
+                          type="checkbox"
+                          checked={includeReferences}
+                          onChange={(event) =>
+                            setIncludeReferences(event.target.checked)
+                          }
+                        />
+                        <span>Include references cited in this plan</span>
+                      </label>
+
+                      <label className="plan-print-option">
+                        <input
+                          type="checkbox"
+                          checked={includeCaseExamples}
+                          onChange={(event) =>
+                            setIncludeCaseExamples(event.target.checked)
+                          }
+                        />
+                        <span>Include health care case examples</span>
+                      </label>
+
+                      <label className="plan-print-option">
+                        <input
+                          type="checkbox"
+                          checked={includeGuidingFrameworks}
+                          onChange={(event) =>
+                            setIncludeGuidingFrameworks(event.target.checked)
+                          }
+                        />
+                        <span>Include guiding frameworks</span>
+                      </label>
+                    </div>
+
+                    <div className="button-row">
+                      <button
+                        className="button"
+                        type="button"
+                        onClick={() => window.print()}
+                      >
+                        Print / Save as PDF
+                      </button>
+                    </div>
+                  </aside>
+                )}
 
                 <section className="plan-outcome-selector" aria-labelledby="plan-outcomes-title">
                   <div className="plan-outcome-selector-header">
@@ -11790,23 +12978,50 @@
                   <div className="plan-reflection-grid">
                     <article className="plan-reflection-card">
                       <h4>Implementation Outcomes</h4>
-                      <p>
-                        {implementationOutcomesReflection ||
-                          "No reflection recorded."}
-                      </p>
+                      <label>
+                        <textarea
+                          aria-label="Implementation Outcomes reflection"
+                          value={implementationOutcomesReflection}
+                          placeholder="Record your reflection, key takeaways, or remaining questions."
+                          onChange={(event) =>
+                            onChangeImplementationOutcomesReflection(
+                              event.target.value
+                            )
+                          }
+                        />
+                      </label>
                     </article>
+
                     <article className="plan-reflection-card">
                       <h4>Interest Holders</h4>
-                      <p>
-                        {interestHoldersReflection || "No reflection recorded."}
-                      </p>
+                      <label>
+                        <textarea
+                          aria-label="Interest Holders reflection"
+                          value={interestHoldersReflection}
+                          placeholder="Record your reflection, key takeaways, or remaining questions."
+                          onChange={(event) =>
+                            onChangeInterestHoldersReflection(
+                              event.target.value
+                            )
+                          }
+                        />
+                      </label>
                     </article>
+
                     <article className="plan-reflection-card">
                       <h4>Evaluation Strategies</h4>
-                      <p>
-                        {evaluationStrategiesReflection ||
-                          "No reflection recorded."}
-                      </p>
+                      <label>
+                        <textarea
+                          aria-label="Evaluation Strategies reflection"
+                          value={evaluationStrategiesReflection}
+                          placeholder="Record your reflection, key takeaways, or remaining questions."
+                          onChange={(event) =>
+                            onChangeEvaluationStrategiesReflection(
+                              event.target.value
+                            )
+                          }
+                        />
+                      </label>
                     </article>
                   </div>
                 </section>
@@ -11818,10 +13033,18 @@
                       Use the plan as a working document for team discussion, evaluation planning, and future refinement.
                     </p>
                   </div>
-                  <PageLink route="resources">
-                    Continue to Resources
-                    <span aria-hidden="true">→</span>
-                  </PageLink>
+
+                  <div className="next-step-actions">
+                    <PageLink route="evaluation-strategies" secondary>
+                      <span aria-hidden="true">←</span>
+                      Back to Evaluation Strategies
+                    </PageLink>
+
+                    <PageLink route="resources">
+                      Continue to Resources
+                      <span aria-hidden="true">→</span>
+                    </PageLink>
+                  </div>
                 </div>
               </div>
 
@@ -11838,6 +13061,9 @@
                 implementationOutcomesReflection={implementationOutcomesReflection}
                 interestHoldersReflection={interestHoldersReflection}
                 evaluationStrategiesReflection={evaluationStrategiesReflection}
+                includeReferences={includeReferences}
+                includeCaseExamples={includeCaseExamples}
+                includeGuidingFrameworks={includeGuidingFrameworks}
               />
             </div>
           </section>
@@ -12269,6 +13495,23 @@
                   </div>
                 </details>
               </div>
+
+              <div className="next-step resources-back-step">
+                <div>
+                  <h2>Return to your evaluation plan</h2>
+                  <p>
+                    Go back to review or refine your working plan and print or export
+                    an updated copy when needed.
+                  </p>
+                </div>
+
+                <div className="next-step-actions">
+                  <PageLink route="final-plan" secondary>
+                    <span aria-hidden="true">←</span>
+                    Back to Evaluation Plan
+                  </PageLink>
+                </div>
+              </div>
             </div>
           </section>
         </>
@@ -12584,6 +13827,12 @@
       } else if (route === "interest-holders") {
         currentPage = (
           <ExploreInterestHoldersPage
+            implementationOutcomeSelections={
+              implementationOutcomeSelections
+            }
+            onToggleImplementationOutcome={
+              toggleImplementationOutcome
+            }
             interestHolderSelections={interestHolderSelections}
             onToggleInterestHolder={toggleInterestHolder}
             interestHolderDetails={interestHolderDetails}
@@ -12600,6 +13849,12 @@
       } else if (route === "evaluation-strategies") {
         currentPage = (
           <ExploreEvaluationStrategiesPage
+            implementationOutcomeSelections={
+              implementationOutcomeSelections
+            }
+            onToggleImplementationOutcome={
+              toggleImplementationOutcome
+            }
             evaluationStrategySelections={
               evaluationStrategySelections
             }
@@ -12642,8 +13897,15 @@
             onAddCustomInterviewPrompt={addCustomInterviewPrompt}
             onRemoveCustomInterviewPrompt={removeCustomInterviewPrompt}
             implementationOutcomesReflection={implementationOutcomesReflection}
+            onChangeImplementationOutcomesReflection={
+              setImplementationOutcomesReflection
+            }
             interestHoldersReflection={interestHoldersReflection}
+            onChangeInterestHoldersReflection={setInterestHoldersReflection}
             evaluationStrategiesReflection={evaluationStrategiesReflection}
+            onChangeEvaluationStrategiesReflection={
+              setEvaluationStrategiesReflection
+            }
           />
         );
       } else if (route === "resources") {
