@@ -861,73 +861,78 @@ implementation outcomes and planning evaluation during mid-design."
       border-color: white;
     }
 
-    /* Workflow navigation uses equal outer tracks so the guidance remains
-       geometrically centered. The center track is deliberately wider to reduce
-       line wrapping, while Back and Next use matching button dimensions. */
+    /* Workflow navigation keeps Back, guidance, and Continue on one
+       balanced horizontal row at desktop widths. Symmetric outer tracks keep
+       the guidance geometrically centered even when one button is absent. */
     .next-step.has-step-navigation {
       display: grid;
       grid-template-columns:
-        minmax(250px, 0.85fr)
-        minmax(520px, 2.3fr)
-        minmax(250px, 0.85fr);
+        minmax(170px, 0.7fr)
+        minmax(0, 2.6fr)
+        minmax(170px, 0.7fr);
+      grid-template-rows: auto;
       align-items: center;
-      gap: clamp(18px, 2.4vw, 30px);
-    }
-
-    .next-step.has-step-navigation .next-step-back,
-    .next-step.has-step-navigation .next-step-back-spacer {
-      grid-column: 1;
-      width: 100%;
-      max-width: 280px;
-      justify-self: start;
+      column-gap: clamp(18px, 2.5vw, 34px);
+      padding: clamp(18px, 2.8vw, 26px);
     }
 
     .next-step.has-step-navigation .next-step-copy {
       grid-column: 2;
-      width: 100%;
-      max-width: 940px;
+      grid-row: 1;
+      width: min(100%, 760px);
       margin-inline: auto;
       text-align: center;
       justify-self: center;
     }
 
     .next-step.has-step-navigation .next-step-copy h2 {
-      max-width: 920px;
+      max-width: 740px;
       margin: 0 auto;
-      font-size: clamp(1.18rem, 1.45vw, 1.32rem);
-      font-weight: 740;
-      line-height: 1.28;
+      font-size: 0.84rem !important;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: 0;
     }
 
     .next-step.has-step-navigation .next-step-copy p {
-      max-width: 900px;
-      margin: 7px auto 0;
-      line-height: 1.45;
+      max-width: 720px;
+      margin: 4px auto 0;
+      font-size: 0.76rem;
+      line-height: 1.42;
     }
 
     .next-step.has-step-navigation .next-step-primary-guidance {
-      font-weight: 700;
+      font-size: 0.8rem;
+      font-weight: 680;
     }
 
     .next-step.has-step-navigation .next-step-supporting-copy {
       color: #dcebed;
-      font-size: 0.88rem;
+      font-size: 0.74rem;
     }
 
-    .next-step.has-step-navigation .next-step-forward,
-    .next-step.has-step-navigation .next-step-forward-spacer {
+    .next-step.has-step-navigation .next-step-back {
+      grid-column: 1;
+      grid-row: 1;
+      width: min(100%, 210px);
+      justify-self: start;
+    }
+
+    .next-step.has-step-navigation .next-step-forward {
       grid-column: 3;
-      width: 100%;
-      max-width: 280px;
+      grid-row: 1;
+      width: min(100%, 210px);
       justify-self: end;
     }
 
     .next-step.has-step-navigation .next-step-back .button,
     .next-step.has-step-navigation .next-step-forward .button {
       width: 100%;
-      min-height: 54px;
-      padding-inline: 16px;
+      min-height: 42px;
+      padding: 8px 11px;
       text-align: center;
+      font-size: 0.76rem;
+      line-height: 1.28;
     }
 
     .next-step.has-step-navigation .next-step-back .button.secondary {
@@ -942,10 +947,10 @@ implementation outcomes and planning evaluation during mid-design."
       border-color: white;
     }
 
-    @media (max-width: 1180px) {
+    @media (max-width: 760px) {
       .next-step.has-step-navigation {
         grid-template-columns: 1fr;
-        gap: 16px;
+        row-gap: 12px;
       }
 
       .next-step.has-step-navigation .next-step-copy,
@@ -957,27 +962,22 @@ implementation outcomes and planning evaluation during mid-design."
       }
 
       .next-step.has-step-navigation .next-step-copy {
-        order: 1;
+        grid-row: 1;
       }
 
       .next-step.has-step-navigation .next-step-back {
-        order: 2;
+        grid-row: 2;
         justify-self: stretch;
       }
 
       .next-step.has-step-navigation .next-step-forward {
-        order: 3;
+        grid-row: 3;
         justify-self: stretch;
       }
 
       .next-step.has-step-navigation .next-step-back .button,
       .next-step.has-step-navigation .next-step-forward .button {
         width: 100%;
-      }
-
-      .next-step.has-step-navigation .next-step-back-spacer,
-      .next-step.has-step-navigation .next-step-forward-spacer {
-        display: none;
       }
     }
 
@@ -2972,7 +2972,15 @@ implementation outcomes and planning evaluation during mid-design."
       }
 
       .next-step.has-step-navigation .next-step-copy h2 {
-        font-size: 1.18rem;
+        font-size: 0.84rem !important;
+      }
+
+      .reflection-guidance-list {
+        padding-left: 18px;
+      }
+
+      .reflection-guidance-list li + li {
+        margin-top: 8px;
       }
 
       .outcome-navigation,
@@ -3571,11 +3579,14 @@ implementation outcomes and planning evaluation during mid-design."
 
     .scaffold-family-interest {
       max-width: 880px;
-      margin: 0;
-      padding: 16px 18px;
+      margin: 0 0 18px;
+      padding: 15px 17px;
       color: var(--ink-soft);
       background: var(--accent-soft);
+      border: 1px solid #bdd5d8;
       border-radius: var(--radius);
+      font-size: 0.94rem;
+      line-height: 1.6;
     }
 
     .scaffold-family-interest strong {
@@ -3727,7 +3738,7 @@ implementation outcomes and planning evaluation during mid-design."
       counter-reset: scaffold-reflection;
     }
 
-    .scaffold-reflection-grid li {
+    .scaffold-reflection-grid > li {
       min-width: 0;
       padding: 16px 17px;
       display: grid;
@@ -3743,7 +3754,7 @@ implementation outcomes and planning evaluation during mid-design."
       counter-increment: scaffold-reflection;
     }
 
-    .scaffold-reflection-grid li::before {
+    .scaffold-reflection-grid > li::before {
       content: counter(scaffold-reflection);
       width: 26px;
       height: 26px;
@@ -3896,7 +3907,7 @@ implementation outcomes and planning evaluation during mid-design."
       max-width: none;
     }
 
-    .scaffold-reflection-grid li {
+    .scaffold-reflection-grid > li {
       font-weight: 400;
     }
 
@@ -4059,7 +4070,7 @@ implementation outcomes and planning evaluation during mid-design."
     }
 
     .scaffold-family-definition {
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
 
     .scaffold-family-disclosure {
@@ -4122,7 +4133,7 @@ implementation outcomes and planning evaluation during mid-design."
       margin-bottom: 8px;
     }
 
-    .global-reflection-grid li {
+    .global-reflection-grid > li {
       font-weight: 400;
     }
 
@@ -4153,12 +4164,27 @@ implementation outcomes and planning evaluation during mid-design."
       line-height: 1.48;
     }
 
-    .reflection-guidance {
-      margin: 8px 0 0;
+    .reflection-guidance-list {
+      margin: 9px 0 0;
+      padding-left: 19px;
       color: var(--ink-soft);
       font-size: 0.84rem;
       font-weight: 400;
       line-height: 1.58;
+    }
+
+    .reflection-guidance-list li {
+      padding-left: 2px;
+    }
+
+    .reflection-guidance-list li + li {
+      margin-top: 7px;
+    }
+
+    .reflection-guidance-list em {
+      color: inherit;
+      font-style: italic;
+      font-weight: inherit;
     }
 
     .reflection-notes {
@@ -4230,12 +4256,12 @@ implementation outcomes and planning evaluation during mid-design."
       outline-offset: 2px;
     }
 
-    .page-reflection-grid li:last-child:nth-child(odd) {
+    .page-reflection-grid > li:last-child:nth-child(odd) {
       grid-column: 1 / -1;
     }
 
     @media (max-width: 640px) {
-      .page-reflection-grid li {
+      .page-reflection-grid > li {
         grid-column: auto !important;
       }
 
@@ -6898,14 +6924,43 @@ implementation outcomes and planning evaluation during mid-design."
       {
         question:
           "Which implementation outcomes are most important and actionable for your project at this stage?",
-        guidance:
-          "Several, or even all, implementation outcomes may be relevant to your project, but they may not be equally important to evaluate right now. Review the information provided for each outcome, paying particular attention to its Mid-Design Relevance and Key Considerations, and consider which outcomes address the most important implementation concerns or opportunities for your project. Consider how each outcome connects to aspects of your innovation or implementation approach that your team can still design, modify, test, or prepare for, especially where your team is uncertain about how the innovation will work in practice or where learning about the outcome could influence the design process, implementation planning, or the resulting design. Also consider what your team already knows and which outcomes may be more useful to revisit as the innovation or implementation plan develops. You can return to the guide as other outcomes become more important later.",
+        guidanceItems: [
+          {
+            text:
+              "Several, or even all, implementation outcomes may be relevant to your project, but they may not be equally important to evaluate right now.",
+          },
+          {
+            text:
+              "Review the information provided for each outcome, paying particular attention to its Mid-Design Relevance and Key Considerations, and consider which outcomes address the most important implementation concerns or opportunities for your project.",
+            italicPhrases: ["Mid-Design Relevance", "Key Considerations"],
+          },
+          {
+            text:
+              "Consider how each outcome connects to aspects of your innovation or implementation approach that your team can still design, modify, test, or prepare for, especially where your team is uncertain about how the innovation will work in practice or where learning about the outcome could influence the design process, implementation planning, or the resulting design.",
+            italicPhrases: ["still design, modify, test, or prepare for"],
+          },
+          {
+            text:
+              "Also consider what your team already knows and which outcomes may be more useful to revisit as the innovation or implementation plan develops. You can return to the guide as other outcomes become more important later.",
+          },
+        ],
       },
       {
         question:
           "How might your priority implementation outcomes influence, reinforce, or create tradeoffs with one another?",
-        guidance:
-          "Implementation outcomes often interact. For example, improving feasibility may affect implementation cost, or increasing fidelity may influence acceptability. Consider whether examining related outcomes together could help you better understand your project, while recognizing that connected outcomes do not necessarily all need to be evaluated at the same time.",
+        guidanceItems: [
+          {
+            text:
+              "Implementation outcomes often interact. For example, improving feasibility may affect implementation cost, or increasing fidelity may influence acceptability.",
+          },
+          {
+            text:
+              "Consider whether examining related outcomes together could help you better understand your project, while recognizing that connected outcomes do not necessarily all need to be evaluated at the same time.",
+            italicPhrases: [
+              "connected outcomes do not necessarily all need to be evaluated at the same time",
+            ],
+          },
+        ],
       },
     ];
 
@@ -6913,32 +6968,59 @@ implementation outcomes and planning evaluation during mid-design."
       {
         question:
           "Which interest holders can provide the evidence or perspectives your team most needs for the implementation outcomes you are prioritizing?",
-        guidance:
-          "Focus on a manageable set of interest holders whose legitimate interests, experiences, or roles provide important and complementary perspectives on your priority outcomes. When appropriate, an interest holder who can inform multiple implementation outcomes may help make your evaluation more efficient. For each interest-holder group, also consider how many people you may need to engage to understand meaningful variation in perspectives rather than relying on a single individual.",
-        italicPhrases: [
-          "Focus on a manageable set of interest holders",
-          "consider how many people you may need to engage to understand meaningful variation in perspectives",
+        guidanceItems: [
+          {
+            text:
+              "Focus on a manageable set of interest holders whose legitimate interests, experiences, or roles provide important and complementary perspectives on your priority outcomes.",
+            italicPhrases: ["legitimate interests"],
+          },
+          {
+            text:
+              "When appropriate, an interest holder who can inform multiple implementation outcomes may help make your evaluation more efficient.",
+          },
+          {
+            text:
+              "For each interest-holder group, also consider how many people you may need to engage to understand meaningful variation in perspectives rather than relying on a single individual.",
+          },
         ],
       },
       {
         question:
           "How did you identify your interest holders, whose perspectives might your current approach make easier to see or easier to miss, and how will you address perspectives you cannot engage directly at this stage?",
-        guidance:
-          "Look beyond familiar collaborators, formal job titles, and people who are easiest to access. Consider lived experience, locally situated or experiential knowledge, and people whose perspectives may be less visible in traditional design or organizational processes. Given your current time, access, and resources, consider which groups you can engage directly and where existing research, organizational or administrative data, community or professional intermediaries, or prior engagement findings may help address remaining gaps. Indirect sources can provide useful evidence, but they should not be treated as equivalent to hearing directly from the people whose perspectives they represent.",
-        italicPhrases: [
-          "Look beyond familiar collaborators, formal job titles, and people who are easiest to access",
-          "Consider lived experience, locally situated or experiential knowledge",
-          "consider which groups you can engage directly",
+        guidanceItems: [
+          {
+            text:
+              "Look beyond familiar collaborators, formal job titles, and people who are easiest to access.",
+          },
+          {
+            text:
+              "Consider lived experience, locally situated or experiential knowledge, and people whose perspectives may be less visible in traditional design or organizational processes.",
+          },
+          {
+            text:
+              "Given your current time, access, and resources, consider which groups you can engage directly and where existing research, organizational or administrative data, community or professional intermediaries, or prior engagement findings may help address remaining gaps.",
+          },
+          {
+            text:
+              "Indirect sources can provide useful evidence, but they should not be treated as equivalent to hearing directly from the people whose perspectives they represent.",
+            italicPhrases: [
+              "they should not be treated as equivalent to hearing directly from the people whose perspectives they represent",
+            ],
+          },
         ],
       },
       {
         question:
           "What assumptions are shaping who your team considers knowledgeable, relevant, or appropriate to involve?",
-        guidance:
-          "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value. Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation.",
-        italicPhrases: [
-          "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value",
-          "Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation",
+        guidanceItems: [
+          {
+            text:
+              "Consider whether professional status, technical expertise, familiarity to the team, ease of communication, or decision-making authority is affecting whose knowledge you value.",
+          },
+          {
+            text:
+              "Ask whether people with different experiences, priorities, or views of the innovation could change how you understand its implementation.",
+          },
         ],
       },
     ];
@@ -6947,33 +7029,65 @@ implementation outcomes and planning evaluation during mid-design."
       {
         question:
           "For each priority implementation outcome, which evaluation strategies are most appropriate for generating the evidence you need?",
-        guidance:
-          "Trace a clear connection between the implementation outcome you want to understand and the evaluation strategy you plan to use. Review how the strategy has been used in existing studies or similar contexts, and consider what type of evidence it will generate and how that evidence could inform your design or implementation decisions. Quantitative and qualitative strategies can provide different and complementary forms of evidence. When useful, combining them can support comparison, explanation, or triangulation. Your goal does not need to be methodological completeness. Each selected strategy should have a clear reason for being included and should contribute evidence that helps you understand one or more priority implementation outcomes.",
-        italicPhrases: [
-          "Trace a clear connection between the implementation outcome you want to understand and the evaluation strategy you plan to use",
-          "Review how the strategy has been used in existing studies or similar contexts",
-          "Each selected strategy should have a clear reason for being included",
+        guidanceItems: [
+          {
+            text:
+              "Trace a clear connection between the implementation outcome you want to understand and the evaluation strategy you plan to use.",
+          },
+          {
+            text:
+              "Review how the strategy has been used in existing studies or similar contexts, and consider what type of evidence it will generate and how that evidence could inform your design or implementation decisions.",
+            italicPhrases: ["existing studies or similar contexts"],
+          },
+          {
+            text:
+              "Quantitative and qualitative strategies can provide different and complementary forms of evidence. When useful, combining them can support comparison, explanation, or triangulation.",
+          },
+          {
+            text:
+              "Your goal does not need to be methodological completeness. Each selected strategy should have a clear reason for being included and should contribute evidence that helps you understand one or more priority implementation outcomes.",
+            italicPhrases: [
+              "Each selected strategy should have a clear reason for being included",
+            ],
+          },
         ],
       },
       {
         question:
           "How should each selected evaluation strategy be adapted to fit your project and the evidence you need?",
-        guidance:
-          "The strategies in this guide are starting points rather than fixed protocols. Consider how each strategy may need to be adapted to your innovation, setting, design stage, interest holders, available resources, and existing evaluation activities. You may modify how a strategy is used, combine elements across approaches, or develop a project-specific approach when appropriate, while keeping a clear rationale for how the adaptation will generate useful evidence.",
-        italicPhrases: [
-          "Consider how each strategy may need to be adapted",
-          "keep a clear rationale for how the adaptation will generate useful evidence",
+        guidanceItems: [
+          {
+            text:
+              "The strategies in this guide are starting points rather than fixed protocols.",
+            italicPhrases: ["starting points rather than fixed protocols"],
+          },
+          {
+            text:
+              "Consider how each strategy may need to be adapted to your innovation, setting, design stage, interest holders, available resources, and existing evaluation activities.",
+          },
+          {
+            text:
+              "You may modify how a strategy is used, combine elements across approaches, or develop a project-specific approach when appropriate, while keeping a clear rationale for how the adaptation will generate useful evidence.",
+          },
         ],
       },
       {
         question:
           "Looking across your priority implementation outcomes and selected evaluation strategies, is anything important missing or no longer necessary?",
-        guidance:
-          "Review the choices and reflections you have made throughout the guide. Add, remove, or revise selections where needed, and note any remaining questions or evidence gaps that require further investigation. When your starting plan feels coherent, continue to Develop Your Evaluation Plan to review and refine the full plan in one place.",
-        italicPhrases: [
-          "Review the choices and reflections you have made throughout the guide",
-          "Add, remove, or revise selections where needed",
-          "note any remaining questions or evidence gaps that require further investigation",
+        guidanceItems: [
+          {
+            text:
+              "Review the choices and reflections you have made throughout the guide.",
+          },
+          {
+            text:
+              "Add, remove, or revise selections where needed, and note any remaining questions or evidence gaps that require further investigation.",
+          },
+          {
+            text:
+              "When your starting plan feels coherent, continue to Develop Your Evaluation Plan to review and refine the full plan in one place.",
+            italicPhrases: ["Develop Your Evaluation Plan"],
+          },
         ],
       },
     ];
@@ -8421,18 +8535,18 @@ implementation outcomes and planning evaluation during mid-design."
           {
             caseId: "hpv",
             appearance: {
-              text: "Design requirements were explicitly shaped around the intended screening context: noninvasive collection, LMIC manufacturability, reusability, available disinfection methods, low cost, and use without medical skill. Clinicians also considered whether the device met their approval and raised concerns about cost and accuracy.",
+              text: "Clinicians directly evaluated the appropriateness of the HPV innovation using the Intervention Appropriateness Measure (IAM). Design requirements were also explicitly shaped around the intended screening context: noninvasive collection, LMIC manufacturability, reusability, available disinfection methods, low cost, and use without medical skill. Clinicians also considered whether the device met their approval and raised concerns about cost and accuracy.",
               citations: [6],
             },
-            relationship: "Related / strong evidence",
+            relationship: "Directly evaluated",
           },
           {
             caseId: "ecv",
             appearance: {
-              text: "Appropriateness was explicitly assessed after clinicians participated in the program using the Intervention Appropriateness Measure (IAM), alongside acceptability and feasibility measures. The program had also been designed specifically around low-resource training conditions.",
+              text: "The program was designed specifically around low-resource training conditions, providing related contextual evidence about fit with the intended implementation setting.",
               citations: [8],
             },
-            relationship: "Directly evaluated",
+            relationship: "Related / strong evidence",
           },
           {
             caseId: "contraception",
@@ -9110,12 +9224,16 @@ implementation outcomes and planning evaluation during mid-design."
                   <strong className="reflection-question">
                     {prompt.question}
                   </strong>
-                  <p className="reflection-guidance">
-                    <InlineEmphasisText
-                      text={prompt.guidance}
-                      italicPhrases={prompt.italicPhrases || []}
-                    />
-                  </p>
+                  <ul className="reflection-guidance-list">
+                    {prompt.guidanceItems.map((item) => (
+                      <li key={item.text}>
+                        <InlineEmphasisText
+                          text={item.text}
+                          italicPhrases={item.italicPhrases || []}
+                        />
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </li>
             ))}
@@ -10455,8 +10573,6 @@ implementation outcomes and planning evaluation during mid-design."
               />
 
               <div className="next-step interest-next-step outcome-next-step has-step-navigation">
-                <div className="next-step-back-spacer" aria-hidden="true"></div>
-
                 <div className="next-step-copy">
                   <h2>
                     When you have identified which implementation outcomes feel
@@ -10563,7 +10679,12 @@ implementation outcomes and planning evaluation during mid-design."
           <header className="scaffold-family-header">
             <div className="scaffold-family-number">Family {family.number}</div>
             <h3 id={familyTitleId}>{family.label}</h3>
-            <p className="scaffold-family-definition">{family.definition}</p>
+            <div className="scaffold-family-interest">
+              <strong>Legitimate interest</strong>
+              <p>
+                {family.definition}{" "}{family.legitimateInterest}
+              </p>
+            </div>
             <button
               className="scaffold-family-disclosure"
               type="button"
@@ -10583,11 +10704,6 @@ implementation outcomes and planning evaluation during mid-design."
               id={`interest-family-${family.id}-content`}
               className="scaffold-family-content"
             >
-              <aside className="scaffold-family-interest">
-                <strong>Legitimate interest</strong>
-                <p>{family.legitimateInterest}</p>
-              </aside>
-
               <details className="scaffold-evidence" open>
                 <summary>
                   <span className="scaffold-evidence-title">
@@ -10651,7 +10767,9 @@ implementation outcomes and planning evaluation during mid-design."
         >
           <span className="family-overview-number">Family {family.number}</span>
           <span className="family-overview-title">{family.label}</span>
-          <span className="family-overview-definition">{family.definition}</span>
+          <span className="family-overview-definition">
+            {family.definition}{" "}{family.legitimateInterest}
+          </span>
           <span className="family-overview-action">
             {isOpen ? "Currently expanded" : "Explore family"}
             <span aria-hidden="true"> →</span>
@@ -10851,8 +10969,8 @@ implementation outcomes and planning evaluation during mid-design."
             <strong>scored procedural checklist</strong> assessing ECV skill;{" "}
             <strong>simulation procedure success</strong>;{" "}
             <strong>participant satisfaction</strong>; and{" "}
-            <strong>AIM, IAM, and FIM</strong> ratings for acceptability,
-            appropriateness, and feasibility.{" "}
+            <strong>AIM and FIM</strong> ratings for acceptability and
+            feasibility.{" "}
             <strong>Open-ended feedback</strong> was also analyzed thematically.
             Statistical analyses included paired and independent t tests,
             Fisher&apos;s exact tests, and Spearman&apos;s rho to assess
@@ -14325,7 +14443,6 @@ implementation outcomes and planning evaluation during mid-design."
                   </p>
                 </div>
 
-                <div className="next-step-forward-spacer" aria-hidden="true"></div>
               </div>
             </div>
           </section>
