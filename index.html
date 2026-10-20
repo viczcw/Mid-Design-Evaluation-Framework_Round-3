@@ -1242,6 +1242,30 @@ implementation outcomes and planning evaluation during mid-design."
       line-height: 1.5;
     }
 
+    /* Guide Step 1: reflection shortcut directly below the relevance note. */
+    .outcomes-content .outcome-reflection-link {
+      display: inline-block;
+      margin-top: 7px;
+      padding: 0;
+      color: var(--io-color, var(--accent-dark));
+      background: transparent;
+      border: 0;
+      font-size: 0.76rem;
+      line-height: 1.45;
+      text-align: left;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .outcomes-content .outcome-reflection-link:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    .outcomes-content .page-reflection-panel {
+      scroll-margin-top: calc(var(--header-height) + 24px);
+    }
+
     .outcome-interest-control {
       position: relative;
       min-height: 40px;
@@ -1403,6 +1427,96 @@ implementation outcomes and planning evaluation during mid-design."
       color: #5c5120;
       background: #f7f3df;
       border: 1px solid #c9b96e;
+    }
+
+    .outcome-tag.design {
+      color: #43546a;
+      background: #f1f5f9;
+      border: 1px solid #aab8c9;
+    }
+
+    .outcome-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .outcome-tag svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    .outcome-category-legend {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      margin-bottom: 26px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-large);
+      overflow: hidden;
+    }
+
+    .outcome-category-legend-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 20px;
+      min-width: 0;
+    }
+
+    .outcome-category-legend-item + .outcome-category-legend-item {
+      border-left: 1px solid var(--line);
+    }
+
+    .outcome-category-legend-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--accent-dark);
+    }
+
+    .outcome-category-legend-item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.93rem;
+    }
+
+    .outcome-category-legend-item p {
+      margin: 0;
+      font-size: 0.83rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    .outcome-category-legend-item .outcome-category-members {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 880px) {
+      .outcome-category-legend { grid-template-columns: 1fr; }
+      .outcome-category-legend-item + .outcome-category-legend-item {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+    }
+
+    .outcome-design-response {
+      padding: 20px 22px;
+      background: #fbfcfd;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+    }
+
+    .outcome-design-response p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.94rem;
+      line-height: 1.55;
     }
 
     .outcome-considerations {
@@ -6207,6 +6321,124 @@ implementation outcomes and planning evaluation during mid-design."
       }
     }
 
+
+
+    /* Guide Step 1 content only: category-based outcome colors.
+       Preserve the existing card lightness order (Definition > Relevance >
+       Key Considerations > Illustrative Design Response). */
+    .outcomes-content .category-assess {
+      --io-color: #176c74;
+      --io-definition-bg: #e1eff0;
+      --io-relevance-bg: #eef6f6;
+      --io-considerations-bg: #f4f8f8;
+      --io-response-bg: #fbfcfd;
+      --io-border: #b9d5d7;
+    }
+
+    .outcomes-content .category-design {
+      --io-color: #8a571c;
+      --io-definition-bg: #f7e8d2;
+      --io-relevance-bg: #fcf2e5;
+      --io-considerations-bg: #fbf7f0;
+      --io-response-bg: #fefcf9;
+      --io-border: #ddc6a4;
+    }
+
+    .outcomes-content .category-anticipate {
+      --io-color: #2d6947;
+      --io-definition-bg: #e1eee4;
+      --io-relevance-bg: #eff7f0;
+      --io-considerations-bg: #f5faf5;
+      --io-response-bg: #fcfdfb;
+      --io-border: #bbd9c3;
+    }
+
+    /* Legend: the same accent and hue as each outcome tag. */
+    .outcomes-content .outcome-category-legend-item {
+      background: var(--io-response-bg);
+      border-top: 3px solid var(--io-color);
+    }
+
+    .outcomes-content .outcome-category-legend-item strong,
+    .outcomes-content .outcome-category-legend-icon {
+      color: var(--io-color);
+    }
+
+    /* Left outcome selector: color identifies category, selection remains clear. */
+    .outcomes-content .outcome-nav-item .outcome-button {
+      background: var(--io-response-bg);
+      border-left: 4px solid var(--io-color);
+    }
+
+    .outcomes-content .outcome-nav-item .outcome-button:hover {
+      background: var(--io-considerations-bg);
+      border-color: var(--io-border);
+      border-left-color: var(--io-color);
+    }
+
+    .outcomes-content .outcome-nav-item .outcome-button[aria-selected="true"] {
+      color: var(--io-color);
+      background: var(--io-definition-bg);
+      border-color: var(--io-border);
+      border-left-color: var(--io-color);
+    }
+
+    .outcomes-content .outcome-nav-item .outcome-interest-status.is-selected {
+      background: var(--io-color);
+      border-color: var(--io-color);
+    }
+
+    /* Right content cards: same depth relationships as the original page. */
+    .outcomes-content .outcome-detail .outcome-definition {
+      background: var(--io-definition-bg);
+      border-left-color: var(--io-color);
+    }
+
+    .outcomes-content .outcome-detail .outcome-relevance:not(.is-placeholder) {
+      background: var(--io-relevance-bg);
+      border-color: var(--io-border);
+    }
+
+    .outcomes-content .outcome-detail .outcome-considerations {
+      background: var(--io-considerations-bg);
+      border-color: var(--io-border);
+    }
+
+    .outcomes-content .outcome-detail .outcome-design-response {
+      background: var(--io-response-bg);
+      border-color: var(--io-border);
+    }
+
+    .outcomes-content .outcome-detail .outcome-section-label,
+    .outcomes-content .outcome-detail .outcome-detail-heading .eyebrow {
+      color: var(--io-color);
+    }
+
+    .outcomes-content .outcome-detail .outcome-tag {
+      color: var(--io-color);
+      background: var(--io-response-bg);
+      border-color: var(--io-color);
+    }
+
+    .outcomes-content .outcome-detail.is-interest-selected {
+      border-color: var(--io-color);
+    }
+
+    .outcomes-content .outcome-detail .outcome-interest-control:hover,
+    .outcomes-content .outcome-detail .outcome-interest-control.is-selected {
+      color: var(--io-color);
+      border-color: var(--io-color);
+    }
+
+    .outcomes-content .outcome-detail .outcome-interest-control.is-selected {
+      background: var(--io-definition-bg);
+    }
+
+    .outcomes-content .outcome-detail .outcome-interest-control.is-selected .outcome-interest-check {
+      background: var(--io-color);
+      border-color: var(--io-color);
+    }
+
   </style>
 </head>
 
@@ -8495,10 +8727,11 @@ implementation outcomes and planning evaluation during mid-design."
           citations: [1, 11],
         },
         relevance: {
-          tag: "Evaluate & Refine",
+          tag: "Assess & Refine",
           orientation: "present",
-          text: "Appropriateness can often be meaningfully assessed during mid-design, depending on the maturity of the innovation and whether intended interest holders can meaningfully evaluate it. Findings can directly support design refinement at the current stage.",
+          text: "Appropriateness can often be assessed during mid-design by gathering intended interest holders' perceptions of how well an innovation fits the problem, intended users, and implementation setting. These <em>perceptions</em> can be explored using design concepts, prototypes, or realistic use scenarios. Findings may reveal mismatches between the innovation and its intended context, informing potential refinements to its features, delivery approach, or integration into existing practices.",
         },
+        illustrativeDesignResponse: "If clinicians perceive that a screening innovation does not fit existing clinical practices, designers might explore alternative delivery workflows, integration points, or user responsibilities.",
         considerations: [
           {
             text: "Appropriateness concerns whether relevant interest holders perceive the innovation as fitting the intended problem, users, and setting. These perceptions may vary across people and contexts and can be influenced by factors such as organizational culture or climate.",
@@ -8546,14 +8779,15 @@ implementation outcomes and planning evaluation during mid-design."
         definition:
           "The extent to which an innovation is expected to engage its intended recipient population, including the number, proportion, and representativeness of eligible individuals who are willing and likely to be exposed to, receive, or participate in the innovation, as well as who may be missed and why (Gaglio et al., 2013; Glasgow & Estabrooks, 2018).",
         relevance: {
-          tag: "Anticipate & Shape",
+          tag: "Anticipate & Plan",
           orientation: "forward",
-          text: "Reach is usually not fully evaluable during mid-design because actual exposure and participation depend on how the innovation is offered and accessed in practice. Prospective evaluation can identify who is likely to be reached or missed, why differences may occur, and whether current design and implementation plan can be improved to maximize the potential reach of the intended population.",
+          text: "Reach is primarily a downstream outcome because actual exposure and participation depend on how the innovation is offered, accessed, and used during implementation. During mid-design, designers can identify the intended recipient population, anticipate who may be reached or missed, and examine potential barriers to equitable access and participation. Prospective assessments and scenario-based evaluations can inform design and implementation decisions that may improve opportunities for reaching the intended population.",
         },
+        illustrativeDesignResponse: "If prospective assessment suggests that a digital health innovation may be inaccessible to individuals with limited internet access, designers might explore offline functionality, alternative delivery formats, or additional access pathways.",
         considerations: [
           "Reach is primarily an individual-level outcome. It concerns whether intended recipients are exposed to or participate in the innovation, rather than whether organizations or staff adopt it or how deeply it becomes integrated within a service setting. (Gaglio et al., 2013; Glasgow & Estabrooks, 2018)",
           "Specifying the intended eligible population and the point at which an individual is considered reached is important. Depending on the innovation, this may mean being offered, exposed to, receiving, or participating in it.",
-          "Compare the characteristics of people who are reached with those who are eligible but are not reached. Differences across relevant populations can reveal inequities or systematic gaps in access and participation. (Glasgow & Estabrooks, 2018; Holtrop et al., 2021; Shaw et al., 2019)",
+          "Consider representativeness and equity in reach. Compare the characteristics of people who are likely to be reached with those who are eligible but may not be reached. Differences across populations may reveal inequities or systematic barriers to access and participation. Consider whether the planned design and implementation approach could disproportionately exclude underserved populations or worsen existing disparities, even when overall reach is expected to be high.(Glasgow & Estabrooks, 2018; Holtrop et al., 2021; Shaw et al., 2019)",
           "Examine reasons for participation, nonparticipation, or exclusion. These may arise from the innovation itself, the pathway through which it is offered or accessed, the implementation setting, or individual circumstances. (Glasgow & Estabrooks, 2018; Holtrop et al., 2021; Shaw et al., 2019)",
         ],
         evidence: [
@@ -8591,10 +8825,11 @@ implementation outcomes and planning evaluation during mid-design."
           citations: [1, 11],
         },
         relevance: {
-          tag: "Evaluate & Refine",
+          tag: "Assess & Refine",
           orientation: "present",
-          text: "Feasibility can often be meaningfully evaluated during mid-design when the innovation is sufficiently developed to be tested, simulated, or evaluated under realistic use conditions. Findings can identify practical barriers, resource and workflow requirements, and needed adaptations to improve the likelihood that the innovation can be successfully carried out in the intended setting (Proctor et al., 2011; Klaic et al., 2022).",
+          text: "Feasibility can often be assessed during mid-design through interest-holder perceptions, prototype testing, simulations, or preliminary evaluation under realistic use conditions. Findings may reveal practical constraints related to workflow, staffing, training, time, infrastructure, or other implementation requirements. Designers can use these insights to explore modifications to the innovation or its planned implementation approach that may make successful delivery or use more achievable.",
         },
+        illustrativeDesignResponse: "If a prototype introduces excessive steps into a clinical workflow, designers might explore simplifying interactions, automating selected tasks, or adjusting how the innovation integrates into existing procedures.",
         considerations: [
           "Feasibility depends on the conditions required for the innovation to work in practice. Relevant conditions may include workflow, staffing, time, skills and training, coordination, infrastructure, technology, space, supplies, and other resources needed for routine use or delivery (Proctor et al., 2011; Bowen et al., 2009).",
           "Feasibility includes both enabling conditions and practical burdens or barriers. An innovation may have supportive resources or processes in place while still introducing additional workload, complexity, coordination demands, time requirements, or other burdens that make routine implementation difficult (Bowen et al., 2009; Klaic et al., 2022).",
@@ -8632,15 +8867,20 @@ implementation outcomes and planning evaluation during mid-design."
         id: "acceptability",
         name: "Acceptability",
         definition: {
-          text: "The perception among relevant interest-holders that an innovation is agreeable, palatable, or satisfactory.",
+          text: "The perception among relevant interest-holders that an innovation is agreeable, palatable, or satisfactory in the context of its intended use or delivery.",
           citations: [1, 11],
         },
         relevance: {
-          tag: "Evaluate & Refine",
+          tag: "Assess & Refine",
           orientation: "present",
-          text: "Acceptability can often be meaningfully evaluated during mid-design once intended interest holders have sufficient information about or experience with the innovation to form a judgment. Findings can identify features that make the innovation more or less agreeable or satisfactory and directly support design refinement before broader implementation (Proctor et al., 2011; Klaic et al., 2022).",
+          text: "Acceptability can often be assessed during mid-design by gathering intended interest holders' <em>reactions</em> to a design concept, prototype, or early experience with the innovation. Findings may reveal concerns about comfort, satisfaction, perceived burden, or other characteristics that influence whether the innovation is considered agreeable or satisfactory. These insights can inform refinements to the innovation's features, interactions, or delivery experience before broader implementation.",
         },
+        illustrativeDesignResponse: "If intended users express discomfort with a health monitoring device, designers might explore modifications to its physical form, interaction requirements, privacy features, or use procedures.",
         considerations: [
+          {
+            text: "Explore what shapes acceptability. Beyond overall satisfaction, consider how specific design characteristics, anticipated experiences, and potential burdens contribute to favorable or unfavorable perceptions. Human factors insights may help identify opportunities to refine interactions or the user and delivery experience.",
+            citations: [],
+          },
           {
             text: "Focus on perceptions and reactions. Acceptability concerns whether relevant interest holders perceive the innovation as agreeable or satisfactory.",
             citations: [1],
@@ -8693,12 +8933,11 @@ implementation outcomes and planning evaluation during mid-design."
           citations: [1, 11],
         },
         relevance: {
-          tags: [
-            { label: "Evaluate & Refine", orientation: "present" },
-            { label: "Anticipate & Shape", orientation: "forward" },
-          ],
-          text: "Adoption can be partially evaluated during mid-design through interest holders’ intentions, initial decisions, or willingness to try the innovation, although routine adoption may not be fully observable until implementation begins. Early findings can identify conditions likely to support or inhibit initial uptake and inform design and implementation planning before broader rollout (Proctor et al., 2011).",
+          tag: "Anticipate & Plan",
+          orientation: "forward",
+          text: "Adoption is primarily realized during implementation, although intended interest holders' <em>intentions</em>, willingness to try, and anticipated barriers to <em>initial</em> uptake can be explored during mid-design. Prototype testing, stakeholder engagement, and preliminary assessments of organizational readiness may help designers identify conditions that could support or inhibit adoption. Findings can inform design refinements and implementation supports, such as onboarding, training, or workflow integration, to facilitate future uptake. Actual adoption should be reassessed once implementation begins.",
         },
+        illustrativeDesignResponse: "If early discussions suggest that clinicians may be reluctant to adopt a new digital screening tool because of anticipated onboarding demands, designers might explore simplified onboarding procedures, clearer guidance, or integration with existing systems.",
         considerations: [
           {
             text: "Focus on initial uptake. Adoption concerns the intention, initial decision, or action to try or employ an innovation, and may also be referred to as uptake.",
@@ -8709,8 +8948,12 @@ implementation outcomes and planning evaluation during mid-design."
             citations: ["Proctor et al., 2011"],
           },
           {
-            text: "Consider variation in adoption. Individuals or organizations may adopt an innovation at different times or rates, and adoption patterns can be influenced by characteristics of the innovation and its implementation context.",
+            text: "Consider variation and equity in adoption. Individuals or organizations may adopt an innovation at different times or rates. Examine whether these differences reflect unequal access to resources, infrastructure, or implementation support, and whether adoption patterns could reinforce or exacerbate existing disparities across populations or settings.",
             citations: ["Miake-Lye et al., 2017"],
+          },
+          {
+            text: "Consider adoption across organizational levels and decision-making roles. Adoption may occur at the individual, team, organizational, or health-system level, with decisions influenced by different interest holders, such as clinicians, organizational leaders, value analysis committees, and procurement teams. Clarify whose decision or initial action constitutes adoption, and how different roles and processes may enable or constrain initial uptake.",
+            citations: [],
           },
         ],
         evidence: [
@@ -8745,16 +8988,15 @@ implementation outcomes and planning evaluation during mid-design."
         id: "implementation-cost",
         name: "Implementation Cost",
         definition: {
-          text: "The resources used and cost impact (e.g., opportunity cost) associated with developing and executing an implementation strategy.",
+          text: "The resources used (e.g., personnel, materials, equipment) and cost impact (e.g., opportunity cost) associated with developing and executing an implementation strategy.",
           citations: [1, 11],
         },
         relevance: {
-          tags: [
-            { label: "Evaluate & Refine", orientation: "present" },
-            { label: "Anticipate & Shape", orientation: "forward" },
-          ],
-          text: "Implementation cost can be estimated during mid-design, although actual costs may change as the implementation approach, setting, scale, and resource use become clearer. Prospective evaluation can identify major resource demands, opportunity costs, and costly design or implementation choices that may be addressed before broader implementation (Proctor et al., 2011).",
+          tag: "Design & Test",
+          orientation: "design",
+          text: "Implementation cost can be estimated during mid-design, although actual costs may change as the implementation approach, setting, scale, and resource use become clearer. Prospective evaluation such as cost modeling, scenario analysis, and preliminary piloting may help designers explore how alternative design and implementation decisions affect anticipated resource requirements. Findings can inform modifications that reduce unnecessary implementation burden or improve resource efficiency, while recognizing that actual costs may differ during implementation.",
         },
+        illustrativeDesignResponse: "If prospective cost modeling suggests that extensive training would create a substantial implementation burden, designers might explore simplifying training requirements, providing self-guided resources, or modifying the implementation approach.",
         considerations: [
           {
             text: "Consider opportunity cost. Account not only for direct spending, but also for the value of time, personnel, space, or other resources diverted from their next-best use. Where feasible, resources should be valued according to their opportunity cost, with assumptions and uncertainty made transparent.",
@@ -8804,19 +9046,18 @@ implementation outcomes and planning evaluation during mid-design."
         id: "fidelity",
         name: "Fidelity",
         definition: {
-          text: "The degree to which an innovation is implemented as prescribed or as intended by developers.",
+          text: "The degree to which an innovation is implemented in accordance with its intended core components and functions, as defined and refined through collaboration among developers, implementers, and relevant interest holders.",
           citations: [
             "Proctor et al., 2011",
             "Carroll et al., 2007",
           ],
         },
         relevance: {
-          tags: [
-            { label: "Evaluate & Refine", orientation: "present" },
-            { label: "Anticipate & Shape", orientation: "forward" },
-          ],
-          text: "Fidelity is usually not fully evaluable during mid-design because routine implementation has not yet occurred. Prospective evaluation can examine whether the innovation and planned implementation approach are likely to support delivery or use as intended, while prototype or pilot testing may provide early evidence of likely deviations, adaptation needs, and support requirements. Findings can inform refinements that make intended delivery more achievable during implementation (Proctor et al., 2011; Klaic et al., 2022).",
+          tag: "Design & Test",
+          orientation: "design",
+          text: "Fidelity is generally not fully assessable during mid-design because routine implementation has not yet occurred. However, prototype testing and preliminary piloting may provide early evidence about whether an innovation can be delivered or used as intended. Designers can examine potential deviations, identify essential versus adaptable components, and explore refinements to design features, procedures, or implementation supports that may facilitate consistent delivery. Continued evaluation after implementation remains important for identifying <em>fidelity drift</em> over time.",
         },
+        illustrativeDesignResponse: "If a simulation-based training program cannot consistently deliver essential instructional components, designers might refine the training sequence, instructional materials, or feedback procedures while preserving its intended learning objectives.",
         considerations: [
           {
             text: "Focus on delivery as intended in real-world settings. Fidelity examines whether the innovation and its core components are delivered or used as intended as it moves from controlled or standardized conditions into real-world settings.",
@@ -8883,14 +9124,15 @@ implementation outcomes and planning evaluation during mid-design."
         id: "penetration",
         name: "Penetration",
         definition: {
-          text: "The integration of an innovation within a service setting and its subsystems, intrinsically linked to context.",
+          text: "The extent to which an innovation is integrated within a service setting and its relevant subsystems, such as departments, teams, or service processes. ",
           citations: [1, 11],
         },
         relevance: {
-          tag: "Anticipate & Shape",
+          tag: "Anticipate & Plan",
           orientation: "forward",
-          text: "Penetration generally cannot be fully observed during mid-design because it is realized through later implementation. Prospective assessment can instead generate evidence to anticipate likely risks and opportunities and use them to shape design decisions before broader implementation.",
+          text: "Penetration is generally a downstream outcome because the extent to which an innovation becomes integrated within a service setting and its subsystems cannot be fully observed before implementation. During mid-design, designers can anticipate factors that may support or constrain integration across intended settings, teams, or organizational units. Prospective evaluation can help identify workflow dependencies, coordination needs, and organizational barriers, informing design and implementation decisions that may support broader integration over time.",
         },
+        illustrativeDesignResponse: "If preliminary workflow mapping suggests that an innovation may be difficult to integrate across multiple clinical departments, designers might explore interoperable workflows, clearer coordination responsibilities, or adaptable implementation procedures.",
         considerations: [
           {
             text: "Think in terms of niche saturation. Penetration can be understood as the degree to which an innovation fills its intended service niche, rather than whether it is simply present somewhere in the organization.",
@@ -8946,10 +9188,11 @@ implementation outcomes and planning evaluation during mid-design."
           citations: [1, 11],
         },
         relevance: {
-          tag: "Anticipate & Shape",
+          tag: "Anticipate & Plan",
           orientation: "forward",
-          text: "Sustainability cannot be fully observed or validated during mid-design because sustainment emerges over time under real-world conditions. Structured prospective assessment can help forecast sustainability capacity, surface risks and opportunities, and shape proactive design decisions rather than treating sustainability as an afterthought.",
+          text: "Sustainability is a downstream outcome that cannot be fully evaluated during mid-design because continued use and institutionalization emerge over time under real-world conditions. However, designers can anticipate factors that may influence long-term maintenance, including resource availability, organizational ownership, adaptability, infrastructure, and ongoing support requirements. Prospective evaluation can identify potential sustainability challenges and inform design decisions that may support continued implementation beyond initial deployment.",
         },
+        illustrativeDesignResponse: "If early planning reveals that an innovation would depend on substantial ongoing technical support, designers might explore simplified maintenance requirements, local support capacity, or alternative operating models to improve its potential for long-term use.",
         considerations: [
           {
             text: "Focus on long-term ownership and relationships. Consider who will maintain, staff, resource, and champion the innovation over time, and whether ongoing engagement and relationships can support continued local ownership.",
@@ -10139,6 +10382,22 @@ implementation outcomes and planning evaluation during mid-design."
       return parts;
     }
 
+    function renderTextWithEmphasis(value) {
+  if (typeof value !== "string") {
+    return renderTextWithInlineCitations(value);
+  }
+
+  return value.split(/(<em>.*?<\/em>)/g).map((part, index) =>
+    part.startsWith("<em>") && part.endsWith("</em>") ? (
+      <em key={index}>{part.slice(4, -5)}</em>
+    ) : (
+      <React.Fragment key={index}>
+        {renderTextWithInlineCitations(part)}
+      </React.Fragment>
+    )
+  );
+}
+    
     function CitationText({ text }) {
       const isStructuredText =
         text !== null && typeof text === "object";
@@ -10146,7 +10405,7 @@ implementation outcomes and planning evaluation during mid-design."
 
       return (
         <>
-          {renderTextWithInlineCitations(displayText)}
+          {renderTextWithEmphasis(displayText)}
           {isStructuredText && text.citations?.length > 0 && (
             <CitationNumbers ids={text.citations} />
           )}
@@ -10195,19 +10454,77 @@ implementation outcomes and planning evaluation during mid-design."
       );
     }
 
+    function OutcomeCategoryIcon({ category, className = "" }) {
+      const svgProps = {
+        viewBox: "0 0 24 24",
+        width: 18,
+        height: 18,
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 2,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        className,
+        "aria-hidden": "true",
+      };
+
+      if (category === "Assess & Refine") {
+        return (
+          <svg {...svgProps}>
+            <path d="M7 3H5a2 2 0 0 0-2 2v2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2" />
+            <path d="M3 12s3.3-4 9-4 9 4 9 4-3.3 4-9 4-9-4-9-4Z" />
+            <circle cx="12" cy="12" r="2" />
+          </svg>
+        );
+      }
+      if (category === "Design & Test") {
+        return (
+          <svg {...svgProps}>
+            <path d="M14.7 6.3a1 1 0 0 0-1.4 0l-2 2a1 1 0 0 0 0 1.4l3 3a1 1 0 0 0 1.4 0l2-2a1 1 0 0 0 0-1.4 6 6 0 0 1-7.4 7.4l-6.7 6.7a2 2 0 0 1-2.8-2.8l6.7-6.7a6 6 0 0 1 7.4-7.4Z" />
+          </svg>
+        );
+      }
+      if (category === "Anticipate & Plan") {
+        return (
+          <svg {...svgProps}>
+            <circle cx="6" cy="19" r="2" />
+            <circle cx="18" cy="5" r="2" />
+            <path d="M9 19h8a3.5 3.5 0 0 0 0-7H7a3.5 3.5 0 0 1 0-7h8" />
+          </svg>
+        );
+      }
+      return null;
+    }
+
+    // Shared category coloring for Guide Step 1 only.
+    const OUTCOME_CATEGORY_CLASS = {
+      "Assess & Refine": "category-assess",
+      "Design & Test": "category-design",
+      "Anticipate & Plan": "category-anticipate",
+    };
+
     function ExploreOutcomesPage({
       implementationOutcomeSelections,
       onToggleImplementationOutcome,
       reflectionNote,
       onChangeReflectionNote,
     }) {
+      // Presentation order for Guide Step 1 only. Other guide pages are unchanged.
+      const outcomePageOrder = [
+        "appropriateness", "acceptability", "feasibility",
+        "implementation-cost", "fidelity", "adoption",
+        "reach", "penetration", "sustainability",
+      ];
+      const outcomePageItems = outcomePageOrder.map(
+        (id) => OUTCOMES.find((outcome) => outcome.id === id)
+      ).filter(Boolean);
       const [selectedOutcomeId, setSelectedOutcomeId] = useState(
-        OUTCOMES[0].id
+        outcomePageItems[0].id
       );
       const selectedOutcome =
         OUTCOMES.find(
           (outcome) => outcome.id === selectedOutcomeId
-        ) || OUTCOMES[0];
+        ) || outcomePageItems[0];
 
       const selectedRelevance = selectedOutcome.relevance || {
         text:
@@ -10229,27 +10546,27 @@ implementation outcomes and planning evaluation during mid-design."
         let nextIndex = currentIndex;
 
         if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-          nextIndex = (currentIndex + 1) % OUTCOMES.length;
+          nextIndex = (currentIndex + 1) % outcomePageItems.length;
         } else if (
           event.key === "ArrowUp" ||
           event.key === "ArrowLeft"
         ) {
           nextIndex =
-            (currentIndex - 1 + OUTCOMES.length) %
-            OUTCOMES.length;
+            (currentIndex - 1 + outcomePageItems.length) %
+            outcomePageItems.length;
         } else if (event.key === "Home") {
           nextIndex = 0;
         } else if (event.key === "End") {
-          nextIndex = OUTCOMES.length - 1;
+          nextIndex = outcomePageItems.length - 1;
         } else {
           return;
         }
 
         event.preventDefault();
-        selectOutcome(OUTCOMES[nextIndex].id);
+        selectOutcome(outcomePageItems[nextIndex].id);
         document
           .getElementById(
-            `outcome-tab-${OUTCOMES[nextIndex].id}`
+            `outcome-tab-${outcomePageItems[nextIndex].id}`
           )
           ?.focus();
       }
@@ -10299,6 +10616,22 @@ implementation outcomes and planning evaluation during mid-design."
             className="section outcomes-content"
           >
             <div className="container">
+              <div className="outcome-category-legend" aria-label="Types of mid-design activities">
+                {[
+                  { label: "Assess & Refine", description: "Evaluate early perceptions and identify design improvements", outcomes: "Appropriateness · Acceptability · Feasibility" },
+                  { label: "Design & Test", description: "Shape implementation requirements and test initial assumptions", outcomes: "Implementation Cost · Fidelity" },
+                  { label: "Anticipate & Plan", description: "Consider downstream implementation conditions and barriers", outcomes: "Adoption · Reach · Penetration · Sustainability" },
+                ].map((category) => (
+                  <div className={`outcome-category-legend-item ${OUTCOME_CATEGORY_CLASS[category.label] || ""}`} key={category.label}>
+                    <OutcomeCategoryIcon category={category.label} className="outcome-category-legend-icon" />
+                    <div>
+                      <strong>{category.label}</strong>
+                      <p>{category.description}</p>
+                      <p className="outcome-category-members">{category.outcomes}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
               <div className="outcome-layout">
                 <aside
                   className="outcome-sidebar"
@@ -10319,11 +10652,11 @@ implementation outcomes and planning evaluation during mid-design."
                   role="tablist"
                   aria-label="Implementation outcomes"
                 >
-                  {OUTCOMES.map((outcome, index) => {
+                  {outcomePageItems.map((outcome, index) => {
                     const isRelevant = selectedOutcomeIds.has(outcome.id);
 
                     return (
-                      <div className="outcome-nav-item" role="presentation" key={outcome.id}>
+                      <div className={`outcome-nav-item ${OUTCOME_CATEGORY_CLASS[outcome.relevance?.tag] || ""}`} role="presentation" key={outcome.id}>
                         <button
                           id={`outcome-tab-${outcome.id}`}
                           className="outcome-button"
@@ -10366,7 +10699,7 @@ implementation outcomes and planning evaluation during mid-design."
 
               <article
                 id="outcome-detail-panel"
-                className={`outcome-detail${
+                className={`outcome-detail ${OUTCOME_CATEGORY_CLASS[selectedRelevance.tag] || ""}${
                   isSelectedForPlan ? " is-interest-selected" : ""
                 }`}
                 role="tabpanel"
@@ -10387,6 +10720,18 @@ implementation outcomes and planning evaluation during mid-design."
                         relevant to your project.
                       </em>
                     </p>
+                    <button
+                      className="outcome-reflection-link"
+                      type="button"
+                      onClick={() =>
+                        document
+                          .getElementById("implementation-outcomes-reflection-title")
+                          ?.closest(".page-reflection-panel")
+                          ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                      }
+                    >
+                      Need help prioritizing? View reflection ↓
+                    </button>
                   </div>
 
                   <label
@@ -10441,21 +10786,9 @@ implementation outcomes and planning evaluation during mid-design."
                             selectedRelevance.orientation || ""
                           }`}
                         >
+                          <OutcomeCategoryIcon category={selectedRelevance.tag} />
                           {selectedRelevance.tag}
                         </span>
-                      )}
-
-                      {selectedRelevance.tags?.length > 0 && (
-                        <div className="outcome-tag-list">
-                          {selectedRelevance.tags.map((tag) => (
-                            <span
-                              className={`outcome-tag ${tag.orientation || ""}`}
-                              key={tag.label}
-                            >
-                              {tag.label}
-                            </span>
-                          ))}
-                        </div>
                       )}
                     </div>
 
@@ -10485,6 +10818,15 @@ implementation outcomes and planning evaluation during mid-design."
                       )}
                     </ul>
                   </section>
+
+                  {selectedOutcome.illustrativeDesignResponse && (
+                    <section className="outcome-design-response">
+                      <span className="outcome-section-label">
+                        Illustrative Design Response
+                      </span>
+                      <p><CitationText text={selectedOutcome.illustrativeDesignResponse} /></p>
+                    </section>
+                  )}
                 </div>
 
                 {selectedOutcome.evidence?.length > 0 && (
