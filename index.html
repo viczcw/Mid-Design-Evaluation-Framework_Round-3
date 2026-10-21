@@ -6439,6 +6439,253 @@ implementation outcomes and planning evaluation during mid-design."
       border-color: var(--io-color);
     }
 
+
+    /* Guide Step 2 only: compact, independently collapsible Family cards,
+       four-step navigation, and category-colored outcomes. */
+    .potential-interest-section [id],
+    .interest-recommendations-section [id] {
+      scroll-margin-top: calc(var(--header-height) + 24px);
+    }
+
+    .interest-page-journey {
+      margin-bottom: clamp(32px, 4vw, 46px);
+    }
+    .interest-page-journey-eyebrow {
+      margin-bottom: 12px;
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+      font-weight: 820;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+    .interest-page-journey-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .interest-page-journey-link {
+      min-width: 0;
+      min-height: 136px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 15px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      text-align: left;
+      cursor: pointer;
+      transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+    }
+    .interest-page-journey-link:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .interest-page-journey-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--accent-dark);
+    }
+    .interest-page-journey-count {
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 750;
+    }
+    .interest-page-journey-title {
+      font-size: 0.88rem;
+      font-weight: 760;
+      line-height: 1.36;
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 900px) {
+      .interest-page-journey-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .interest-page-journey-grid { grid-template-columns: 1fr; }
+      .interest-page-journey-link { min-height: auto; }
+    }
+
+    /* A collapsed family shows only its number, title, and expand control. */
+    .potential-interest-section .scaffold-family {
+      border-color: var(--line-strong);
+    }
+    .potential-interest-section .scaffold-family-header {
+      margin: 0;
+      padding: 0;
+      max-width: none;
+    }
+    .potential-interest-section .scaffold-family-disclosure {
+      width: 100%;
+      min-height: 88px;
+      padding: 21px clamp(20px, 3vw, 30px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: var(--ink);
+      background: var(--surface);
+      border: 0;
+      border-radius: 0;
+      text-align: left;
+      font-size: inherit;
+    }
+    .potential-interest-section .scaffold-family-disclosure:hover {
+      background: var(--accent-soft);
+    }
+    .potential-interest-section .scaffold-family.is-open > .scaffold-family-header .scaffold-family-disclosure {
+      background: var(--accent-soft);
+    }
+    .scaffold-family-heading {
+      min-width: 0;
+      flex: 1;
+    }
+    .potential-interest-section .scaffold-family-number {
+      margin: 0 0 4px;
+      color: var(--accent-dark);
+    }
+    .scaffold-family-name {
+      display: block;
+      font-size: clamp(1.03rem, 1.7vw, 1.28rem);
+      font-weight: 780;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+    .scaffold-family-disclosure-action {
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-dark);
+      font-size: 0.76rem;
+      font-weight: 760;
+    }
+    .scaffold-family-content {
+      padding-top: 0;
+    }
+    .potential-interest-section .scaffold-family-content > .scaffold-family-interest {
+      margin-top: 23px;
+      margin-bottom: 4px;
+      background: var(--accent-soft);
+      border-color: #bdd5d8;
+    }
+    .potential-interest-section .scaffold-family-content > .scaffold-family-interest strong {
+      color: var(--accent-dark);
+    }
+    .potential-interest-section .scaffold-group-card {
+      background: var(--surface);
+      border-color: var(--line);
+    }
+    .potential-interest-section .scaffold-group-card h5 {
+      overflow-wrap: anywhere;
+      word-break: normal;
+      hyphens: manual;
+    }
+    .potential-interest-section .scaffold-group-core { min-width: 0; }
+    @media (max-width: 640px) {
+      .potential-interest-section .scaffold-family-disclosure {
+        padding: 18px 17px;
+      }
+      .scaffold-family-disclosure-action { font-size: 0.7rem; }
+    }
+
+    /* An outcome's hue follows its category in Guide Step 1. */
+    .interest-recommendations-section .category-assess {
+      --ih-outcome-color: #176c74;
+      --ih-outcome-bg: #e1eff0;
+      --ih-outcome-light: #f4f8f8;
+      --ih-outcome-border: #b9d5d7;
+    }
+    .interest-recommendations-section .category-design {
+      --ih-outcome-color: #8a571c;
+      --ih-outcome-bg: #f7e8d2;
+      --ih-outcome-light: #fefcf9;
+      --ih-outcome-border: #ddc6a4;
+    }
+    .interest-recommendations-section .category-anticipate {
+      --ih-outcome-color: #2d6947;
+      --ih-outcome-bg: #e1eee4;
+      --ih-outcome-light: #fcfdfb;
+      --ih-outcome-border: #bbd9c3;
+    }
+    .interest-recommendations-section .interest-outcome-navigation .outcome-nav-item .outcome-button {
+      background: var(--ih-outcome-light);
+      border-left: 4px solid var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-outcome-navigation .outcome-nav-item .outcome-button:hover {
+      border-color: var(--ih-outcome-border);
+      border-left-color: var(--ih-outcome-color);
+      background: var(--ih-outcome-bg);
+    }
+    .interest-recommendations-section .interest-outcome-navigation .outcome-nav-item .outcome-button[aria-selected="true"] {
+      color: var(--ih-outcome-color);
+      background: var(--ih-outcome-bg);
+      border-color: var(--ih-outcome-border);
+      border-left-color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-outcome-navigation .outcome-interest-status.is-selected {
+      background: var(--ih-outcome-color);
+      border-color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail {
+      border-top: 4px solid var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .outcome-detail-heading .eyebrow {
+      color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .outcome-interest-control.is-selected {
+      color: var(--ih-outcome-color);
+      background: var(--ih-outcome-bg);
+      border-color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .outcome-interest-control.is-selected .outcome-interest-check {
+      background: var(--ih-outcome-color);
+      border-color: var(--ih-outcome-color);
+    }
+
+    /* Category themes also apply inside each outcome-specific recommendation.
+       Keep group names and descriptions readable in their original neutral text. */
+    .interest-recommendations-section .category-assess {
+      --ih-card-bg: #eef6f6;
+      --ih-card-selected-bg: #e1eff0;
+    }
+    .interest-recommendations-section .category-design {
+      --ih-card-bg: #fbf7f0;
+      --ih-card-selected-bg: #f7e8d2;
+    }
+    .interest-recommendations-section .category-anticipate {
+      --ih-card-bg: #f5faf5;
+      --ih-card-selected-bg: #e1eee4;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .interest-recommendation {
+      background: var(--ih-card-bg);
+      border-color: var(--ih-outcome-border);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .interest-recommendation.is-selected {
+      background: var(--ih-card-selected-bg);
+      border-color: var(--ih-outcome-color);
+      box-shadow: inset 0 0 0 1px var(--ih-outcome-border);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .interest-select-button[aria-pressed="true"] .selection-indicator {
+      background: var(--ih-outcome-color);
+      border-color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-rank,
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-rationale summary,
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-custom-notes summary {
+      color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-rationale,
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-custom-notes {
+      border-top-color: var(--ih-outcome-border);
+    }
+
+
+
   </style>
 </head>
 
@@ -7042,6 +7289,14 @@ implementation outcomes and planning evaluation during mid-design."
             examples:
               "IT or clinical informatics; EMR support; biomedical engineering; specialist or maintenance; sterile processing; supply chain; workflow or QI staff.",
           },
+          {
+            id: "intermediary-ongoing-support",
+            label: "Intermediary and ongoing implementation-support partners",
+            explanation:
+              "Organizations, networks, or designated teams that connect research or innovation teams with implementation settings and help coordinate continued implementation, sustainment, or scale-up. Their legitimate interests arise from responsibility for maintaining support relationships, building implementation capacity, and coordinating resources across settings beyond an initial research project. Design and implementation decisions may affect the expertise, infrastructure, and commitments needed to fulfill these responsibilities.",
+            examples:
+              "Regional implementation-support networks; technical-assistance centers; practice-transformation organizations; quality-improvement collaboratives.",
+          },
         ],
         evidenceGuidance: [
           "The updated Consolidated Framework for Implementation Research (CFIR) distinguishes Implementation Facilitators, Implementation Leads, Implementation Team Members, Other Implementation Support, Innovation Deliverers, and Innovation Recipients, reflecting different implementation responsibilities (Damschroder et al., 2022). It is important to reflect on different responsibilities to identify whose workload, expertise, infrastructure, or accountability is actually affected by the design.",
@@ -7128,7 +7383,7 @@ implementation outcomes and planning evaluation during mid-design."
           },
           {
             id: "competitors-alternative-solution-providers",
-            label: "Competitors / alternative solution providers",
+            label: "Competitors/alternative solution providers",
             explanation:
               "People, organizations, or groups offering existing or emerging products, services, programs, or workflows that address the same need or compete for adoption, purchasing, use, or resources. Their approaches can shape expectations for functionality, workflow fit, interoperability, cost, support, and implementation. Examining where competing approaches succeed or struggle can help benchmark implementation requirements and identify opportunities for differentiation or improvement.",
             examples:
@@ -7643,6 +7898,11 @@ implementation outcomes and planning evaluation during mid-design."
         },
       ],
       sustainability: [
+        {
+          groupId: "intermediary-ongoing-support",
+          rationale:
+            "They may help identify the support relationships, implementation capacity, and cross-setting resources needed to sustain or expand implementation beyond the initial research period.",
+        },
         {
           groupId: "mid-level-operational-managers",
           rationale:
@@ -10991,6 +11251,59 @@ implementation outcomes and planning evaluation during mid-design."
       );
     }
 
+    function InterestHolderJourneyIcon({ type }) {
+      const common = {
+        viewBox: "0 0 24 24", width: 22, height: 22, fill: "none",
+        stroke: "currentColor", strokeWidth: 1.8,
+        strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true",
+      };
+      if (type === "families") return <svg {...common}>
+        <circle cx="9" cy="8" r="3" /><path d="M3 20v-2a6 6 0 0 1 12 0v2" />
+        <path d="M17 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 5v1" />
+      </svg>;
+      if (type === "recommendations") return <svg {...common}>
+        <path d="M9 6h12M9 12h12M9 18h12" />
+        <path d="m3 6 1.5 1.5L7 4.5m-4 7.5 1.5 1.5L7 10.5m-4 7.5 1.5 1.5L7 16.5" />
+      </svg>;
+      if (type === "examples") return <svg {...common}>
+        <rect x="5" y="5" width="14" height="16" rx="2" /><path d="M9 5.5V3h6v2.5M9 11h6M9 15h6" />
+      </svg>;
+      return <svg {...common}>
+        <path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2V4Z" />
+        <path d="M9 9h6M9 13h6M5 18a2 2 0 0 1 2-2h12" />
+      </svg>;
+    }
+
+    function InterestHolderPageNavigation() {
+      const sections = [
+        { id: "potential-interest-holders-title", title: "Potential Interest Holders", icon: "families" },
+        { id: "outcome-recommendations-title", title: "Outcome-Specific Interest-Holder Recommendations", icon: "recommendations" },
+        { id: "interest-holder-case-evidence-title", title: "Evidence from Case Examples", icon: "examples" },
+        { id: "global-reflection-title", title: "Reflect on your interest holder priorities", icon: "reflection" },
+      ];
+      return (
+        <nav id="interest-holder-page-journey" className="interest-page-journey" aria-label="Interest Holders page sections">
+          <div className="interest-page-journey-eyebrow">Explore this page</div>
+          <div className="interest-page-journey-grid">
+            {sections.map((section, index) => (
+              <button
+                key={section.id}
+                className="interest-page-journey-link"
+                type="button"
+                onClick={() => document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+              >
+                <span className="interest-page-journey-top">
+                  <InterestHolderJourneyIcon type={section.icon} />
+                  <span className="interest-page-journey-count">{String(index + 1).padStart(2, "0")} ↘</span>
+                </span>
+                <span className="interest-page-journey-title">{section.title}</span>
+              </button>
+            ))}
+          </div>
+        </nav>
+      );
+    }
+
     function InterestHolderFamily({
       family,
       isOpen,
@@ -11007,14 +11320,6 @@ implementation outcomes and planning evaluation during mid-design."
           aria-labelledby={familyTitleId}
         >
           <header className="scaffold-family-header">
-            <div className="scaffold-family-number">Family {family.number}</div>
-            <h3 id={familyTitleId}>{family.label}</h3>
-            <div className="scaffold-family-interest">
-              <strong>Legitimate interest</strong>
-              <p>
-                {family.definition}{" "}{family.legitimateInterest}
-              </p>
-            </div>
             <button
               className="scaffold-family-disclosure"
               type="button"
@@ -11022,9 +11327,15 @@ implementation outcomes and planning evaluation during mid-design."
               aria-controls={`interest-family-${family.id}-content`}
               onClick={onToggle}
             >
-              <span>{isOpen ? "Hide family details" : "Explore this family"}</span>
-              <span className="scaffold-family-disclosure-icon" aria-hidden="true">
-                {isOpen ? "−" : "+"}
+              <span className="scaffold-family-heading">
+                <span className="scaffold-family-number">Family {family.number}</span>
+                <span className="scaffold-family-name" id={familyTitleId}>{family.label}</span>
+              </span>
+              <span className="scaffold-family-disclosure-action">
+                {isOpen ? "Hide family details" : "Explore this family"}
+                <span className="scaffold-family-disclosure-icon" aria-hidden="true">
+                  {isOpen ? "−" : "+"}
+                </span>
               </span>
             </button>
           </header>
@@ -11034,6 +11345,10 @@ implementation outcomes and planning evaluation during mid-design."
               id={`interest-family-${family.id}-content`}
               className="scaffold-family-content"
             >
+              <div className="scaffold-family-interest">
+                <strong>Legitimate interest</strong>
+                <p>{family.definition}{" "}{family.legitimateInterest}</p>
+              </div>
               <details className="scaffold-evidence" open>
                 <summary>
                   <span className="scaffold-evidence-title">
@@ -11062,7 +11377,11 @@ implementation outcomes and planning evaluation during mid-design."
                   {family.groups.map((group) => (
                     <article className="scaffold-group-card" key={group.id}>
                       <div className="scaffold-group-core">
-                        <h5>{group.label}</h5>
+                        <h5>{group.label.split("/").map((part, index) => (
+                          <React.Fragment key={index}>
+                            {index > 0 && <>{"/"}<wbr /></>}{part}
+                          </React.Fragment>
+                        ))}</h5>
                         <p>{group.explanation}</p>
                       </div>
 
@@ -11084,27 +11403,6 @@ implementation outcomes and planning evaluation during mid-design."
             </div>
           )}
         </section>
-      );
-    }
-
-    function InterestHolderFamilyOverview({ family, isOpen, onOpen }) {
-      return (
-        <button
-          className={`family-overview-card${isOpen ? " is-active" : ""}`}
-          type="button"
-          aria-pressed={isOpen}
-          onClick={onOpen}
-        >
-          <span className="family-overview-number">Family {family.number}</span>
-          <span className="family-overview-title">{family.label}</span>
-          <span className="family-overview-definition">
-            {family.definition}{" "}{family.legitimateInterest}
-          </span>
-          <span className="family-overview-action">
-            {isOpen ? "Currently expanded" : "Explore family"}
-            <span aria-hidden="true"> →</span>
-          </span>
-        </button>
       );
     }
 
@@ -11392,18 +11690,25 @@ implementation outcomes and planning evaluation during mid-design."
       reflectionNote,
       onChangeReflectionNote,
     }) {
+      // Mirror the presentation order on Discover Implementation Outcomes.
+      const recommendationOutcomeOrder = [
+        "appropriateness", "acceptability", "feasibility",
+        "implementation-cost", "fidelity", "adoption",
+        "reach", "penetration", "sustainability",
+      ];
+      const recommendationOutcomeItems = recommendationOutcomeOrder.map(
+        (id) => OUTCOMES.find((outcome) => outcome.id === id)
+      ).filter(Boolean);
       const [selectedOutcomeId, setSelectedOutcomeId] = useState(() =>
-        OUTCOMES.find((outcome) =>
+        recommendationOutcomeItems.find((outcome) =>
           (implementationOutcomeSelections || []).includes(outcome.id)
-        )?.id || OUTCOMES[0].id
+        )?.id || recommendationOutcomeItems[0].id
       );
-      const [openFamilyIds, setOpenFamilyIds] = useState(
-        () => new Set([INTEREST_HOLDER_SCAFFOLD_FAMILIES[0].id])
-      );
+      const [openFamilyIds, setOpenFamilyIds] = useState(() => new Set());
       const selectedOutcome =
         OUTCOMES.find(
           (outcome) => outcome.id === selectedOutcomeId
-        ) || OUTCOMES[0];
+        ) || recommendationOutcomeItems[0];
       const recommendations =
         OUTCOME_INTEREST_HOLDER_RECOMMENDATIONS[
           selectedOutcome.id
@@ -11455,22 +11760,6 @@ implementation outcomes and planning evaluation during mid-design."
         });
       }
 
-      function openAndScrollToFamily(familyId) {
-        setOpenFamilyIds((current) => {
-          const next = new Set(current);
-          next.add(familyId);
-          return next;
-        });
-
-        window.requestAnimationFrame(() => {
-          window.requestAnimationFrame(() => {
-            document
-              .getElementById(`interest-family-${familyId}`)
-              ?.scrollIntoView({ behavior: "smooth", block: "start" });
-          });
-        });
-      }
-
       function selectOutcome(outcomeId) {
         setSelectedOutcomeId(outcomeId);
       }
@@ -11479,27 +11768,27 @@ implementation outcomes and planning evaluation during mid-design."
         let nextIndex = currentIndex;
 
         if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-          nextIndex = (currentIndex + 1) % OUTCOMES.length;
+          nextIndex = (currentIndex + 1) % recommendationOutcomeItems.length;
         } else if (
           event.key === "ArrowUp" ||
           event.key === "ArrowLeft"
         ) {
           nextIndex =
-            (currentIndex - 1 + OUTCOMES.length) %
-            OUTCOMES.length;
+            (currentIndex - 1 + recommendationOutcomeItems.length) %
+            recommendationOutcomeItems.length;
         } else if (event.key === "Home") {
           nextIndex = 0;
         } else if (event.key === "End") {
-          nextIndex = OUTCOMES.length - 1;
+          nextIndex = recommendationOutcomeItems.length - 1;
         } else {
           return;
         }
 
         event.preventDefault();
-        selectOutcome(OUTCOMES[nextIndex].id);
+        selectOutcome(recommendationOutcomeItems[nextIndex].id);
         document
           .getElementById(
-            `interest-outcome-tab-${OUTCOMES[nextIndex].id}`
+            `interest-outcome-tab-${recommendationOutcomeItems[nextIndex].id}`
           )
           ?.focus();
       }
@@ -11553,7 +11842,7 @@ implementation outcomes and planning evaluation during mid-design."
                 type="button"
                 onClick={() =>
                   document
-                    .getElementById("potential-interest-holders-title")
+                    .getElementById("interest-holder-page-journey")
                     ?.scrollIntoView({ behavior: "smooth", block: "start" })
                 }
               >
@@ -11568,6 +11857,7 @@ implementation outcomes and planning evaluation during mid-design."
             aria-labelledby="potential-interest-holders-title"
           >
             <div className="container">
+              <InterestHolderPageNavigation />
               <SectionHeading
                 eyebrow="Legitimate-interest scaffold"
                 title="Potential Interest Holders"
@@ -11591,29 +11881,6 @@ implementation outcomes and planning evaluation during mid-design."
                   even when the same person could occupy more than one role.
                 </li>
               </ul>
-              <section
-                className="family-overview"
-                aria-labelledby="family-overview-title"
-              >
-                <div className="family-overview-heading">
-                  <div className="placeholder-label">Broad Families of Interest Holders</div>
-                  <h3 id="family-overview-title">
-                    Preview all recommended interest holder families
-                    <CitationNumbers ids={["akl2024", "damschroder2022"]} />
-                  </h3>
-                </div>
-                <div className="family-overview-grid">
-                  {INTEREST_HOLDER_SCAFFOLD_FAMILIES.map((family) => (
-                    <InterestHolderFamilyOverview
-                      key={family.id}
-                      family={family}
-                      isOpen={openFamilyIds.has(family.id)}
-                      onOpen={() => openAndScrollToFamily(family.id)}
-                    />
-                  ))}
-                </div>
-              </section>
-
               <div className="scaffold-family-stack">
                 {INTEREST_HOLDER_SCAFFOLD_FAMILIES.map((family) => (
                   <InterestHolderFamily
@@ -11624,8 +11891,6 @@ implementation outcomes and planning evaluation during mid-design."
                   />
                 ))}
               </div>
-
-              <CaseExampleEvidenceSection variant="interest-holders" />
 
             </div>
           </section>
@@ -11692,7 +11957,7 @@ implementation outcomes and planning evaluation during mid-design."
                   role="tablist"
                   aria-label="Outcomes for interest-holder recommendations"
                 >
-                  {OUTCOMES.map((outcome, index) => {
+                  {recommendationOutcomeItems.map((outcome, index) => {
                     const selectionCount =
                       (interestHolderSelections[outcome.id]?.length || 0) +
                       (customInterestHolderSelections[outcome.id]?.length || 0);
@@ -11700,7 +11965,7 @@ implementation outcomes and planning evaluation during mid-design."
                     const isRelevant = selectedOutcomeIds.has(outcome.id);
 
                     return (
-                      <div className="outcome-nav-item" role="presentation" key={outcome.id}>
+                      <div className={`outcome-nav-item ${OUTCOME_CATEGORY_CLASS[outcome.relevance?.tag] || ""}`} role="presentation" key={outcome.id}>
                         <button
                           id={`interest-outcome-tab-${outcome.id}`}
                           className="outcome-button"
@@ -11747,7 +12012,7 @@ implementation outcomes and planning evaluation during mid-design."
 
                 <article
                   id="interest-outcome-detail-panel"
-                  className="outcome-detail interest-recommendation-detail"
+                  className={`outcome-detail interest-recommendation-detail ${OUTCOME_CATEGORY_CLASS[selectedOutcome.relevance?.tag] || ""}`}
                   role="tabpanel"
                   aria-live="polite"
                   aria-labelledby={`interest-outcome-tab-${selectedOutcome.id}`}
@@ -11901,6 +12166,8 @@ implementation outcomes and planning evaluation during mid-design."
                   />
                 </article>
               </div>
+
+              <CaseExampleEvidenceSection variant="interest-holders" />
 
               <ReflectionSection
                 titleId="global-reflection-title"
