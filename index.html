@@ -4859,6 +4859,30 @@ implementation outcomes and planning evaluation during mid-design."
       color: var(--ink-soft);
     }
 
+    /* Interest Holders: reflection shortcut below outcome-specific guidance. */
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-intro-copy {
+      margin-bottom: 4px;
+    }
+    .interest-recommendations-section .interest-reflection-link {
+      display: block;
+      width: fit-content;
+      margin: 0 0 20px;
+      padding: 0;
+      color: var(--ih-outcome-color, var(--accent-dark));
+      background: transparent;
+      border: 0;
+      font-size: 0.76rem;
+      font-weight: 650;
+      line-height: 1.45;
+      text-align: left;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .interest-recommendations-section .interest-reflection-link:hover {
+      text-decoration-thickness: 2px;
+    }
+
     .interest-recommendations-section .recommendation-list {
       grid-template-columns: minmax(0, 1fr);
       gap: 12px;
@@ -6686,6 +6710,93 @@ implementation outcomes and planning evaluation during mid-design."
 
 
 
+
+    /* Guide Step 2 only: compact starting-point recommendations.
+       Keep all text, rationale visibility and editing interactions unchanged. */
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-list {
+      gap: 9px;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .interest-recommendation {
+      padding: 12px 16px;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .interest-select-button {
+      grid-template-columns: 23px minmax(0, 1fr);
+      gap: 9px;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .selection-indicator {
+      width: 23px;
+      height: 23px;
+      border-radius: 6px;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-rank {
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-title {
+      line-height: 1.3;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-family-source {
+      margin-top: 1px;
+      line-height: 1.32;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-rationale {
+      margin: 7px 0 0 32px;
+      padding-top: 0;
+      border-top: 0;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-rationale summary {
+      line-height: 1.4;
+    }
+    .interest-recommendations-section .interest-recommendation-detail p.recommendation-rationale {
+      color: var(--ink-soft);
+      font-size: 0.79rem;
+      line-height: 1.43;
+    }
+    .interest-recommendations-section .interest-recommendation-detail .recommendation-custom-notes {
+      margin: 8px 0 0 32px;
+      padding-top: 7px;
+    }
+
+    /* Project-specific groups use the active implementation-outcome category.
+       The lighter panel shade distinguishes custom additions from recommendations. */
+    .interest-recommendations-section .interest-recommendation-detail .custom-interest-holder-panel {
+      background: var(--ih-outcome-light);
+      border-color: var(--ih-outcome-border);
+      border-left: 4px solid var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .custom-interest-holder-intro .placeholder-label {
+      color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .custom-interest-holder-form .button.secondary {
+      color: var(--ih-outcome-color);
+      background: white;
+      border-color: var(--ih-outcome-border);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .custom-interest-holder-form .button.secondary:hover {
+      background: var(--ih-card-bg);
+      border-color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .custom-interest-holder-item {
+      background: var(--ih-card-bg);
+      border-color: var(--ih-outcome-border);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .custom-interest-holder-item.is-selected {
+      background: var(--ih-card-selected-bg);
+      border-color: var(--ih-outcome-color);
+    }
+    .interest-recommendations-section .interest-recommendation-detail .custom-interest-holder-panel .text-action-button:not(.quiet) {
+      color: var(--ih-outcome-color);
+    }
+
+    @media (max-width: 640px) {
+      .interest-recommendations-section .interest-recommendation-detail .recommendation-rationale,
+      .interest-recommendations-section .interest-recommendation-detail .recommendation-custom-notes {
+        margin-left: 0;
+      }
+      .interest-recommendations-section .interest-recommendation-detail .interest-recommendation {
+        padding: 12px 13px;
+      }
+    }
   </style>
 </head>
 
@@ -7295,7 +7406,7 @@ implementation outcomes and planning evaluation during mid-design."
             explanation:
               "Organizations, networks, or designated teams that connect research or innovation teams with implementation settings and help coordinate continued implementation, sustainment, or scale-up. Their legitimate interests arise from responsibility for maintaining support relationships, building implementation capacity, and coordinating resources across settings beyond an initial research project. Design and implementation decisions may affect the expertise, infrastructure, and commitments needed to fulfill these responsibilities.",
             examples:
-              "Regional implementation-support networks; technical-assistance centers; practice-transformation organizations; quality-improvement collaboratives.",
+              "Regional implementation-support networks; technical-assistance centers; practice-transformation organizations; quality-improvement collaboratives; science communication and outreach partners; public representatives.",
           },
         ],
         evidenceGuidance: [
@@ -7461,6 +7572,10 @@ implementation outcomes and planning evaluation during mid-design."
               "Focus on a manageable set of interest holders whose legitimate interests, experiences, or roles provide important and complementary perspectives on your priority outcomes.",
             italicPhrases: ["legitimate interests"],
           },
+          {
+            text:
+              "For each interest-holder group, also consider how many people you may need to engage to understand meaningful variation in perspectives rather than relying on a single individual.",
+          },          
           {
             text:
               "When appropriate, an interest holder who can inform multiple implementation outcomes may help make your evaluation more efficient.",
@@ -7764,27 +7879,47 @@ implementation outcomes and planning evaluation during mid-design."
           rationale:
             "They can explain how eligibility rules, recruitment or referral plans, staffing, capacity, and rollout decisions are expected to shape who is reached and where systematic gaps may emerge.",
         },
+        {
+          groupId: "community-advocacy-partners",
+          rationale:
+            "They may help identify populations that are less likely to be reached, barriers to participation, and trusted outreach or referral pathways. Their community relationships and contextual knowledge can inform strategies to improve equitable Reach among the intended eligible population.",
+        },
+        {
+          groupId: "downstream-beneficiaries",
+          rationale:
+            "They can help identify how eligibility, access barriers, and participation needs may differ across settings or communities. Considering their perspectives during mid-design can help anticipate potential gaps in Reach before implementation expands.",
+        },
       ],
       feasibility: [
         {
           groupId: "innovation-deliverers",
           rationale:
-            "They may identify practical constraints in staffing, time, skills, coordination, and day-to-day delivery.",
+            "They can identify whether day-to-day delivery is workable within typical staffing, time, coordination, and competing service demands, rather than only under the additional support of a pilot.",
         },
         {
           groupId: "users-operators",
           rationale:
-            "They may identify whether intended use can be carried out with the available workflow, tools, and capabilities.",
+            "They can assess whether intended use is practical within routine workflows, including physical and cognitive workload, available tools, and competing tasks.",
         },
         {
           groupId: "implementation-leads-team-members",
           rationale:
-            "They may identify what training, facilitation, troubleshooting, and coordination implementation would require.",
+            "They can identify the training, coordination, facilitation, and troubleshooting needed to support implementation beyond the initial pilot.",
         },
         {
           groupId: "operational-technical-support",
           rationale:
-            "They may identify whether staffing, materials, infrastructure, and operating resources are realistically available.",
+            "They can assess whether the equipment, supplies, infrastructure, maintenance, and technical support required for routine operation are reliably available.",
+        },
+        {
+          groupId: "mid-level-operational-managers",
+          rationale:
+            "They can clarify whether staffing allocations, schedules, competing priorities, and local capacity allow the innovation to be carried out consistently under routine operating conditions.",
+        },
+        {
+          groupId: "learners-trained",
+          rationale:
+            "They can identify whether the knowledge and skills needed to use, deliver, or support the innovation can realistically be acquired and applied with the time, training, and supervision available in practice.",
         },
       ],
       acceptability: [
@@ -7801,12 +7936,17 @@ implementation outcomes and planning evaluation during mid-design."
         {
           groupId: "innovation-deliverers",
           rationale:
-            "Their reactions may reveal whether the delivery process and associated responsibilities are acceptable.",
+            "They can identify whether the anticipated or experienced responsibilities of delivering the innovation feel acceptable, considering workload, disruption to routine activities, opportunity costs, and whether the perceived benefits justify these demands.",
         },
         {
           groupId: "indirect-beneficiaries",
           rationale:
-            "Their perspective may reveal acceptability concerns created through care, household, team, or community effects.",
+            "They may reveal how the innovation affects caregivers, family members, coworkers, or communities through additional responsibilities, disruptions to routines, or perceived fairness and harms. These anticipated or experienced effects may shape acceptability differently from the perspectives of direct beneficiaries.",
+        },
+        {
+          groupId: "opinion-leaders",
+          rationale:
+            "They may identify concerns about trust, ethical fit, perceived effectiveness, and professional or community norms that influence how acceptable the innovation is perceived to be. Their perspectives can help reveal potential differences in acceptability across groups but should not substitute for the experiences of intended users or beneficiaries.",
         },
       ],
       adoption: [
@@ -11931,8 +12071,7 @@ implementation outcomes and planning evaluation during mid-design."
                     them.
                   </li>
                   <li>
-                    Review the recommendations for each implementation outcome
-                    and identify groups that are especially informative for the
+                    Identify groups that are especially informative for the
                     implementation outcome(s) of interest.
                   </li>
                   <li>
@@ -12054,6 +12193,19 @@ implementation outcomes and planning evaluation during mid-design."
                     outcome during this session.
                   </p>
 
+                  <button
+                    className="interest-reflection-link"
+                    type="button"
+                    onClick={() =>
+                      document
+                        .getElementById("global-reflection-title")
+                        ?.closest(".page-reflection-panel")
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                    }
+                  >
+                    Need help prioritizing? View reflection ↓
+                  </button>
+
                   <div className="recommendation-list">
                     {recommendations.map((recommendation) => {
                       const group =
@@ -12105,12 +12257,9 @@ implementation outcomes and planning evaluation during mid-design."
                             </span>
                           </button>
 
-                          <details className="recommendation-rationale" open>
-                            <summary>
-                              Why this interest holder may be relevant
-                            </summary>
-                            <p>{recommendation.rationale}</p>
-                          </details>
+                          <p className="recommendation-rationale">
+                            {recommendation.rationale}
+                          </p>
 
                           <details className="custom-notes-editor recommendation-custom-notes">
                             <summary>
