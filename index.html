@@ -26,8 +26,7 @@
 
   <meta
     name="description"
-    content="A guide for considering <title>Mid-Design Evaluation Guide</title>
-implementation outcomes and planning evaluation during mid-design."
+    content="An interactive guide to selecting implementation outcomes, identifying relevant interest holders, and developing a mid-design evaluation plan."
   />
 
   <title>Mid-Design Evaluation Guide</title>
@@ -335,6 +334,117 @@ implementation outcomes and planning evaluation during mid-design."
       color: var(--ink-soft);
       font-size: clamp(1.1rem, 2.2vw, 1.35rem);
       line-height: 1.55;
+    }
+
+
+    /* Consistent instructional workflow on the three discovery-page introductions. */
+    .recommended-workflow {
+      max-width: 980px;
+      margin: 25px 0 0;
+      padding: 18px 23px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 22px rgba(24, 52, 61, 0.045);
+    }
+
+    .recommended-workflow h2 {
+      margin: 0 0 8px;
+      color: var(--accent-dark);
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .recommended-workflow-steps {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .recommended-workflow-step {
+      display: grid;
+      grid-template-columns: 28px 126px minmax(0, 1fr);
+      gap: 11px;
+      align-items: start;
+      padding: 8px 0;
+    }
+
+    .recommended-workflow-step + .recommended-workflow-step {
+      border-top: 1px solid var(--line);
+    }
+
+    .recommended-workflow-index {
+      color: var(--accent-dark);
+      font-size: 0.75rem;
+      font-weight: 850;
+      line-height: 1.7;
+    }
+
+    .recommended-workflow-label {
+      color: var(--ink);
+      font-size: 0.88rem;
+      font-weight: 750;
+      line-height: 1.5;
+    }
+
+    .recommended-workflow-description {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .workflow-inline-link,
+    .reflection-review-link {
+      padding: 0;
+      color: var(--accent-dark);
+      background: none;
+      border: 0;
+      font: inherit;
+      font-weight: 750;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+
+    .workflow-inline-link:hover,
+    .reflection-review-link:hover {
+      color: var(--accent);
+      text-decoration-thickness: 2px;
+    }
+
+    .reflection-review-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin: 0 0 19px;
+      font-size: 0.88rem;
+    }
+
+    .recommended-workflow-step:target,
+    #implementation-outcomes-selections,
+    #evaluation-strategies-selections,
+    #outcome-recommendations-title,
+    #implementation-outcomes-case-evidence,
+    #interest-holder-case-evidence-title,
+    #evaluation-strategy-case-evidence-title {
+      scroll-margin-top: calc(var(--header-height) + 24px);
+    }
+
+    @media (max-width: 640px) {
+      .recommended-workflow {
+        margin-top: 22px;
+        padding: 14px 16px;
+      }
+      .recommended-workflow-step {
+        grid-template-columns: 24px minmax(0, 1fr);
+        gap: 1px 8px;
+      }
+      .recommended-workflow-index { grid-column: 1; grid-row: 1; }
+      .recommended-workflow-label { grid-column: 2; grid-row: 1; }
+      .recommended-workflow-description { grid-column: 2; grid-row: 2; }
     }
 
     .definition {
@@ -2117,6 +2227,9 @@ implementation outcomes and planning evaluation during mid-design."
     .strategy-selection-summary strong {
       color: var(--accent-dark);
     }
+    .evaluation-strategies-content .strategy-selection-summary {
+      margin-bottom: 30px;
+    }
 
     .strategy-category-header {
       display: flex;
@@ -2335,10 +2448,6 @@ implementation outcomes and planning evaluation during mid-design."
       font: inherit;
       font-size: 0.82rem;
       line-height: 1.45;
-    }
-
-    .interview-strategy-row {
-      border-left: 4px solid var(--accent);
     }
 
     .interview-prompts {
@@ -6351,12 +6460,12 @@ implementation outcomes and planning evaluation during mid-design."
        Preserve the existing card lightness order (Definition > Relevance >
        Key Considerations > Illustrative Design Response). */
     .outcomes-content .category-assess {
-      --io-color: #176c74;
-      --io-definition-bg: #e1eff0;
-      --io-relevance-bg: #eef6f6;
-      --io-considerations-bg: #f4f8f8;
-      --io-response-bg: #fbfcfd;
-      --io-border: #b9d5d7;
+      --io-color: #245ba8;
+      --io-definition-bg: #e5effb;
+      --io-relevance-bg: #f2f7fd;
+      --io-considerations-bg: #f6f9ff;
+      --io-response-bg: #fbfcff;
+      --io-border: #b7cae7;
     }
 
     .outcomes-content .category-design {
@@ -6619,10 +6728,10 @@ implementation outcomes and planning evaluation during mid-design."
 
     /* An outcome's hue follows its category in Guide Step 1. */
     .interest-recommendations-section .category-assess {
-      --ih-outcome-color: #176c74;
-      --ih-outcome-bg: #e1eff0;
-      --ih-outcome-light: #f4f8f8;
-      --ih-outcome-border: #b9d5d7;
+      --ih-outcome-color: #245ba8;
+      --ih-outcome-bg: #e5effb;
+      --ih-outcome-light: #f6f9ff;
+      --ih-outcome-border: #b7cae7;
     }
     .interest-recommendations-section .category-design {
       --ih-outcome-color: #8a571c;
@@ -6674,8 +6783,8 @@ implementation outcomes and planning evaluation during mid-design."
     /* Category themes also apply inside each outcome-specific recommendation.
        Keep group names and descriptions readable in their original neutral text. */
     .interest-recommendations-section .category-assess {
-      --ih-card-bg: #eef6f6;
-      --ih-card-selected-bg: #e1eff0;
+      --ih-card-bg: #f2f7fd;
+      --ih-card-selected-bg: #e5effb;
     }
     .interest-recommendations-section .category-design {
       --ih-card-bg: #fbf7f0;
@@ -6797,6 +6906,436 @@ implementation outcomes and planning evaluation during mid-design."
         padding: 12px 13px;
       }
     }
+
+    /* Shared outcome category palette on evaluation strategies and plan builder.
+       Global site/brand teal remains unchanged; Assess & Refine is Professional Blue. */
+    .evaluation-strategies-content .category-assess,
+    .plan-builder-section .category-assess {
+      --category-color: #245ba8;
+      --category-bg: #e5effb;
+      --category-soft: #f2f7fd;
+      --category-light: #fbfcff;
+      --category-border: #b7cae7;
+    }
+    .evaluation-strategies-content .category-design,
+    .plan-builder-section .category-design {
+      --category-color: #8a571c;
+      --category-bg: #f7e8d2;
+      --category-soft: #fcf2e5;
+      --category-light: #fefcf9;
+      --category-border: #ddc6a4;
+    }
+    .evaluation-strategies-content .category-anticipate,
+    .plan-builder-section .category-anticipate {
+      --category-color: #2d6947;
+      --category-bg: #e1eee4;
+      --category-soft: #eff7f0;
+      --category-light: #fcfdfb;
+      --category-border: #bbd9c3;
+    }
+    .evaluation-strategies-content .strategy-outcome-navigation .outcome-nav-item .outcome-button {
+      background: var(--category-light);
+      border-left: 4px solid var(--category-color);
+    }
+    .evaluation-strategies-content .strategy-outcome-navigation .outcome-nav-item .outcome-button:hover,
+    .evaluation-strategies-content .strategy-outcome-navigation .outcome-nav-item .outcome-button[aria-selected="true"] {
+      color: var(--category-color);
+      background: var(--category-bg);
+      border-color: var(--category-border);
+      border-left-color: var(--category-color);
+    }
+    .evaluation-strategies-content .strategy-outcome-navigation .outcome-interest-status.is-selected {
+      background: var(--category-color);
+      border-color: var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail.category-assess,
+    .evaluation-strategies-content .outcome-detail.category-design,
+    .evaluation-strategies-content .outcome-detail.category-anticipate {
+      border-top: 4px solid var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .outcome-detail-heading .eyebrow {
+      color: var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .outcome-interest-control.is-selected {
+      color: var(--category-color);
+      background: var(--category-soft);
+      border-color: var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .outcome-interest-control.is-selected .outcome-interest-check {
+      background: var(--category-color);
+      border-color: var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .strategy-row.is-selected {
+      background: var(--category-soft);
+      border-color: var(--category-color);
+      box-shadow: 0 0 0 1px var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .strategy-row-select-button[aria-pressed="true"] .selection-indicator {
+      background: var(--category-color);
+      border-color: var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .interview-prompt-option.is-selected {
+      background: var(--category-soft);
+      border-color: var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .interview-prompt-option input {
+      accent-color: var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .strategy-resource-link:hover {
+      border-color: var(--category-color);
+    }
+    .evaluation-strategies-content .outcome-detail .strategy-category-count {
+      color: var(--category-color);
+      border-color: var(--category-border);
+    }
+    .strategy-reflection-link {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 8px;
+      padding: 0;
+      color: var(--accent-dark);
+      background: none;
+      border: 0;
+      font-size: 0.78rem;
+      font-weight: 680;
+      text-align: left;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .interview-prompt-preview-list {
+      margin: 9px 0 0;
+      padding-left: 22px;
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+      line-height: 1.7;
+    }
+    .interview-prompts-preview h4 {
+      margin: 0 0 5px;
+      font-size: 0.86rem;
+    }
+    /* Compact preview hint appears only when the interview strategy is unselected.
+       The same shared treatment is used in Step 3 and the Evaluation Plan Builder. */
+    .interview-preview-hint {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 12px;
+      padding-top: 9px;
+      color: var(--accent-dark);
+      border-top: 1px solid var(--line);
+      font-size: 0.78rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .interview-preview-hint-arrow {
+      display: inline-block;
+      flex: 0 0 auto;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+    .strategy-methodology-reminder {
+      max-width: 1080px;
+      margin: 0 0 6px;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      line-height: 1.62;
+    }
+    .strategy-methodology-reminder p {
+      margin: 0 0 13px;
+    }
+    .evaluation-strategies-content .strategy-reflection-link {
+      margin: 0 0 25px;
+      color: var(--accent-dark);
+    }
+    .evaluation-strategies-content .page-reflection-panel {
+      scroll-margin-top: calc(var(--header-height) + 24px);
+    }
+    /* Builder: show matching category hues in outcome selectors and the active outcome workspace. */
+    .plan-builder-section .plan-outcome-option.category-assess,
+    .plan-builder-section .plan-outcome-option.category-design,
+    .plan-builder-section .plan-outcome-option.category-anticipate {
+      border-left: 4px solid var(--category-color);
+      background: var(--category-light);
+    }
+    .plan-builder-section .plan-outcome-option.is-selected {
+      color: var(--category-color);
+      background: var(--category-bg);
+      border-color: var(--category-border);
+      border-left-color: var(--category-color);
+    }
+    .plan-builder-section .plan-outcome-option.is-selected > .plan-mini-check {
+      background: var(--category-color);
+      border-color: var(--category-color);
+    }
+    .plan-builder-section .plan-outcome-nav-button {
+      border-left: 4px solid var(--category-color);
+      background: var(--category-light);
+    }
+    .plan-builder-section .plan-outcome-nav-button.is-active {
+      color: var(--category-color);
+      background: var(--category-bg);
+      border-color: var(--category-border);
+      border-left-color: var(--category-color);
+    }
+    .plan-builder-section .plan-outcome-nav-button .plan-outcome-nav-status {
+      color: var(--category-color);
+    }
+    .plan-builder-section .plan-workspace-card {
+      border-top: 4px solid var(--category-color);
+    }
+    .plan-builder-section .plan-workspace-card .plan-workspace-heading .eyebrow,
+    .plan-builder-section .plan-workspace-card .plan-section-heading h3 {
+      color: var(--category-color);
+    }
+    .plan-builder-section .plan-workspace-card .plan-interview-card.is-selected,
+    .plan-builder-section .plan-workspace-card .strategy-row.is-selected {
+      background: var(--category-soft);
+      border-color: var(--category-color);
+    }
+    .plan-builder-section .plan-workspace-card .strategy-row-select-button[aria-pressed="true"] .selection-indicator {
+      background: var(--category-color);
+      border-color: var(--category-color);
+    }
+    .plan-builder-section .plan-workspace-card .interview-prompt-option.is-selected {
+      background: var(--category-soft);
+      border-color: var(--category-color);
+    }
+    .plan-builder-section .plan-workspace-card .interview-prompt-option input {
+      accent-color: var(--category-color);
+    }
+    .plan-builder-section .plan-workspace-card .plan-holder-card.is-selected {
+      background: var(--category-light);
+      border-color: var(--category-color);
+      box-shadow: inset 0 0 0 1px var(--category-border);
+    }
+    .plan-builder-section .plan-workspace-card .plan-holder-card.is-selected .plan-holder-toggle,
+    .plan-builder-section .plan-workspace-card .plan-holder-remove {
+      background: var(--category-color);
+      border-color: var(--category-color);
+    }
+    .plan-builder-section .plan-workspace-card .plan-holder-recommendation,
+    .plan-builder-section .plan-workspace-card .plan-recommended-badge {
+      color: var(--category-color);
+      background: var(--category-bg);
+    }
+    .plan-builder-section .plan-workspace-card .plan-holder-family,
+    .plan-builder-section .plan-workspace-card .plan-holder-card summary,
+    .plan-builder-section .plan-workspace-card .plan-add-panel > summary {
+      color: var(--category-color);
+    }
+    .plan-builder-section .plan-outcome-nav-button .plan-outcome-nav-status.is-unselected {
+      color: var(--line-strong);
+    }
+
+    /* Start Here: interactive guide introduction and compact three-phase explanation. */
+    .start-page .start-hero-layout {
+      grid-template-columns: minmax(0, 1.75fr) minmax(340px, 0.85fr);
+      gap: clamp(32px, 4vw, 66px);
+      align-items: center;
+    }
+    .start-page .start-hero-flow {
+      align-self: center;
+      justify-self: end;
+      width: 100%;
+      max-width: 430px;
+    }
+    .start-page .start-interactive-intro {
+      max-width: 940px;
+      margin-bottom: 9px;
+    }
+    .start-page .start-interactive-details {
+      max-width: 940px;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: clamp(0.86rem, 1vw, 0.98rem);
+      line-height: 1.54;
+    }
+    .start-page .start-interactive-intro strong,
+    .start-page .start-interactive-details strong {
+      color: var(--ink);
+      font-weight: 760;
+    }
+    .start-page .start-mid-design {
+      margin-top: clamp(21px, 2.8vh, 30px);
+    }
+    .start-page .start-mid-design > h2 {
+      margin-bottom: 18px;
+      font-size: clamp(1.32rem, 1.7vw, 1.65rem) !important;
+      line-height: 1.2;
+    }
+    .start-design-phases {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 17px minmax(0, 1.13fr) 17px minmax(0, 1fr);
+      gap: 5px;
+      align-items: stretch;
+    }
+    .start-design-phase {
+      min-width: 0;
+      padding: 14px 12px;
+      background: #fff;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+    }
+    .start-design-phase.is-mid-design {
+      padding: 13px 11px;
+      background: #ecf7f5;
+      border: 2px solid var(--accent);
+    }
+    .start-design-phase h3 {
+      margin: 0 0 9px;
+      font-size: clamp(0.84rem, 1vw, 1rem);
+      line-height: 1.28;
+    }
+    .start-design-phase.is-mid-design h3 {
+      color: var(--accent-dark);
+    }
+    .start-design-phase ul {
+      margin: 0;
+      padding-left: 15px;
+      color: var(--ink-soft);
+      font-size: clamp(0.72rem, 0.8vw, 0.8rem);
+      line-height: 1.46;
+    }
+    .start-design-phase li + li {
+      margin-top: 6px;
+    }
+    .start-design-phase-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 1.32rem;
+      font-weight: 750;
+    }
+    .start-mid-design-insight {
+      margin-top: 15px;
+      padding: 14px 16px;
+      color: var(--ink-soft);
+      background: #f0f7f6;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 9px 9px 0;
+    }
+    .start-mid-design-insight h3 {
+      margin: 0 0 5px;
+      color: var(--accent-dark);
+      font-size: 0.91rem;
+    }
+    .start-mid-design-insight p {
+      margin: 0;
+      font-size: clamp(0.78rem, 0.85vw, 0.87rem);
+      line-height: 1.56;
+    }
+    .start-mid-design-insight strong {
+      color: var(--ink);
+    }
+    .start-mid-design-note {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      line-height: 1.45;
+    }
+    .start-page .start-mid-design + .scroll-prompt {
+      margin-top: 19px;
+    }
+    @media (max-width: 1100px) and (min-width: 921px) {
+      .start-page .start-hero-layout {
+        grid-template-columns: minmax(0, 1.45fr) minmax(310px, 0.85fr);
+        gap: 25px;
+      }
+      .start-design-phase { padding: 12px 8px; }
+      .start-design-phase.is-mid-design { padding: 11px 7px; }
+      .start-design-phases {
+        grid-template-columns: minmax(0, 1fr) 13px minmax(0, 1.13fr) 13px minmax(0, 1fr);
+        gap: 3px;
+      }
+    }
+    @media (max-width: 920px) {
+      .start-page .start-hero-layout { grid-template-columns: 1fr; }
+      .start-page .start-hero-flow {
+        justify-self: stretch;
+        max-width: none;
+      }
+    }
+    @media (max-width: 580px) {
+      .start-design-phases { grid-template-columns: 1fr; gap: 5px; }
+      .start-design-phase,
+      .start-design-phase.is-mid-design { padding: 15px 16px; }
+      .start-design-phase h3 { font-size: 1rem; }
+      .start-design-phase ul { font-size: 0.85rem; }
+      .start-design-phase-arrow { height: 21px; transform: rotate(90deg); }
+      .start-page .start-mid-design > h2 { margin-bottom: 16px; }
+    }
+
+
+    /* Revision: outcome-specific custom interest holders and selected-first plan. */
+    .custom-interest-holder-panel { padding: 18px 20px; margin-top: 18px; }
+    .custom-interest-holder-intro p { margin-bottom: 12px; }
+    .custom-interest-holder-form {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px 14px; align-items: start;
+    }
+    .custom-holder-group-input { min-width: 0; }
+    .custom-holder-group-input > label,
+    .custom-holder-existing-note > span,
+    .custom-holder-extra-field > span {
+      display: block; margin-bottom: 6px; color: var(--ink);
+      font-size: .72rem; font-weight: 760;
+    }
+    .custom-holder-extra-field { display: block; margin-top: 8px; }
+    .custom-interest-holder-form select,
+    .custom-interest-holder-form input,
+    .custom-interest-holder-form textarea,
+    .custom-holder-existing-note textarea {
+      display: block; width: 100%; min-height: 42px; padding: 8px 10px;
+      color: var(--ink); background: var(--surface);
+      border: 1px solid var(--line-strong); border-radius: 8px;
+      font: inherit; font-size: .79rem;
+    }
+    .custom-interest-holder-form .custom-holder-rationale { min-width: 0; }
+    .custom-interest-holder-form textarea { min-height: 62px; }
+    .custom-interest-holder-form .button { grid-column: 1 / -1; justify-self: end; }
+    .custom-holder-added-copy { flex: 1; min-width: 0; }
+    .custom-holder-existing-note { display: block; margin-top: 7px; }
+    .custom-holder-existing-note textarea { min-height: 52px; resize: vertical; }
+    .plan-builder-section .plan-outcome-selector,
+    .plan-builder-section .plan-option-legend { display: none; }
+    .plan-builder-section .plan-workspace-card { padding: clamp(16px, 2.6vw, 27px); }
+    .plan-builder-section .plan-workspace-heading { margin-bottom: 16px; padding-bottom: 12px; }
+    .plan-builder-section .plan-content-section + .plan-content-section { margin-top: 22px; padding-top: 20px; }
+    .plan-builder-section .plan-all-options-grid { gap: 8px; }
+    .plan-builder-section .plan-holder-card { padding: 11px 12px; }
+    .plan-builder-section .plan-holder-card:not(.is-selected) .plan-holder-card-header { align-items: center; }
+    .plan-builder-section .plan-holder-card:not(.is-selected) { background: white; border-color: var(--line); }
+    .plan-builder-section .plan-holder-description { margin-top: 6px; }
+    .plan-builder-section .plan-interview-card:not(.is-selected),
+    .plan-builder-section .strategy-row:not(.is-selected) {
+      padding: 10px 12px; border: 1px solid var(--line);
+      background: white; box-shadow: none;
+    }
+    .plan-builder-section .plan-interview-card:not(.is-selected) .strategy-row-select-button,
+    .plan-builder-section .strategy-row:not(.is-selected) .strategy-row-select-button { margin-bottom: 0; }
+    .plan-builder-section .plan-strategy-category + .plan-strategy-category { margin-top: 18px; }
+    .plan-builder-section .plan-selected-list { gap: 7px; }
+    .plan-builder-section .is-plan-custom-panel { box-shadow: none; background: var(--surface); }
+    .plan-outcome-nav-item { position: relative; min-width: 0; }
+    .plan-outcome-nav-item .plan-outcome-nav-button { padding-right: 48px; }
+    .plan-outcome-check {
+      position: absolute; top: 50%; right: 11px; transform: translateY(-50%);
+      width: 23px; height: 23px; display: grid; place-items: center;
+      color: transparent; background: white; border: 1.5px solid var(--line-strong);
+      border-radius: 6px; font-weight: 900; font-size: .72rem; cursor: pointer;
+    }
+    .plan-outcome-check.is-selected { color: white; background: var(--accent); border-color: var(--accent); }
+    .plan-outcome-check:hover { border-color: var(--accent); }
+    .save-plan-reminder-actions { margin-top: 18px; display: grid; gap: 9px; }
+    .save-plan-reminder-actions .button { width: 100%; text-align: center; }
+    .save-plan-reminder-actions .text-action-button { padding: 9px; justify-self: center; }
+    @media (max-width: 760px) {
+      .custom-interest-holder-form { grid-template-columns: 1fr; }
+      .custom-interest-holder-form .button { grid-column: 1; }
+    }
+
   </style>
 </head>
 
@@ -6867,25 +7406,30 @@ implementation outcomes and planning evaluation during mid-design."
       },
     ];
 
+    // Global numerical citations follow first appearance in the guide: introductory
+    // material, previously introduced outcomes/interests, then each outcome's
+    // quantitative and qualitative strategy cards in OUTCOME_DISPLAY_ORDER.
+    // Numeric links, hover details, exported plans and Complete References all
+    // derive their numbers from this single array.
     const REFERENCE_ORDER = [
       "proctor2011",
       "lewis2015",
       "thiyagarajan2025hpv",
-      "frankowitz2026",
       "thiyagarajan2025ecv",
       "birabwa2025",
       "sedlander2025",
-      "gaglio2013",
-      "glasgow2018",
-      "holtrop2021",
-      "shaw2019",
-      "klaic2022",
+      "frankowitz2026",
       "bowen2009",
-      "miakelye2017",
+      "klaic2022",
       "gold2022",
       "carroll2007",
       "breitenstein2010",
       "ginsburg2021",
+      "miakelye2017",
+      "gaglio2013",
+      "glasgow2018",
+      "holtrop2021",
+      "shaw2019",
       "iwelunmor2016",
       "chambers2013",
       "moore2017",
@@ -6904,38 +7448,58 @@ implementation outcomes and planning evaluation during mid-design."
       "hamilton2019",
       "suchman2023",
       "weiner2017",
-      "lyon2021",
       "atkins2017",
       "kaur2026",
-      "kessler2011",
-      "holtrop2018",
+      "voorheis2025",
+      "rahimi2018",
+      "sekhon2022",
+      "lyon2021",
       "kenworthy2023",
       "staras2021",
       "harris1997",
-      "rahimi2018",
-      "shea2014",
       "wagner2020",
       "gray2023",
       "seagull2014",
       "forgatch2005",
       "winter2000",
+      "perezjolles2019",
+      "wiltseystirman2019",
+      "shea2014",
+      "kessler2011",
+      "holtrop2018",
       "finch2013",
       "rapley2018",
       "finch2018",
       "vis2019",
       "robinson2023",
-      "carrion2021",
-      "savaya2005",
       "milat2020",
       "luke2014",
       "malone2021",
+      "carrion2021",
+      "savaya2005",
       "feldstein2008",
       "mccreight2019",
       "lyon2019",
-      "carayon2006"
-];
+      "carayon2006",
+    ];
 
     const REFERENCE_LIBRARY = {
+      "sekhon2022": {
+        "citation": "Sekhon, M., Cartwright, M., & Francis, J. J. (2022). Development of a theory-informed questionnaire to assess the acceptability of healthcare interventions. BMC Health Services Research, 22, Article 279.",
+        "url": "https://doi.org/10.1186/s12913-022-07577-3"
+      },
+      "perezjolles2019": {
+        "citation": "Perez Jolles, M., Lengnick-Hall, R., & Mittman, B. S. (2019). Core functions and forms of complex health interventions: A patient-centered medical home illustration. Journal of General Internal Medicine, 34(6), 1032–1038.",
+        "url": "https://doi.org/10.1007/s11606-018-4818-7"
+      },
+      "wiltseystirman2019": {
+        "citation": "Wiltsey Stirman, S., Baumann, A. A., & Miller, C. J. (2019). The FRAME: An expanded framework for reporting adaptations and modifications to evidence-based interventions. Implementation Science, 14, Article 58.",
+        "url": "https://doi.org/10.1186/s13012-019-0898-y"
+      },
+      "voorheis2025": {
+            "citation": "Voorheis, P., Wong, J. V., Lazarevic, N., Imtiaz, B., Bhuiya, A., & Steele Gray, C. (2025). Using journey mapping and service blueprinting to design digital health behavior change innovations: A scoping review. Journal of Diabetes Science and Technology, 19(5), 1196–1214.",
+            "url": "https://doi.org/10.1177/19322968251334396"
+      },
       "proctor2011": {
             "citation": "Proctor, E., Silmere, H., Raghavan, R., Hovmand, P., Aarons, G., Bunger, A., Griffey, R., & Hensley, M. (2011). Outcomes for implementation research: Conceptual distinctions, measurement challenges, and research agenda. Administration and Policy in Mental Health and Mental Health Services Research, 38(2), 66–86.",
             "url": "https://doi.org/10.1007/s10488-010-0319-7"
@@ -7273,7 +7837,11 @@ implementation outcomes and planning evaluation during mid-design."
       "Carayon et al., 2006": "carayon2006",
       "Birabwa et al., 2025": "birabwa2025",
       "Sedlander et al., 2025": "sedlander2025",
-      "Suchman et al., 2023": "suchman2023"
+      "Suchman et al., 2023": "suchman2023",
+      "Sekhon et al., 2022": "sekhon2022",
+      "Perez Jolles et al., 2019": "perezjolles2019",
+      "Wiltsey Stirman et al., 2019": "wiltseystirman2019",
+      "Voorheis et al., 2025": "voorheis2025"
     };
 
     const REFERENCE_NUMBER_BY_ID = Object.fromEntries(
@@ -8109,13 +8677,6 @@ implementation outcomes and planning evaluation during mid-design."
               "Use the 4-item IAM questionnaire measurement to evaluate whether a health care innovation is perceived as a good fit for the clinical problem, intended users, and implementation setting. It helps designers determine whether the innovation is relevant, compatible, and well-matched to the context in which it is meant to be used before full-scale implementation.",
           },
           {
-            id: "isus",
-            outcomeId: "appropriateness",
-            name: "Implementation Strategy Usability Scale (ISUS)",
-            description:
-              "A scale for evaluating whether a draft implementation strategy, such as training, consultation, workflow support, onboarding, or facilitation, is usable and well matched to intended users and settings.",
-          },
-          {
             id: "prospective-reach-representativeness",
             outcomeId: "reach",
             name: "Prospective Reach and Representativeness Assessment",
@@ -8151,11 +8712,25 @@ implementation outcomes and planning evaluation during mid-design."
               "Use the TAM to predict and explain how likely individuals are to accept a new health care innovation. TAM does this by examining key factors such as Perceived Usefulness (PU), or whether users believe the intervention will improve their performance or efficiency, and Perceived Ease of Use (PEOU), or whether they believe it will be easy to use; these perceptions can be analyzed across different user groups and contextual conditions.",
           },
           {
+            id: "tfa-questionnaire",
+            outcomeId: "acceptability",
+            name: "Theoretical Framework of Acceptability (TFA) Questionnaire",
+            description:
+              "Use a TFA-informed questionnaire to assess anticipated or experienced acceptability across seven dimensions: affective attitude, burden, ethicality, intervention coherence, opportunity costs, perceived effectiveness, and self-efficacy. Exploring these dimensions can reveal specific concerns about an innovation that might be missed by an overall acceptability rating. Adapt wording and relevant items to the innovation, respondent group, and mid-design stage; anticipated acceptability should not be interpreted as evidence of actual experience.",
+          },
+          {
             id: "aim",
             outcomeId: "acceptability",
             name: "Acceptability of Intervention Measure (AIM)",
             description:
               "Use the 4-item AIM questionnaire measurement to evaluate whether a health care innovation is viewed as satisfactory, agreeable, or acceptable by key interest-holders. It helps designers understand how those involved may respond to the innovation and identify areas that may need refinement before broader implementation.",
+          },
+          {
+            id: "tam-adoption",
+            outcomeId: "adoption",
+            name: "Individual-Level Technology Acceptance Model (TAM)",
+            description:
+              "Use TAM to explore intended users’ anticipated willingness or intention to adopt a technology-based innovation, drawing on perceived usefulness and perceived ease of use. These perceptions can help identify potential barriers to initial uptake, complementing organizational readiness assessments. Stated intentions are prospective indicators, not evidence that adoption has occurred.",
           },
           {
             id: "oric",
@@ -8186,13 +8761,6 @@ implementation outcomes and planning evaluation during mid-design."
               "Track how often and for how long prescribed components are delivered. This may include number of sessions completed, duration of intervention delivery, number of training contacts, number of eligible users reached, or frequency of required protocol activities.",
           },
           {
-            id: "sensitivity-analysis",
-            outcomeId: "fidelity",
-            name: "Sensitivity Analysis",
-            description:
-              "When fidelity data and outcome data are available across multiple sites or studies, conduct sensitivity analysis or component analysis to examine which innovation components, or combinations of components, are most strongly associated with desired outcomes. This can help distinguish essential components from adaptable components. If essential components are not yet known, fidelity evaluation should begin with the full protocol and later be refined as evidence accumulates.",
-          },
-          {
             id: "dacts-fidelity-scale",
             outcomeId: "fidelity",
             name: "The Dartmouth Assertive Community Treatment Scale (DACTS fidelity scale)",
@@ -8212,13 +8780,6 @@ implementation outcomes and planning evaluation during mid-design."
             name: "Pragmatic Context Assessment Tool (pCAT)",
             description:
               "Use the 14-item quantitative pCAT instrument to determine the level of penetration or the tangible fit of a health care innovation within an organization’s existing subsystems. It is based on CFIR but translates technical constructs into everyday language familiar to clinicians.",
-          },
-          {
-            id: "logic-models",
-            outcomeId: "sustainability",
-            name: "Program Evaluation Through the Use of Logic Models",
-            description:
-              "Use a logic model to map the relationships among invested resources, activities, outputs, and short-, intermediate-, and long-term outcomes expected from a program. It provides a systematic and visual way to link program components to intended results, helping evaluators clarify how and why a program is expected to work. For sustainability, a logic model can help identify measurable indicators such as the continued availability of key resources, the maintenance of core activities, and the persistence of intended outcomes over time. This makes it a useful strategy for structuring sustainability evaluation and evaluating whether an intervention is likely to be maintained in practice.",
           },
           {
             id: "isat",
@@ -8252,7 +8813,28 @@ implementation outcomes and planning evaluation during mid-design."
             outcomeId: "appropriateness",
             name: "Field observation framework for pre-implementation of pre-patient-reported outcome measurement",
             description:
-              "Ethnographic field observation of site-level differences, such as clinic layout, staffing stability, and patient digital literacy, that interviews or surveys may miss.",
+              "Use structured field observation to understand how people, activities, and care or service environments operate in their usual settings. Through direct observation and descriptive field notes, document what happens, who is involved, and the conditions shaping everyday activities, such as clinic layout, patient flow, staffing stability, caregiver presence, and digital literacy. Comparing observations across settings can reveal contextual differences and unmet needs that may not emerge through interviews or surveys, helping teams assess how well the proposed innovation fits existing routines, users, and environments and identify opportunities for design refinement.",
+          },
+          {
+            id: "participatory-journey-mapping-service-blueprinting",
+            outcomeId: "appropriateness",
+            name: "Participatory Journey Mapping and Service Blueprinting",
+            description:
+              "Use participatory journey mapping or service blueprinting with relevant interest holders (e.g., immediate/direct beneficiaries, users/operators, innovation deliverers, and community/advocacy/partner organizations) to examine how the innovation fits within existing care or service pathways. Together, map key activities, interactions, handoffs, and organizational responsibilities, then compare the proposed innovation with current practices to identify unmet needs, contextual mismatches, and opportunities for design refinement. These activities can be conducted through facilitated group discussions or co-design workshops to incorporate different perspectives on the innovation's fit.",
+          },
+          {
+            id: "referral-intake-pathway-mapping",
+            outcomeId: "reach",
+            name: "Referral and Intake Pathway Observation and Process Mapping",
+            description:
+              "Use direct observation and process mapping to examine how the innovation would be offered and accessed across an organization or service system. Map organizational referral rules, eligibility decisions, staffing responsibilities, information-system handoffs, intake capacity, and coordination among departments, sites, or community partners, alongside individuals’ access and enrollment experiences. Identify where organizational decisions or pathway bottlenecks may delay, filter, or exclude eligible people, and use findings to refine both the innovation and the proposed access pathway. This can complement prospective Reach flow diagrams with contextual evidence.",
+          },
+          {
+            id: "scenario-simulation-insitu",
+            outcomeId: "feasibility",
+            name: "Scenario-Based Simulation and In-Situ Prototype Testing",
+            description:
+              "Use realistic scenarios, simulations, or in-situ prototype testing to examine how intended users and innovation deliverers carry out the innovation under representative operating conditions. Observe task completion, workflow disruptions, time requirements, coordination needs, resource constraints, and unexpected workarounds or risks. Findings can identify practical barriers and guide design refinements before routine implementation.",
           },
           {
             id: "readiness-thinking-observation-guide",
@@ -8280,7 +8862,7 @@ implementation outcomes and planning evaluation during mid-design."
             outcomeId: "acceptability",
             name: "Cognitive Walkthrough for Implementation Strategies (CWIS)",
             description:
-              "Use CWIS as a pragmatic, mixed-methods approach for evaluating complex, socially mediated implementation strategies, with steps including task analysis, task prioritization, scenario-based group testing, and usability issue identification/classification.",
+              "Use CWIS as a pragmatic, mixed-methods approach for evaluating complex, socially mediated implementation strategies, with steps including task analysis, task prioritization, scenario-based group testing, and usability issue identification/classification. CWIS was originally developed to evaluate the usability of implementation strategies. It can provide supplementary evidence about barriers related to acceptability, but does not directly measure the acceptability of the innovation itself.",
           },
           {
             id: "concept-mapping",
@@ -8304,6 +8886,20 @@ implementation outcomes and planning evaluation during mid-design."
               "Conduct a document evidence review to systematically analyze existing local evidence, such as organizational records, audits, and health system data, to evaluate baseline context, resource availability, and existing costs before implementation. Recommended review foci include budget allocations, staffing plans, wage schedules, procurement documents, workflow maps, and maintenance contracts.",
           },
           {
+            id: "core-functions-forms-matrix",
+            outcomeId: "fidelity",
+            name: "Core Functions and Forms Matrix",
+            description:
+              "Identify the essential functions that the innovation must perform to achieve its intended effects, and distinguish these from the specific forms, activities, or design features used to deliver them. Work with relevant interest holders to map the underlying problem or need, core functions, and potential forms, then examine which forms may be adapted for different users or settings without undermining intended functions.",
+          },
+          {
+            id: "frame-adaptation-documentation",
+            outcomeId: "fidelity",
+            name: "FRAME Adaptation Documentation",
+            description:
+              "Use the Framework for Reporting Adaptations and Modifications-Enhanced (FRAME) to systematically document changes during prototype testing, piloting, or implementation. Record what changed, when, why, and by whom; distinguish planned from reactive adaptations; and examine whether each change appears consistent with the innovation’s essential functions. Treat workarounds as potential design evidence rather than automatically as errors, and use the documentation to guide design refinements.",
+          },
+          {
             id: "observation-fidelity-rating",
             outcomeId: "fidelity",
             name: "Observation-Based Fidelity Rating",
@@ -8316,6 +8912,13 @@ implementation outcomes and planning evaluation during mid-design."
             name: "Normalization Process Theory Interview Guide",
             description:
               "An interview guide used with NoMAD to examine how an innovation becomes embedded and integrated into its intended context.",
+          },
+          {
+            id: "logic-models",
+            outcomeId: "sustainability",
+            name: "Program Evaluation Through the Use of Logic Models",
+            description:
+              "Use a logic model to map the relationships among invested resources, activities, outputs, and short-, intermediate-, and long-term outcomes expected from a program. It provides a systematic and visual way to link program components to intended results, helping evaluators clarify how and why a program is expected to work. For sustainability, a logic model can help identify measurable indicators such as the continued availability of key resources, the maintenance of core activities, and the persistence of intended outcomes over time. This makes it a useful strategy for structuring sustainability evaluation and evaluating whether an intervention is likely to be maintained in practice.",
           },
           {
             id: "iprism-webtool",
@@ -8336,6 +8939,22 @@ implementation outcomes and planning evaluation during mid-design."
     ];
 
     const STRATEGY_CITATIONS = {
+      sekhon2022: {
+        label: "Sekhon et al., 2022",
+        url: "https://doi.org/10.1186/s12913-022-07577-3",
+      },
+      perezjolles2019: {
+        label: "Perez Jolles et al., 2019",
+        url: "https://doi.org/10.1007/s11606-018-4818-7",
+      },
+      wiltseystirman2019: {
+        label: "Wiltsey Stirman et al., 2019",
+        url: "https://doi.org/10.1186/s13012-019-0898-y",
+      },
+      voorheis2025: {
+        label: "Voorheis et al., 2025",
+        url: "https://doi.org/10.1177/19322968251334396",
+      },
       weiner2017: {
         label: "Weiner et al., 2017",
         url: "https://doi.org/10.1186/s13012-017-0635-3",
@@ -8479,17 +9098,56 @@ implementation outcomes and planning evaluation during mid-design."
     };
 
     const EVALUATION_STRATEGY_METADATA = {
+      "tfa-questionnaire": {
+        citations: [STRATEGY_CITATIONS.sekhon2022],
+        resources: [
+          {
+            label: "Generic TFA Acceptability Questionnaire (Table 1)",
+            url: "https://www.ncbi.nlm.nih.gov/core/lw/2.0/html/tileshop_pmc/tileshop_pmc_inline.html?title=Click%20on%20image%20to%20zoom&p=PMC3&id=8889664_12913_2022_7577_Tab1_HTML.jpg",
+          },
+        ],
+      },
+      "tam-adoption": {
+        citations: [STRATEGY_CITATIONS.rahimi2018],
+        visual: {
+          label: "Technology Acceptance Model",
+          alt: "Diagram of the Technology Acceptance Model",
+          url: "https://raw.githubusercontent.com/viczcw/Mid-Design-Evaluation-Framework_Round-2/main/Strategy_Visuals/Technology_Acceptance_Model.png",
+        },
+      },
+      "core-functions-forms-matrix": {
+        citations: [STRATEGY_CITATIONS.perezjolles2019],
+        resources: [
+          {
+            label: "Core Functions and Forms Matrix — Table 1",
+            url: "https://link.springer.com/article/10.1007/s11606-018-4818-7/tables/1",
+          },
+          {
+            label: "Open-access matrix table and article",
+            url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6544719/#Tab1",
+          },
+        ],
+      },
+      "frame-adaptation-documentation": {
+        citations: [STRATEGY_CITATIONS.wiltseystirman2019],
+        resources: [
+          {
+            label: "FRAME reporting guidance and framework figure",
+            url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6554895/",
+          },
+        ],
+      },
+      "participatory-journey-mapping-service-blueprinting": {
+        citations: [STRATEGY_CITATIONS.voorheis2025],
+      },
       iam: {
         citations: [STRATEGY_CITATIONS.weiner2017],
         resources: [
           {
-            label: "AIM / IAM / FIM instrument",
+            label: "IAM instrument (included in the combined AIM, IAM, and FIM instrument)",
             url: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Acceptability-Appropriateness-Feasibility-Scale.docx",
           },
         ],
-      },
-      isus: {
-        citations: [STRATEGY_CITATIONS.lyon2021],
       },
       "prospective-reach-representativeness": {
         citations: [
@@ -8511,7 +9169,7 @@ implementation outcomes and planning evaluation during mid-design."
         citations: [STRATEGY_CITATIONS.weiner2017],
         resources: [
           {
-            label: "AIM / IAM / FIM instrument",
+            label: "FIM instrument (included in the combined AIM, IAM, and FIM instrument)",
             url: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Acceptability-Appropriateness-Feasibility-Scale.docx",
           },
         ],
@@ -8537,7 +9195,7 @@ implementation outcomes and planning evaluation during mid-design."
         citations: [STRATEGY_CITATIONS.weiner2017],
         resources: [
           {
-            label: "AIM / IAM / FIM instrument",
+            label: "AIM instrument (included in the combined AIM, IAM, and FIM instrument)",
             url: "https://dissemination-implementation.org/wp-content/uploads/2024/09/Acceptability-Appropriateness-Feasibility-Scale.docx",
           },
         ],
@@ -8564,9 +9222,6 @@ implementation outcomes and planning evaluation during mid-design."
         ],
       },
       "dose-frequency-tracking": {
-        citations: [STRATEGY_CITATIONS.carroll2007],
-      },
-      "sensitivity-analysis": {
         citations: [STRATEGY_CITATIONS.carroll2007],
       },
       "dacts-fidelity-scale": {
@@ -8619,6 +9274,12 @@ implementation outcomes and planning evaluation during mid-design."
         citations: [
           STRATEGY_CITATIONS.carrion2021,
           STRATEGY_CITATIONS.savaya2005,
+        ],
+        resources: [
+          {
+            label: "Sample program evaluation logic model (figure)",
+            url: "https://ars.els-cdn.com/content/image/1-s2.0-S1877129721000836-gr1.jpg",
+          },
         ],
       },
       isat: {
@@ -8743,7 +9404,7 @@ implementation outcomes and planning evaluation during mid-design."
       id: "interview",
       name: "Semi-Structured Interview",
       description:
-        "Use outcome-specific prompts to explore how people understand the innovation, its implementation context, and the conditions that may shape the selected implementation outcome.",
+        "Use relevant prompts to explore perceptions of the innovation and its implementation context.",
       citations: [STRATEGY_CITATIONS.atkins2017],
     };
 
@@ -8754,8 +9415,26 @@ implementation outcomes and planning evaluation during mid-design."
       ],
     };
 
+    // Preserve pre-existing prompt IDs after inserting the new first Appropriateness prompt.
+    // Old prompts retain prompt-1 through prompt-5; new problem framing is prompt-6.
+    function getInterviewPromptId(outcomeId, index) {
+      if (outcomeId === "appropriateness") {
+        return index === 0 ? "prompt-6" : `prompt-${index}`;
+      }
+      return `prompt-${index + 1}`;
+    }
+
+    function getInterviewStrategyDescription(outcomeId) {
+      const label = OUTCOMES.find((outcome) => outcome.id === outcomeId)?.name.toLowerCase() || "outcome";
+      return `Use ${label}-specific prompts to explore how relevant interest holders understand the innovation, its implementation context, and conditions that may shape ${label}.`;
+    }
+
     const INTERVIEW_PROMPTS_BY_OUTCOME = {
       appropriateness: [
+        [
+          "Problem definition and framing",
+          "In your own words, how would you describe the problem this innovation is intended to address?",
+        ],
         [
           "Perceived necessity for the problem at hand",
           "Why is [the specific problem or gap in care] important to address?",
@@ -8765,12 +9444,12 @@ implementation outcomes and planning evaluation during mid-design."
           "How does this health care innovation address [the specific clinical problem] and [the needs, priorities, or circumstances of the intended patient population]?",
         ],
         [
-          "Compatibility with organizational missions or values",
-          "Where do you see potential conflicts between the values of this innovation and the values that govern your work here?",
+          "Alignment with values and priorities",
+          "What aspects of this innovation align with or conflict with the values and priorities that matter to you, your group, or your organization?",
         ],
         [
-          "Fit within existing clinical models or standards of care",
-          "In what ways would this health care innovation align with or differ from current clinical workflows, care models, or standards of care?",
+          "Fit with existing practices, services, or routines",
+          "How would this health care innovation fit with or differ from the services, activities, or routines that you currently use, provide, or experience?",
         ],
         [
           "Perceived effectiveness for addressing the targeted issue",
@@ -8791,8 +9470,8 @@ implementation outcomes and planning evaluation during mid-design."
           "What aspects of this innovation would make you more or less likely to receive or participate in it?",
         ],
         [
-          "Features discouraging personal participation",
-          "In your usual experience with [the relevant care, service, or work system], where, if anywhere, would you expect to encounter this innovation?",
+          "Points of access and referral",
+          "In your previous experience with [the relevant care, service, or work system], where, if anywhere, would you expect to encounter this innovation?",
         ],
         [
           "Perceived role in the current system",
@@ -8809,6 +9488,10 @@ implementation outcomes and planning evaluation during mid-design."
         [
           "Opportunities to improve Reach",
           "What could be changed to make this innovation more likely to reach people who might otherwise be missed?",
+        ],
+        [
+          "Referral and offer decision points",
+          "At what point would eligible people be offered this innovation, who would make that decision, and what might prevent someone from receiving the offer?",
         ],
       ],
       feasibility: [
@@ -8843,6 +9526,10 @@ implementation outcomes and planning evaluation during mid-design."
         [
           "Incentive compatibility",
           "How well does this innovation align with the incentives, performance measures, reimbursement models, or accountability expectations already in place?",
+        ],
+        [
+          "Fit within routine conditions",
+          "What would make this innovation more difficult to carry out if the research team were no longer providing additional staff, resources, training, or troubleshooting support?",
         ],
       ],
       acceptability: [
@@ -8916,6 +9603,10 @@ implementation outcomes and planning evaluation during mid-design."
           "Willingness to trial the innovation",
           "How willing would you or your team be to trial this health care innovation before deciding whether to adopt it more broadly, and what would shape that willingness?",
         ],
+        [
+          "Adoption decision process",
+          "Who would need to authorize, approve, fund, or support the initial adoption of this innovation, and who could delay or prevent that decision from being put into practice?",
+        ],
       ],
       "implementation-cost": [
         [
@@ -8957,6 +9648,14 @@ implementation outcomes and planning evaluation during mid-design."
         [
           "Unintended consequences and downstream effects",
           "What unexpected effects, positive or negative, could this health care innovation create for patients, clinicians, learners, workflows, costs, safety, equity, or the broader care system?",
+        ],
+        [
+          "Cost allocation",
+          "Who would bear the costs of implementing this innovation, and who would receive its anticipated financial or operational benefits?",
+        ],
+        [
+          "Research-supported resources",
+          "What resources or activities are currently provided or subsidized by the research team that would need to be funded during routine implementation?",
         ],
       ],
       fidelity: [
@@ -9018,11 +9717,15 @@ implementation outcomes and planning evaluation during mid-design."
           "Policy alignment and interdepartmental coordination",
           "How might current policies, procedures, or approval processes support or hinder coordinated use of this health care innovation across [the relevant departments]?",
         ],
+        [
+          "Spread beyond the pilot setting",
+          "How might the requirements for using or delivering this innovation differ in a unit, department, or site unlike the one where it was developed or first tested?",
+        ],
       ],
       sustainability: [
         [
-          "Strategic alignment",
-          "In what ways do you believe this practice has become essential to your clinic’s long-term vision and reputation for quality?",
+          "Prospective strategic alignment",
+          "How might this innovation fit within your organization's long-term priorities, and what could affect its continued support over time?",
         ],
         [
           "Financial institutionalization",
@@ -9051,6 +9754,14 @@ implementation outcomes and planning evaluation during mid-design."
         [
           "External environment",
           "How might external factors, such as accreditation requirements, reimbursement policies, payor priorities, regulatory expectations, or advocacy needs, influence whether this health care innovation can be supported and sustained over time?",
+        ],
+        [
+          "Transition beyond research support",
+          "What responsibilities or resources does the research team currently provide, and who would take them over after the project ends?",
+        ],
+        [
+          "Long-term technical maintenance",
+          "Who would be responsible for hosting, maintenance, updates, security, and vendor coordination, and what resources would be needed to sustain these activities?",
         ],
       ],
     };
@@ -9852,12 +10563,56 @@ implementation outcomes and planning evaluation during mid-design."
       return <>{nodes}</>;
     }
 
+
+    function scrollToGuideSection(targetId) {
+      const target = document.getElementById(targetId);
+      // For reflection links, include the section's label and heading in view.
+      const scrollTarget = target?.closest(".page-reflection-panel") || target;
+      scrollTarget?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+
+    function WorkflowJumpLink({ targetId, children }) {
+      return (
+        <button
+          type="button"
+          className="workflow-inline-link"
+          onClick={() => scrollToGuideSection(targetId)}
+        >
+          {children}
+        </button>
+      );
+    }
+
+    function RecommendedWorkflow({ steps, pageLabel }) {
+      const titleId = `recommended-workflow-${pageLabel}`;
+      return (
+        <nav className="recommended-workflow" aria-labelledby={titleId}>
+          <h2 id={titleId}>Recommended Workflow</h2>
+          <ol className="recommended-workflow-steps">
+            {steps.map((step, index) => (
+              <li className="recommended-workflow-step" key={step.label}>
+                <span className="recommended-workflow-index" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <strong className="recommended-workflow-label">{step.label}</strong>
+                <p className="recommended-workflow-description">{step.description}</p>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      );
+    }
+
     function ReflectionSection({
       titleId,
       title,
       prompts,
       note,
       onChangeNote,
+      selectionTargetId,
     }) {
       const noteId = `${titleId}-notes`;
       const helperId = `${noteId}-helper`;
@@ -9875,6 +10630,16 @@ implementation outcomes and planning evaluation during mid-design."
               italicPhrases={["at this time"]}
             />
           </p>
+          {selectionTargetId && (
+            <button
+              type="button"
+              className="reflection-review-link"
+              onClick={() => scrollToGuideSection(selectionTargetId)}
+            >
+              <span aria-hidden="true">↑</span>
+              Review or Revise Your Selections
+            </button>
+          )}
           <ol className="scaffold-reflection-grid global-reflection-grid page-reflection-grid">
             {prompts.map((prompt) => (
               <li key={prompt.question}>
@@ -10075,27 +10840,71 @@ implementation outcomes and planning evaluation during mid-design."
                   Mid-Design Evaluation Guide
                 </h1>
 
-                <p className="lede">
-                  Use this guide to identify implementation outcomes
-                  relevant to your design, determine whose perspectives
-                  can help you understand them, and select evaluation
-                  strategies to inform design decisions during mid-design.
+                <p className="lede start-interactive-intro">
+                  Use this <strong>interactive guide</strong> to select
+                  implementation outcomes relevant to your design, identify
+                  interest holders whose perspectives can inform those
+                  outcomes, and explore evaluation strategies to guide
+                  decisions during mid-design.
                 </p>
 
-                <p className="definition">
-                  <strong>Mid-design</strong> is the period after initial
-                  problem definition, idea generation, and concept
-                  development, when a promising concept solution has been
-                  developed but the design can still be meaningfully refined
-                  before later-stage validation and implementation.
+                <p className="start-interactive-details">
+                  As you move through the guide, you can <strong>make
+                  selections, reflect on their relevance to your project,
+                  and add notes</strong> to tailor your approach. Your inputs
+                  will carry forward into a <strong>customizable evaluation
+                  plan</strong> that you can further refine and print.
                 </p>
 
-                <p className="mid-design-evaluation-definition">
-                  <strong>Mid-design evaluation</strong> refers to activities
-                  design teams can conduct to evaluate their promising concept
-                  solution at the mid-design point in order to refine the
-                  solution before conducting later-stage validation studies.
-                </p>
+                <section className="start-mid-design" aria-labelledby="start-mid-design-title">
+                  <h2 id="start-mid-design-title">Understanding Mid-Design</h2>
+
+                  <div className="start-design-phases" role="group" aria-label="Illustrative front-end, mid-design, and back-end design phases">
+                    <article className="start-design-phase">
+                      <h3>Front-end Design</h3>
+                      <ul>
+                        <li>Identify needs and context</li>
+                        <li>Scope and define the problem</li>
+                        <li>Generate ideas and develop initial concepts</li>
+                      </ul>
+                    </article>
+                    <span className="start-design-phase-arrow" aria-hidden="true">→</span>
+                    <article className="start-design-phase is-mid-design">
+                      <h3>Mid-Design</h3>
+                      <ul>
+                        <li>A promising concept and design direction exist</li>
+                        <li>Explore implementation outcomes and interest-holder perspectives</li>
+                        <li>Use findings to guide meaningful design refinements</li>
+                      </ul>
+                    </article>
+                    <span className="start-design-phase-arrow" aria-hidden="true">→</span>
+                    <article className="start-design-phase">
+                      <h3>Back-end Design</h3>
+                      <ul>
+                        <li>Advance detailed design and final refinements</li>
+                        <li>Validate the solution</li>
+                        <li>Address real-world implementation needs</li>
+                      </ul>
+                    </article>
+                  </div>
+
+                  <div className="start-mid-design-insight">
+                    <h3>Why evaluate at mid-design?</h3>
+                    <p>
+                      <strong>Mid-design evaluation</strong> refers to activities
+                      design teams can conduct to assess a promising concept,
+                      gather evidence about potential implementation challenges,
+                      and inform design refinements before later-stage validation
+                      and implementation. At mid-design, the concept is specific
+                      enough to evaluate, yet flexible enough to improve.
+                      Addressing challenges at this point can require fewer
+                      resources than making comparable changes in later design stages.
+                    </p>
+                  </div>
+                  <p className="start-mid-design-note">
+                    These phases are illustrative, and design activities may overlap and iterate.
+                  </p>
+                </section>
 
                 <a
                   className="scroll-prompt"
@@ -10929,12 +11738,21 @@ implementation outcomes and planning evaluation during mid-design."
       return null;
     }
 
-    // Shared category coloring for Guide Step 1 only.
+    // Shared implementation-outcome categories and presentation order across the guide.
     const OUTCOME_CATEGORY_CLASS = {
       "Assess & Refine": "category-assess",
       "Design & Test": "category-design",
       "Anticipate & Plan": "category-anticipate",
     };
+
+    const OUTCOME_DISPLAY_ORDER = [
+      "appropriateness", "acceptability", "feasibility",
+      "implementation-cost", "fidelity", "adoption",
+      "reach", "penetration", "sustainability",
+    ];
+    const OUTCOME_DISPLAY_ITEMS = OUTCOME_DISPLAY_ORDER
+      .map((id) => OUTCOMES.find((outcome) => outcome.id === id))
+      .filter(Boolean);
 
     function ExploreOutcomesPage({
       implementationOutcomeSelections,
@@ -10942,15 +11760,7 @@ implementation outcomes and planning evaluation during mid-design."
       reflectionNote,
       onChangeReflectionNote,
     }) {
-      // Presentation order for Guide Step 1 only. Other guide pages are unchanged.
-      const outcomePageOrder = [
-        "appropriateness", "acceptability", "feasibility",
-        "implementation-cost", "fidelity", "adoption",
-        "reach", "penetration", "sustainability",
-      ];
-      const outcomePageItems = outcomePageOrder.map(
-        (id) => OUTCOMES.find((outcome) => outcome.id === id)
-      ).filter(Boolean);
+      const outcomePageItems = OUTCOME_DISPLAY_ITEMS;
       const [selectedOutcomeId, setSelectedOutcomeId] = useState(
         outcomePageItems[0].id
       );
@@ -11029,6 +11839,32 @@ implementation outcomes and planning evaluation during mid-design."
                 <CitationNumbers ids={["proctor2011"]} />
               </p>
 
+              <RecommendedWorkflow
+                pageLabel="outcomes"
+                steps={[
+                  {
+                    label: "Explore",
+                    description: <>
+                      Review each <WorkflowJumpLink targetId="implementation-outcomes-selections">implementation outcome</WorkflowJumpLink>, including its definition, mid-design relevance, and key considerations.
+                    </>,
+                  },
+                  {
+                    label: "Select",
+                    description: <>
+                      <WorkflowJumpLink targetId="implementation-outcomes-selections">Mark the implementation outcomes</WorkflowJumpLink> that are relevant to your project.
+                    </>,
+                  },
+                  {
+                    label: "Reflect & Refine",
+                    description: <>
+                      Draw on {selectedOutcome.evidence?.length > 0 ? (
+                        <WorkflowJumpLink targetId="implementation-outcomes-case-evidence">evidence from case examples</WorkflowJumpLink>
+                      ) : ("evidence from case examples")}, then use <WorkflowJumpLink targetId="implementation-outcomes-reflection-title">reflection prompts</WorkflowJumpLink> to prioritize your implementation outcomes. Add or remove outcomes as your understanding develops.
+                    </>,
+                  },
+                ]}
+              />
+
               <button
                 className="scroll-prompt outcomes-scroll-prompt"
                 type="button"
@@ -11065,7 +11901,7 @@ implementation outcomes and planning evaluation during mid-design."
                   </div>
                 ))}
               </div>
-              <div className="outcome-layout">
+              <div id="implementation-outcomes-selections" className="outcome-layout">
                 <aside
                   className="outcome-sidebar"
                   aria-label="Outcome navigation"
@@ -11076,7 +11912,8 @@ implementation outcomes and planning evaluation during mid-design."
                     Each implementation outcome is displayed individually. Select an
                     outcome below to review its definition, mid-design relevance, key
                     considerations, and case evidence. Use the checkmark to mark outcomes
-                    that are relevant to your project.
+                    that are relevant to your project. Your selections will carry over
+                    to your final evaluation plan.
                   </p>
                 </div>
 
@@ -11263,7 +12100,7 @@ implementation outcomes and planning evaluation during mid-design."
                 </div>
 
                 {selectedOutcome.evidence?.length > 0 && (
-                  <section className="evidence-section">
+                  <section id="implementation-outcomes-case-evidence" className="evidence-section">
                     <div className="evidence-heading">
                       <h3>Evidence from Case Examples</h3>
                     </div>
@@ -11323,7 +12160,8 @@ implementation outcomes and planning evaluation during mid-design."
 
               <ReflectionSection
                 titleId="implementation-outcomes-reflection-title"
-                title="Reflect on your implementation outcome priorities"
+                title="Reflect on Your Implementation Outcome Priorities"
+                selectionTargetId="implementation-outcomes-selections"
                 prompts={IMPLEMENTATION_OUTCOME_REFLECTION}
                 note={reflectionNote}
                 onChangeNote={onChangeReflectionNote}
@@ -11421,59 +12259,6 @@ implementation outcomes and planning evaluation during mid-design."
             </div>
           </section>
         </>
-      );
-    }
-
-    function InterestHolderJourneyIcon({ type }) {
-      const common = {
-        viewBox: "0 0 24 24", width: 22, height: 22, fill: "none",
-        stroke: "currentColor", strokeWidth: 1.8,
-        strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true",
-      };
-      if (type === "families") return <svg {...common}>
-        <circle cx="9" cy="8" r="3" /><path d="M3 20v-2a6 6 0 0 1 12 0v2" />
-        <path d="M17 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 5v1" />
-      </svg>;
-      if (type === "recommendations") return <svg {...common}>
-        <path d="M9 6h12M9 12h12M9 18h12" />
-        <path d="m3 6 1.5 1.5L7 4.5m-4 7.5 1.5 1.5L7 10.5m-4 7.5 1.5 1.5L7 16.5" />
-      </svg>;
-      if (type === "examples") return <svg {...common}>
-        <rect x="5" y="5" width="14" height="16" rx="2" /><path d="M9 5.5V3h6v2.5M9 11h6M9 15h6" />
-      </svg>;
-      return <svg {...common}>
-        <path d="M5 4h12a2 2 0 0 1 2 2v14H7a2 2 0 0 1-2-2V4Z" />
-        <path d="M9 9h6M9 13h6M5 18a2 2 0 0 1 2-2h12" />
-      </svg>;
-    }
-
-    function InterestHolderPageNavigation() {
-      const sections = [
-        { id: "potential-interest-holders-title", title: "Potential Interest Holders", icon: "families" },
-        { id: "outcome-recommendations-title", title: "Outcome-Specific Interest-Holder Recommendations", icon: "recommendations" },
-        { id: "interest-holder-case-evidence-title", title: "Evidence from Case Examples", icon: "examples" },
-        { id: "global-reflection-title", title: "Reflect on your interest holder priorities", icon: "reflection" },
-      ];
-      return (
-        <nav id="interest-holder-page-journey" className="interest-page-journey" aria-label="Interest Holders page sections">
-          <div className="interest-page-journey-eyebrow">Explore this page</div>
-          <div className="interest-page-journey-grid">
-            {sections.map((section, index) => (
-              <button
-                key={section.id}
-                className="interest-page-journey-link"
-                type="button"
-                onClick={() => document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
-              >
-                <span className="interest-page-journey-top">
-                  <InterestHolderJourneyIcon type={section.icon} />
-                  <span className="interest-page-journey-count">{String(index + 1).padStart(2, "0")} ↘</span>
-                </span>
-                <span className="interest-page-journey-title">{section.title}</span>
-              </button>
-            ))}
-          </div>
-        </nav>
       );
     }
 
@@ -11586,119 +12371,173 @@ implementation outcomes and planning evaluation during mid-design."
       onAddCustomGroup,
       onToggleCustomGroup,
       onRemoveCustomGroup,
+      mode = "discover",
+      recommendedGroupIds = [],
+      builtInSelections = [],
+      builtInDetails = {},
+      onToggleBuiltInGroup,
+      onUpdateBuiltInDetail,
     }) {
+      const isPlan = mode === "plan";
+      const [groupChoice, setGroupChoice] = useState("");
       const [groupName, setGroupName] = useState("");
       const [groupNote, setGroupNote] = useState("");
-      const selectedForOutcome = new Set(
-        customSelections[activeOutcome.id] || []
-      );
+      const selectedForOutcome = new Set(customSelections[activeOutcome.id] || []);
+      const selectedBuiltIns = new Set(builtInSelections);
+      const recommendationSet = new Set(recommendedGroupIds);
+      const additionalScaffoldGroups = Object.values(INTEREST_HOLDER_GROUPS_BY_ID)
+        .filter((group) => !recommendationSet.has(group.id));
+      const availableScaffoldGroups = additionalScaffoldGroups
+        .filter((group) => !selectedBuiltIns.has(group.id));
+      const selectedAdditionalGroups = additionalScaffoldGroups
+        .filter((group) => selectedBuiltIns.has(group.id));
 
       function handleSubmit(event) {
         event.preventDefault();
-        const trimmedName = groupName.trim();
-        if (!trimmedName) return;
-
-        onAddCustomGroup(
-          activeOutcome.id,
-          trimmedName,
-          groupNote.trim()
-        );
+        if (!isPlan && groupChoice !== "custom") {
+          if (!groupChoice || selectedBuiltIns.has(groupChoice)) return;
+          onToggleBuiltInGroup(activeOutcome.id, groupChoice);
+          if (groupNote.trim()) {
+            onUpdateBuiltInDetail(activeOutcome.id, groupChoice, "notes", groupNote.trim());
+          }
+        } else {
+          const trimmedName = groupName.trim();
+          if (!trimmedName) return;
+          onAddCustomGroup(activeOutcome.id, trimmedName, groupNote.trim());
+        }
+        setGroupChoice("");
         setGroupName("");
         setGroupNote("");
       }
 
       return (
-        <section
-          className="custom-interest-holder-panel"
-          aria-labelledby="custom-interest-holder-title"
-        >
+        <section className={`custom-interest-holder-panel${isPlan ? " is-plan-custom-panel" : ""}`}
+          aria-label={`Add interest holder groups for ${activeOutcome.name}`}>
           <div className="custom-interest-holder-intro">
-            <div className="placeholder-label">Project-specific group</div>
-            <h3 id="custom-interest-holder-title">
-              Add an interest-holder group not captured by the scaffold
-            </h3>
+            <div className="placeholder-label">Project-Specific Additions</div>
+            <h3>Add {isPlan ? "a Custom Interest Holder Group" : "Interest Holder Groups"} for {activeOutcome.name}</h3>
             <p>
-              If there are other interest-holder groups relevant to your project
-              that are not captured by the scaffold, add them here and, if useful,
-              note why their perspective matters.
+              {isPlan
+                ? `All scaffold groups are listed above. Add a custom interest holder group relevant to evaluating ${activeOutcome.name} if your project needs one.`
+                : `The starting-point recommendations do not cover every group in the legitimate-interest scaffold. Add other groups relevant to evaluating ${activeOutcome.name}, or create a custom group specific to your project.`}
             </p>
           </div>
 
           <form className="custom-interest-holder-form" onSubmit={handleSubmit}>
-            <label>
-              <span>Group name</span>
-              <input
-                type="text"
-                value={groupName}
-                onChange={(event) => setGroupName(event.target.value)}
-                placeholder="e.g., Local referral coordinators"
-              />
-            </label>
+            <div className="custom-holder-group-input">
+              <label htmlFor={isPlan ? "plan-holder-name" : "discover-holder-group"}>
+                {isPlan ? "Custom Group Name" : "Group Name"}
+              </label>
+              {isPlan ? (
+                <input id="plan-holder-name" type="text" value={groupName}
+                  onChange={(event) => setGroupName(event.target.value)}
+                  placeholder="Enter a custom group name" required />
+              ) : (
+                <>
+                  <select id="discover-holder-group" value={groupChoice}
+                    onChange={(event) => { setGroupChoice(event.target.value); setGroupName(""); }} required>
+                    <option value="">Select an interest holder group</option>
+                    {availableScaffoldGroups.map((group) => (
+                      <option key={group.id} value={group.id}>{group.label}</option>
+                    ))}
+                    <option value="custom">+ Create a Custom Group</option>
+                  </select>
+                  {groupChoice === "custom" && (
+                    <label className="custom-holder-extra-field">
+                      <span>Custom Group Name</span>
+                      <input type="text" value={groupName} required
+                        onChange={(event) => setGroupName(event.target.value)}
+                        placeholder="Enter a custom group name" />
+                    </label>
+                  )}
+                </>
+              )}
+            </div>
 
-            <label>
-              <span>Why this group's perspective matters <em>(optional)</em></span>
-              <textarea
-                value={groupNote}
-                onChange={(event) => setGroupNote(event.target.value)}
-                placeholder="Add a short project-specific note."
-              />
+            <label className="custom-holder-rationale">
+              <span>Why This Group's Perspective Matters for {activeOutcome.name} <em>(Optional)</em></span>
+              <textarea value={groupNote} onChange={(event) => setGroupNote(event.target.value)}
+                placeholder={`Explain what this group could help you understand about ${activeOutcome.name} in your project.`} />
             </label>
-
-            <button className="button secondary" type="submit">
-              Add to {activeOutcome.name} plan
+            <button className="button secondary" type="submit"
+              disabled={!isPlan && (!groupChoice || (groupChoice === "custom" && !groupName.trim())) || isPlan && !groupName.trim()}>
+              Add to {activeOutcome.name} Plan
             </button>
           </form>
 
+          {!isPlan && selectedAdditionalGroups.length > 0 && (
+            <div className="custom-interest-holder-list" aria-label="Added scaffold groups">
+              {selectedAdditionalGroups.map((group) => (
+                <article key={group.id} className="custom-interest-holder-item is-selected">
+                  <div className="custom-holder-added-copy">
+                    <h4>{group.label}</h4>
+                    <label className="custom-holder-existing-note">
+                      <span>Why This Group's Perspective Matters for {activeOutcome.name} (Optional)</span>
+                      <textarea value={builtInDetails[group.id]?.notes || ""}
+                        placeholder={`Add a note specific to ${activeOutcome.name}.`}
+                        onChange={(event) => onUpdateBuiltInDetail(activeOutcome.id, group.id, "notes", event.target.value)} />
+                    </label>
+                  </div>
+                  <button className="text-action-button quiet" type="button"
+                    onClick={() => onToggleBuiltInGroup(activeOutcome.id, group.id)}>
+                    Remove from {activeOutcome.name}
+                  </button>
+                </article>
+              ))}
+            </div>
+          )}
+
           {customGroups.length > 0 && (
             <div className="custom-interest-holder-list">
-              {customGroups.map((group) => {
+              {customGroups.filter((group) => !isPlan || selectedForOutcome.has(group.id)).map((group) => {
                 const isSelected = selectedForOutcome.has(group.id);
                 const selectedOutcomeNames = OUTCOMES.filter((outcome) =>
                   (customSelections[outcome.id] || []).includes(group.id)
                 ).map((outcome) => outcome.name);
-
                 return (
-                  <article
-                    className={`custom-interest-holder-item${
-                      isSelected ? " is-selected" : ""
-                    }`}
-                    key={group.id}
-                  >
+                  <article className={`custom-interest-holder-item${isSelected ? " is-selected" : ""}`} key={group.id}>
                     <div>
                       <h4>{group.name}</h4>
-                      {group.note && <p>{group.note}</p>}
+                      {isSelected && onUpdateBuiltInDetail ? (
+                        <label className="custom-holder-existing-note">
+                          <span>Why This Group's Perspective Matters for {activeOutcome.name} (Optional)</span>
+                          <textarea value={builtInDetails[group.id]?.notes ?? group.note ?? ""}
+                            placeholder={`Add a note specific to ${activeOutcome.name}.`}
+                            onChange={(event) => onUpdateBuiltInDetail(activeOutcome.id, group.id, "notes", event.target.value)} />
+                        </label>
+                      ) : group.note ? <p>{group.note}</p> : null}
                       {selectedOutcomeNames.length > 0 && (
-                        <span className="custom-interest-holder-meta">
-                          In plan for: {selectedOutcomeNames.join(", ")}
-                        </span>
+                        <span className="custom-interest-holder-meta">In plan for: {selectedOutcomeNames.join(", ")}</span>
                       )}
                     </div>
-
                     <div className="custom-interest-holder-actions">
-                      <button
-                        className="text-action-button"
-                        type="button"
-                        aria-pressed={isSelected}
-                        onClick={() =>
-                          onToggleCustomGroup(activeOutcome.id, group.id)
-                        }
-                      >
-                        {isSelected
-                          ? `Remove from ${activeOutcome.name}`
-                          : `Add to ${activeOutcome.name}`}
+                      <button className="text-action-button" type="button" aria-pressed={isSelected}
+                        onClick={() => onToggleCustomGroup(activeOutcome.id, group.id)}>
+                        {isSelected ? `Remove from ${activeOutcome.name}` : `Add to ${activeOutcome.name}`}
                       </button>
-                      <button
-                        className="text-action-button quiet"
-                        type="button"
-                        onClick={() => onRemoveCustomGroup(group.id)}
-                      >
-                        Delete custom group
-                      </button>
+                      <button className="text-action-button quiet" type="button"
+                        onClick={() => onRemoveCustomGroup(group.id)}>Delete custom group</button>
                     </div>
                   </article>
                 );
               })}
             </div>
+          )}
+          {isPlan && customGroups.some((group) => !selectedForOutcome.has(group.id)) && (
+            <details className="plan-add-panel">
+              <summary>Reuse an Existing Custom Group</summary>
+              <div className="custom-interest-holder-list">
+                {customGroups.filter((group) => !selectedForOutcome.has(group.id)).map((group) => (
+                  <div className="custom-interest-holder-item" key={group.id}>
+                    <strong>{group.name}</strong>
+                    <button type="button" className="text-action-button"
+                      onClick={() => onToggleCustomGroup(activeOutcome.id, group.id)}>
+                      Add to {activeOutcome.name}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </details>
           )}
         </section>
       );
@@ -11863,15 +12702,7 @@ implementation outcomes and planning evaluation during mid-design."
       reflectionNote,
       onChangeReflectionNote,
     }) {
-      // Mirror the presentation order on Discover Implementation Outcomes.
-      const recommendationOutcomeOrder = [
-        "appropriateness", "acceptability", "feasibility",
-        "implementation-cost", "fidelity", "adoption",
-        "reach", "penetration", "sustainability",
-      ];
-      const recommendationOutcomeItems = recommendationOutcomeOrder.map(
-        (id) => OUTCOMES.find((outcome) => outcome.id === id)
-      ).filter(Boolean);
+      const recommendationOutcomeItems = OUTCOME_DISPLAY_ITEMS;
       const [selectedOutcomeId, setSelectedOutcomeId] = useState(() =>
         recommendationOutcomeItems.find((outcome) =>
           (implementationOutcomeSelections || []).includes(outcome.id)
@@ -12010,12 +12841,36 @@ implementation outcomes and planning evaluation during mid-design."
                 traditional stakeholder label.
               </p>
 
+              <RecommendedWorkflow
+                pageLabel="interest-holders"
+                steps={[
+                  {
+                    label: "Explore",
+                    description: <>
+                      Explore <WorkflowJumpLink targetId="potential-interest-holders-title">potential interest holders</WorkflowJumpLink> through the legitimate-interest scaffold, then review <WorkflowJumpLink targetId="outcome-recommendations-title">outcome-specific recommendations</WorkflowJumpLink> as starting points.
+                    </>,
+                  },
+                  {
+                    label: "Select",
+                    description: <>
+                      <WorkflowJumpLink targetId="outcome-recommendations-title">Select interest holders</WorkflowJumpLink> whose perspectives are relevant to each implementation outcome of interest. Add project-specific groups as needed.
+                    </>,
+                  },
+                  {
+                    label: "Reflect & Refine",
+                    description: <>
+                      Draw on <WorkflowJumpLink targetId="interest-holder-case-evidence-title">evidence from case examples</WorkflowJumpLink>, then use <WorkflowJumpLink targetId="global-reflection-title">reflection prompts</WorkflowJumpLink> to prioritize interest holders and reconsider whose perspectives may be missing.
+                    </>,
+                  },
+                ]}
+              />
+
               <button
                 className="scroll-prompt interest-scroll-prompt"
                 type="button"
                 onClick={() =>
                   document
-                    .getElementById("interest-holder-page-journey")
+                    .getElementById("potential-interest-holders-title")
                     ?.scrollIntoView({ behavior: "smooth", block: "start" })
                 }
               >
@@ -12030,7 +12885,6 @@ implementation outcomes and planning evaluation during mid-design."
             aria-labelledby="potential-interest-holders-title"
           >
             <div className="container">
-              <InterestHolderPageNavigation />
               <SectionHeading
                 eyebrow="Legitimate-interest scaffold"
                 title="Potential Interest Holders"
@@ -12080,14 +12934,10 @@ implementation outcomes and planning evaluation during mid-design."
                 titleId="outcome-recommendations-title"
               >
                 These are context-sensitive starting-point recommendations, not
-                a universal priority order. Which interest holders are most
-                informative will depend on your innovation, setting,
-                implementation outcome, and project context. Review the broad
-                families and specific interest-holder groups above, select the
-                groups most relevant to your project, add project-specific
-                interest holders that are not captured in the scaffold, and
-                use the reflection prompts to consider whose perspectives may
-                still be missing.
+                a universal priority order. Review the scaffold above, select
+                relevant groups for each implementation outcome, and use
+                Project-Specific Additions to include other scaffold groups or
+                custom groups. Reflect on whose perspectives may still be missing.
               </SectionHeading>
 
               <aside
@@ -12108,8 +12958,8 @@ implementation outcomes and planning evaluation during mid-design."
                     implementation outcome(s) of interest.
                   </li>
                   <li>
-                    Add a custom group when a project-relevant interest holder
-                    is not captured by the scaffold.
+                    Add another scaffold group or create a custom group when the
+                    starting-point recommendations do not cover your project.
                   </li>
                 </ul>
               </aside>
@@ -12130,9 +12980,6 @@ implementation outcomes and planning evaluation during mid-design."
                   aria-label="Outcomes for interest-holder recommendations"
                 >
                   {recommendationOutcomeItems.map((outcome, index) => {
-                    const selectionCount =
-                      (interestHolderSelections[outcome.id]?.length || 0) +
-                      (customInterestHolderSelections[outcome.id]?.length || 0);
 
                     const isRelevant = selectedOutcomeIds.has(outcome.id);
 
@@ -12150,14 +12997,6 @@ implementation outcomes and planning evaluation during mid-design."
                           onKeyDown={(event) => handleOutcomeKeyDown(event, index)}
                         >
                           <span>{outcome.name}</span>
-                          {selectionCount > 0 && (
-                            <span
-                              className="outcome-selection-count"
-                              aria-label={`${selectionCount} selected`}
-                            >
-                              {selectionCount}
-                            </span>
-                          )}
                         </button>
 
                         <button
@@ -12193,7 +13032,7 @@ implementation outcomes and planning evaluation during mid-design."
                     <div className="outcome-detail-heading">
                       <div className="eyebrow">{selectedOutcome.name}</div>
 
-                      <h2>Select potentially relevant interest holders</h2>
+                      <h2>Select Potentially Relevant Interest Holders for {selectedOutcome.name}</h2>
                     </div>
 
                     <label
@@ -12219,11 +13058,9 @@ implementation outcomes and planning evaluation during mid-design."
                   </div>
 
                   <p className="recommendation-intro-copy">
-                    Use these recommendations as starting points and adapt them
-                    based on your project context. Each recommendation comes
-                    from a specific group in the legitimate-interest scaffold
-                    above. Selection is explicit and stored separately for each
-                    outcome during this session.
+                    These interest holders are recommended starting points for evaluating {selectedOutcome.name}.
+                    Select those relevant to your project and adapt your selections to your project context.
+                    Your selections will carry forward into your Evaluation Plan, where you can review and refine them.
                   </p>
 
                   <button
@@ -12345,6 +13182,11 @@ implementation outcomes and planning evaluation during mid-design."
                     onAddCustomGroup={onAddCustomInterestHolder}
                     onToggleCustomGroup={onToggleCustomInterestHolder}
                     onRemoveCustomGroup={onRemoveCustomInterestHolder}
+                    recommendedGroupIds={recommendations.map((item) => item.groupId)}
+                    builtInSelections={interestHolderSelections[selectedOutcome.id] || []}
+                    builtInDetails={interestHolderDetails[selectedOutcome.id] || {}}
+                    onToggleBuiltInGroup={onToggleInterestHolder}
+                    onUpdateBuiltInDetail={onUpdateInterestHolderDetail}
                   />
                 </article>
               </div>
@@ -12353,7 +13195,8 @@ implementation outcomes and planning evaluation during mid-design."
 
               <ReflectionSection
                 titleId="global-reflection-title"
-                title="Reflect on your interest holder priorities"
+                title="Reflect on Your Interest Holder Priorities"
+                selectionTargetId="outcome-recommendations-title"
                 prompts={GLOBAL_INTEREST_HOLDER_REFLECTION}
                 note={reflectionNote}
                 onChangeNote={onChangeReflectionNote}
@@ -12430,6 +13273,7 @@ implementation outcomes and planning evaluation during mid-design."
       note,
       onToggle,
       onUpdateNote,
+      compactWhenUnselected = false,
     }) {
       const metadata =
         EVALUATION_STRATEGY_METADATA[strategy.id] || {};
@@ -12456,12 +13300,13 @@ implementation outcomes and planning evaluation during mid-design."
             </span>
             <span className="strategy-row-title">
               {strategy.name}
-              <CitationNumbers
+              {(isSelected || !compactWhenUnselected) && <CitationNumbers
                 ids={(metadata.citations || []).map((citation) => citation.label)}
-              />
+              />}
             </span>
           </button>
 
+          {(isSelected || !compactWhenUnselected) && <>
           <p className="strategy-row-description">
             {strategy.description}
           </p>
@@ -12500,6 +13345,7 @@ implementation outcomes and planning evaluation during mid-design."
               </label>
             </div>
           </details>
+          </>}
         </article>
       );
     }
@@ -12547,9 +13393,25 @@ implementation outcomes and planning evaluation during mid-design."
           </button>
 
           <p className="strategy-row-description">
-            {INTERVIEW_STRATEGY.description}
+            {getInterviewStrategyDescription(outcomeId)}
           </p>
 
+          {!isSelected ? (
+            <div className="interview-prompts interview-prompts-preview">
+              <h4>Interview Prompts — Preview</h4>
+              <ul className="interview-prompt-preview-list">
+                {prompts.slice(0, 3).map(([title], index) => (
+                  <li key={`${outcomeId}-preview-${index}`}>{title}</li>
+                ))}
+              </ul>
+              {prompts.length > 3 && (
+                <div className="interview-preview-hint">
+                  <span className="interview-preview-hint-arrow" aria-hidden="true">↗</span>
+                  <span>Select Semi-Structured Interview to view additional prompts and example questions.</span>
+                </div>
+              )}
+            </div>
+          ) : (
           <div className="interview-prompts">
             <div className="interview-prompts-header">
               <h4>
@@ -12567,7 +13429,7 @@ implementation outcomes and planning evaluation during mid-design."
 
             <div className="interview-prompt-list">
               {prompts.map(([title, question], index) => {
-                const promptId = `prompt-${index + 1}`;
+                const promptId = getInterviewPromptId(outcomeId, index);
                 const isPromptSelected =
                   selectedPrompts.has(promptId);
 
@@ -12598,6 +13460,7 @@ implementation outcomes and planning evaluation during mid-design."
               })}
             </div>
           </div>
+          )}
 
           <details className="custom-notes-editor">
             <summary>Add notes for this interview</summary>
@@ -12828,36 +13691,29 @@ implementation outcomes and planning evaluation during mid-design."
                 challenges during mid-design.
               </p>
 
-              <p className="strategy-intro-detail">
-                <strong>Qualitative strategies</strong> can help explain context,
-                experience, workflow fit, perceived barriers and facilitators, and why
-                implementation may or may not work. <strong>Quantitative strategies</strong>{" "}
-                can help measure patterns, extent, variation, and change across
-                individuals, groups, or settings.
-              </p>
-
-              <p className="strategy-intro-detail">
-                When appropriate, integrating qualitative and quantitative evidence
-                through <strong>mixed methods</strong> is strongly encouraged because it
-                can provide a richer understanding of implementation by connecting
-                measurable patterns with contextual explanations. When these forms of
-                evidence are intentionally integrated, mixed methods can support more
-                informed mid-design decisions.
-                <CitationNumbers
-                  ids={[
-                    "green2015",
-                    "palinkas2011",
-                    "hamilton2019",
-                    "suchman2023",
-                  ]}
-                />
-              </p>
-
-              <p className="strategy-intro-instruction">
-                Select one implementation outcome at a time to review its quantitative
-                and qualitative evaluation strategies, and indicate which ones you may
-                want to include in your evaluation plan.
-              </p>
+              <RecommendedWorkflow
+                pageLabel="evaluation-strategies"
+                steps={[
+                  {
+                    label: "Explore",
+                    description: <>
+                      Review the recommended <WorkflowJumpLink targetId="evaluation-strategies-selections">quantitative and qualitative evaluation strategies</WorkflowJumpLink> for each implementation outcome of interest.
+                    </>,
+                  },
+                  {
+                    label: "Select",
+                    description: <>
+                      <WorkflowJumpLink targetId="evaluation-strategies-selections">Select evaluation strategies</WorkflowJumpLink> that fit your project context and evidence needs. Customize interview prompts when relevant.
+                    </>,
+                  },
+                  {
+                    label: "Reflect & Refine",
+                    description: <>
+                      Draw on <WorkflowJumpLink targetId="evaluation-strategy-case-evidence-title">evidence from case examples</WorkflowJumpLink>, then use <WorkflowJumpLink targetId="evaluation-strategies-reflection-title">reflection prompts</WorkflowJumpLink> to prioritize and refine your evaluation strategy selections.
+                    </>,
+                  },
+                ]}
+              />
 
               <button
                 className="scroll-prompt evaluation-strategies-scroll-prompt"
@@ -12874,7 +13730,7 @@ implementation outcomes and planning evaluation during mid-design."
             </div>
           </section>
 
-          <section id="evaluation-strategies-content" className="section soft">
+          <section id="evaluation-strategies-content" className="section soft evaluation-strategies-content">
             <div className="container">
               <div
                 className="strategy-selection-summary"
@@ -12891,20 +13747,31 @@ implementation outcomes and planning evaluation during mid-design."
                   : "interview prompts selected"}
               </div>
 
-              <div className="outcome-layout">
+              <div id="evaluation-strategies-selections" className="outcome-layout">
+                <aside className="outcome-sidebar" aria-label="Evaluation strategy outcome navigation">
+                  <div className="outcome-sidebar-guide">
+                    <strong>Select one outcome at a time to review</strong>
+                    <p>
+                      Evaluation strategies for each implementation outcome are displayed individually.
+                      Select an outcome below to review the recommended quantitative and qualitative
+                      strategies. Use the checkmark to mark outcomes relevant to your project, and
+                      select the evaluation strategies that you want to include in your plan.
+                      Your selections will carry over to your final evaluation plan.
+                    </p>
+                  </div>
                 <div
                   className="outcome-navigation strategy-outcome-navigation"
                   role="tablist"
                   aria-label="Outcomes for evaluation strategies"
                 >
-                  {OUTCOMES.map((outcome, index) => {
+                  {OUTCOME_DISPLAY_ITEMS.map((outcome, index) => {
                     const selectionCount =
                       getOutcomeSelectionCount(outcome.id);
 
                     const isRelevant = selectedOutcomeIds.has(outcome.id);
 
                     return (
-                      <div className="outcome-nav-item" role="presentation" key={outcome.id}>
+                      <div className={`outcome-nav-item ${OUTCOME_CATEGORY_CLASS[outcome.relevance?.tag] || ""}`} role="presentation" key={outcome.id}>
                         <button
                           id={`strategy-outcome-tab-${outcome.id}`}
                           className="outcome-button"
@@ -12923,14 +13790,6 @@ implementation outcomes and planning evaluation during mid-design."
                           }
                         >
                           <span>{outcome.name}</span>
-                          {selectionCount > 0 && (
-                            <span
-                              className="outcome-selection-count"
-                              aria-label={`${selectionCount} selected`}
-                            >
-                              {selectionCount}
-                            </span>
-                          )}
                         </button>
 
                         <button
@@ -12954,10 +13813,11 @@ implementation outcomes and planning evaluation during mid-design."
                     );
                   })}
                 </div>
+                </aside>
 
                 <article
                   id="strategy-outcome-detail-panel"
-                  className="outcome-detail"
+                  className={`outcome-detail ${OUTCOME_CATEGORY_CLASS[selectedOutcome.relevance?.tag] || ""}`}
                   role="tabpanel"
                   aria-live="polite"
                   aria-labelledby={`strategy-outcome-tab-${selectedOutcome.id}`}
@@ -12969,7 +13829,7 @@ implementation outcomes and planning evaluation during mid-design."
                       </div>
 
                       <h2>
-                        Evaluation strategies for {selectedOutcome.name}
+                        Evaluation Strategies for {selectedOutcome.name}
                       </h2>
                     </div>
 
@@ -12994,6 +13854,39 @@ implementation outcomes and planning evaluation during mid-design."
                       <span>Mark as relevant</span>
                     </label>
                   </div>
+
+                  <div className="strategy-methodology-reminder">
+                    <p>
+                      <strong>Qualitative strategies</strong> can help explain context,
+                      experience, workflow fit, perceived barriers and facilitators, and why
+                      implementation may or may not work. <strong>Quantitative strategies</strong>{" "}
+                      can help measure patterns, extent, variation, and change across
+                      individuals, groups, or settings.
+                    </p>
+                    <p>
+                      When appropriate, integrating qualitative and quantitative evidence
+                      through <strong>mixed methods</strong> is strongly encouraged because it
+                      can provide a richer understanding of implementation by connecting
+                      measurable patterns with contextual explanations. When these forms of
+                      evidence are intentionally integrated, mixed methods can support more
+                      informed mid-design decisions.
+                      <CitationNumbers
+                        ids={[
+                          "green2015",
+                          "palinkas2011",
+                          "hamilton2019",
+                          "suchman2023",
+                        ]}
+                      />
+                    </p>
+                  </div>
+                  <button
+                    className="strategy-reflection-link"
+                    type="button"
+                    onClick={() => document.getElementById("evaluation-strategies-reflection-title")?.closest(".page-reflection-panel")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                  >
+                    Need help prioritizing? View reflection ↓
+                  </button>
 
                   {EVALUATION_STRATEGY_GROUPS.map((group) => {
                     const strategies = group.strategies.filter(
@@ -13020,14 +13913,6 @@ implementation outcomes and planning evaluation during mid-design."
                           >
                             {group.title}
                           </h3>
-
-                          <div
-                            className="strategy-category-count"
-                            aria-live="polite"
-                          >
-                            {selectedInGroup.size} of{" "}
-                            {availableStrategyCount} selected
-                          </div>
                         </div>
 
                         {availableStrategyCount > 0 ? (
@@ -13093,7 +13978,8 @@ implementation outcomes and planning evaluation during mid-design."
 
               <ReflectionSection
                 titleId="evaluation-strategies-reflection-title"
-                title="Reflect on your evaluation strategies priorities"
+                title="Reflect on Your Evaluation Strategy Priorities"
+                selectionTargetId="evaluation-strategies-selections"
                 prompts={EVALUATION_STRATEGY_REFLECTION}
                 note={reflectionNote}
                 onChangeNote={onChangeReflectionNote}
@@ -13228,10 +14114,7 @@ implementation outcomes and planning evaluation during mid-design."
             </button>
             <div>
               <h4>{group.label}</h4>
-              <span className="plan-holder-family">
-                Family {group.familyNumber}: {group.familyLabel}
-              </span>
-              {isRecommended && (
+              {isSelected && isRecommended && (
                 <span className="plan-holder-recommendation">
                   Outcome-specific recommendation
                 </span>
@@ -13239,9 +14122,9 @@ implementation outcomes and planning evaluation during mid-design."
             </div>
           </div>
 
-          <p className="plan-holder-description">{group.description}</p>
+          {isSelected && <p className="plan-holder-description">{group.description}</p>}
 
-          <details>
+          {isSelected && <details>
             <summary>Review context and project notes</summary>
             <div className="plan-holder-context">
               <p><strong>Legitimate interest:</strong> {group.legitimateInterest}</p>
@@ -13278,7 +14161,7 @@ implementation outcomes and planning evaluation during mid-design."
                 </label>
               </div>
             </div>
-          </details>
+          </details>}
         </article>
       );
     }
@@ -13364,14 +14247,14 @@ implementation outcomes and planning evaluation during mid-design."
             <span className="selection-indicator" aria-hidden="true">✓</span>
             <span className="strategy-row-title">
               {INTERVIEW_STRATEGY.name}
-              <CitationNumbers
+              {isSelected && <CitationNumbers
                 ids={INTERVIEW_STRATEGY.citations.map((citation) => citation.label)}
-              />
+              />}
             </span>
           </button>
 
-          <p className="strategy-row-description">{INTERVIEW_STRATEGY.description}</p>
-
+          {isSelected && <>
+          <p className="strategy-row-description">{getInterviewStrategyDescription(outcomeId)}</p>
           <div className="plan-interview-prompts">
             <div className="interview-prompts-header">
               <h4>
@@ -13382,18 +14265,15 @@ implementation outcomes and planning evaluation during mid-design."
                   )}
                 />
               </h4>
-              <div className="strategy-category-count">
-                {selectedPromptSet.size + (customPrompts?.length || 0)} selected
-              </div>
             </div>
 
             <p className="plan-holder-context">
-              All suggested prompts remain visible. Selecting a prompt will also include semi-structured interviews in this outcome plan.
+              Select the interview prompts relevant to your evaluation plan, or add project-specific questions below.
             </p>
 
             <div className="interview-prompt-list">
               {prompts.map(([title, question], index) => {
-                const promptId = `prompt-${index + 1}`;
+                const promptId = getInterviewPromptId(outcomeId, index);
                 const isPromptSelected = selectedPromptSet.has(promptId);
                 return (
                   <label
@@ -13459,6 +14339,7 @@ implementation outcomes and planning evaluation during mid-design."
               </label>
             </div>
           </details>
+          </>}
         </article>
       );
     }
@@ -13665,7 +14546,7 @@ implementation outcomes and planning evaluation during mid-design."
                 <ul className="plan-print-prompt-list">
                   {(INTERVIEW_PROMPTS_BY_OUTCOME[outcomeId] || []).map(
                     ([title, question], index) => {
-                      const promptId = `prompt-${index + 1}`;
+                      const promptId = getInterviewPromptId(outcomeId, index);
                       if (!selectedInterviewPromptIds.has(promptId)) {
                         return null;
                       }
@@ -13910,7 +14791,7 @@ implementation outcomes and planning evaluation during mid-design."
                             </p>
                             <PlanPrintField
                               label="Notes"
-                              value={group.note || ""}
+                              value={interestHolderDetails[outcome.id]?.[group.id]?.notes ?? group.note ?? ""}
                             />
                           </article>
                         ))}
@@ -14095,23 +14976,25 @@ implementation outcomes and planning evaluation during mid-design."
       onChangeEvaluationStrategiesReflection,
     }) {
       const selectedOutcomeSet = new Set(implementationOutcomeSelections);
-      const selectedOutcomes = OUTCOMES.filter((outcome) => selectedOutcomeSet.has(outcome.id));
+      const selectedOutcomes = OUTCOME_DISPLAY_ITEMS.filter((outcome) => selectedOutcomeSet.has(outcome.id));
       const [activeOutcomeId, setActiveOutcomeId] = useState(
         selectedOutcomes[0]?.id || OUTCOMES[0].id
       );
       const [showPrintOptions, setShowPrintOptions] = useState(false);
+      const [showSaveReminder, setShowSaveReminder] = useState(false);
       const [includeReferences, setIncludeReferences] = useState(true);
       const [includeCaseExamples, setIncludeCaseExamples] = useState(false);
       const [includeGuidingFrameworks, setIncludeGuidingFrameworks] =
         useState(false);
 
       useEffect(() => {
-        if (!showPrintOptions) return undefined;
+        if (!showPrintOptions && !showSaveReminder) return undefined;
 
         const previousOverflow = document.body.style.overflow;
         const handleKeyDown = (event) => {
           if (event.key === "Escape") {
             setShowPrintOptions(false);
+            setShowSaveReminder(false);
           }
         };
 
@@ -14122,7 +15005,7 @@ implementation outcomes and planning evaluation during mid-design."
           document.body.style.overflow = previousOverflow;
           document.removeEventListener("keydown", handleKeyDown);
         };
-      }, [showPrintOptions]);
+      }, [showPrintOptions, showSaveReminder]);
 
       const activeOutcome =
         OUTCOMES.find((outcome) => outcome.id === activeOutcomeId) ||
@@ -14254,7 +15137,8 @@ implementation outcomes and planning evaluation during mid-design."
               if (details.notes) lines.push(`  Notes: ${details.notes}`);
             });
             customHolders.forEach((group) => {
-              lines.push(`- ${group.name}${group.note ? `, ${group.note}` : ""}`);
+              const outcomeNote = interestHolderDetails[outcome.id]?.[group.id]?.notes ?? group.note;
+              lines.push(`- ${group.name}${outcomeNote ? `, ${outcomeNote}` : ""}`);
             });
           }
           lines.push("");
@@ -14276,7 +15160,7 @@ implementation outcomes and planning evaluation during mid-design."
               if (interviewNote) lines.push(`  Notes: ${interviewNote}`);
               const selectedPromptIds = new Set(interviewPromptSelections[outcome.id] || []);
               (INTERVIEW_PROMPTS_BY_OUTCOME[outcome.id] || []).forEach(([title, question], index) => {
-                const promptId = `prompt-${index + 1}`;
+                const promptId = getInterviewPromptId(outcome.id, index);
                 if (selectedPromptIds.has(promptId)) {
                   lines.push(`  • ${title}: ${question}`);
                 }
@@ -14488,62 +15372,54 @@ implementation outcomes and planning evaluation during mid-design."
                   </div>
                 )}
 
-                <section className="plan-outcome-selector" aria-labelledby="plan-outcomes-title">
-                  <div className="plan-outcome-selector-header">
-                    <div>
-                      <h3 id="plan-outcomes-title">Implementation outcomes in your plan</h3>
-                      <p>
-                        Outcomes you marked as relevant are included by default. Selecting an interest holder or evaluation strategy below will also include its implementation outcome automatically.
-                      </p>
-                    </div>
+                {showSaveReminder && (
+                  <div className="plan-print-modal-backdrop" role="presentation"
+                    onMouseDown={(event) => { if (event.target === event.currentTarget) setShowSaveReminder(false); }}>
+                    <section className="plan-print-options" role="dialog" aria-modal="true"
+                      aria-labelledby="save-plan-reminder-title" aria-describedby="save-plan-reminder-description">
+                      <div className="plan-print-options-header">
+                        <div className="plan-print-options-header-copy">
+                          <h3 id="save-plan-reminder-title">Save Your Evaluation Plan</h3>
+                          <p id="save-plan-reminder-description">
+                            Before moving to Resources, we recommend printing or saving a copy of your evaluation plan for future reference. Your selections are not automatically saved across sessions.
+                          </p>
+                        </div>
+                        <button className="plan-print-options-close" type="button"
+                          aria-label="Close save reminder" onClick={() => setShowSaveReminder(false)}>×</button>
+                      </div>
+                      <div className="save-plan-reminder-actions">
+                        <button type="button" className="button" onClick={() => {
+                          setShowSaveReminder(false);
+                          setShowPrintOptions(true);
+                        }}>Print / Save as PDF</button>
+                        <a className="button secondary" href="#resources">Continue to Resources</a>
+                        <button type="button" className="text-action-button quiet"
+                          onClick={() => setShowSaveReminder(false)}>Stay on Evaluation Plan</button>
+                      </div>
+                    </section>
                   </div>
-                  <div className="plan-outcome-options">
-                    {OUTCOMES.map((outcome) => {
-                      const isSelected = selectedOutcomeSet.has(outcome.id);
-                      return (
-                        <button
-                          className={`plan-outcome-option${isSelected ? " is-selected" : ""}`}
-                          type="button"
-                          aria-pressed={isSelected}
-                          key={outcome.id}
-                          onClick={() => {
-                            onToggleImplementationOutcome(outcome.id);
-                            if (!isSelected) setActiveOutcomeId(outcome.id);
-                          }}
-                        >
-                          <span className="plan-mini-check" aria-hidden="true">✓</span>
-                          <span>{outcome.name}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </section>
-
-                <div className="plan-option-legend">
-                  <strong>All available options remain visible in the Builder.</strong>{" "}
-                  Items already included in your plan are highlighted. Unselected items appear in a quieter gray treatment and can be selected at any time.
-                </div>
+                )}
 
                 <div className="plan-builder-layout">
                   <aside className="plan-builder-sidebar" aria-label="Implementation outcomes">
                     <div className="plan-builder-sidebar-label">Review plan by outcome</div>
-                    {OUTCOMES.map((outcome) => {
+                    {OUTCOME_DISPLAY_ITEMS.map((outcome) => {
                       const isIncluded = selectedOutcomeSet.has(outcome.id);
                       return (
-                        <button
-                          className={`plan-outcome-nav-button${activeOutcome?.id === outcome.id ? " is-active" : ""}`}
-                          type="button"
-                          key={outcome.id}
-                          onClick={() => setActiveOutcomeId(outcome.id)}
-                        >
-                          <span>{outcome.name}</span>
-                          <span
-                            className={`plan-outcome-nav-status${isIncluded ? "" : " is-unselected"}`}
-                            aria-label={isIncluded ? "Included in plan" : "Not currently included in plan"}
-                          >
-                            {isIncluded ? "✓" : "○"}
-                          </span>
-                        </button>
+                        <div key={outcome.id} className={`plan-outcome-nav-item ${OUTCOME_CATEGORY_CLASS[outcome.relevance?.tag] || ""}`}>
+                          <button
+                            className={`plan-outcome-nav-button ${activeOutcome?.id === outcome.id ? " is-active" : ""}`}
+                            type="button"
+                            aria-current={activeOutcome?.id === outcome.id ? "true" : undefined}
+                            onClick={() => setActiveOutcomeId(outcome.id)}
+                          >{outcome.name}</button>
+                          <button type="button"
+                            className={`plan-outcome-check${isIncluded ? " is-selected" : ""}`}
+                            aria-pressed={isIncluded}
+                            aria-label={`${isIncluded ? "Remove" : "Include"} ${outcome.name} ${isIncluded ? "from" : "in"} your evaluation plan`}
+                            onClick={() => onToggleImplementationOutcome(outcome.id)}
+                          >✓</button>
+                        </div>
                       );
                     })}
                   </aside>
@@ -14554,22 +15430,24 @@ implementation outcomes and planning evaluation during mid-design."
                     const recommendationIds = new Set(
                       (OUTCOME_INTEREST_HOLDER_RECOMMENDATIONS[activeOutcome.id] || []).map((item) => item.groupId)
                     );
-                    const allHolderGroups = Object.values(INTEREST_HOLDER_GROUPS_BY_ID);
+                    const allHolderGroups = Object.values(INTEREST_HOLDER_GROUPS_BY_ID)
+                      .sort((a,b) => Number(selectedHolderSet.has(b.id)) - Number(selectedHolderSet.has(a.id)));
                     const outcomeStrategySelections = evaluationStrategySelections[activeOutcome.id] || {};
 
                     return (
-                      <article className="plan-workspace-card">
+                      <article className={`plan-workspace-card ${OUTCOME_CATEGORY_CLASS[activeOutcome.relevance?.tag] || ""}`}>
                         <header className="plan-workspace-heading">
                           <div className="eyebrow">Implementation outcome</div>
                           <h2>{activeOutcome.name}</h2>
-                          <p><CitationText text={activeOutcome.definition} /></p>
+                          {selectedOutcomeSet.has(activeOutcome.id) && <p><CitationText text={activeOutcome.definition} /></p>}
                         </header>
 
+                        {selectedOutcomeSet.has(activeOutcome.id) && <>
                         <section className="plan-content-section" aria-labelledby={`plan-holders-${activeOutcome.id}`}>
                           <div className="plan-section-heading">
                             <h3 id={`plan-holders-${activeOutcome.id}`}>Interest holders</h3>
                             <p>
-                              Review the full legitimate-interest scaffold for this outcome. Groups already selected are highlighted; the remaining groups stay visible so you can add them if they become relevant to your project.
+                              Your selected interest holders appear first with their project-specific notes. Other scaffold groups remain available by name for further refinement.
                             </p>
                           </div>
 
@@ -14595,6 +15473,9 @@ implementation outcomes and planning evaluation during mid-design."
                             onAddCustomGroup={handleBuilderAddCustomInterestHolder}
                             onToggleCustomGroup={handleBuilderToggleCustomInterestHolder}
                             onRemoveCustomGroup={onRemoveCustomInterestHolder}
+                            mode="plan"
+                            builtInDetails={interestHolderDetails[activeOutcome.id] || {}}
+                            onUpdateBuiltInDetail={onUpdateInterestHolderDetail}
                           />
                         </section>
 
@@ -14602,7 +15483,7 @@ implementation outcomes and planning evaluation during mid-design."
                           <div className="plan-section-heading">
                             <h3 id={`plan-strategies-${activeOutcome.id}`}>Evaluation strategies</h3>
                             <p>
-                              Review all quantitative and qualitative strategies available for this outcome. Selected strategies are highlighted; unselected strategies remain visible in gray so you can compare and revise your plan directly. Semi-structured interviews are one qualitative strategy, with interview prompts nested within that strategy.
+                              Selected strategies show details, instruments, resources, notes, and interview prompts when applicable. Unselected options show their names until you select them.
                             </p>
                           </div>
 
@@ -14618,9 +15499,6 @@ implementation outcomes and planning evaluation during mid-design."
                               <div className="plan-strategy-category" key={strategyGroup.id}>
                                 <div className="plan-strategy-category-header">
                                   <h4>{strategyGroup.title}</h4>
-                                  <span>
-                                    {availableStrategies.filter((strategy) => selectedIds.has(strategy.id)).length + (interviewSelected ? 1 : 0)} selected
-                                  </span>
                                 </div>
 
                                 <div className="plan-selected-list">
@@ -14639,7 +15517,7 @@ implementation outcomes and planning evaluation during mid-design."
                                     />
                                   )}
 
-                                  {availableStrategies.map((strategy) => (
+                                  {availableStrategies.sort((a,b) => Number(selectedIds.has(b.id)) - Number(selectedIds.has(a.id))).map((strategy) => (
                                     <EvaluationStrategyRow
                                       key={strategy.id}
                                       strategy={strategy}
@@ -14649,6 +15527,7 @@ implementation outcomes and planning evaluation during mid-design."
                                       note={evaluationStrategyNotes[activeOutcome.id]?.[strategy.id] || ""}
                                       onToggle={handleBuilderToggleEvaluationStrategy}
                                       onUpdateNote={onUpdateEvaluationStrategyNote}
+                                      compactWhenUnselected
                                     />
                                   ))}
 
@@ -14662,6 +15541,7 @@ implementation outcomes and planning evaluation during mid-design."
                             );
                           })}
                         </section>
+                        </>}
                       </article>
                     );
                   })()}
@@ -14750,10 +15630,11 @@ implementation outcomes and planning evaluation during mid-design."
                   </div>
 
                   <div className="next-step-forward">
-                    <PageLink route="resources">
-                      Continue to Resources
-                      <span aria-hidden="true">→</span>
-                    </PageLink>
+                    <button className="button" type="button" aria-haspopup="dialog"
+                      aria-label="Continue to Resources, with save plan reminder"
+                      onClick={() => setShowSaveReminder(true)}>
+                      Continue to Resources <span aria-hidden="true">→</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -15333,6 +16214,13 @@ implementation outcomes and planning evaluation during mid-design."
             ...(currentSelections[outcomeId] || []),
             customId,
           ],
+        }));
+        setInterestHolderDetails((currentDetails) => ({
+          ...currentDetails,
+          [outcomeId]: {
+            ...(currentDetails[outcomeId] || {}),
+            [customId]: { notes: note },
+          },
         }));
       }
 
