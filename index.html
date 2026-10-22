@@ -15439,10 +15439,9 @@
                         <header className="plan-workspace-heading">
                           <div className="eyebrow">Implementation outcome</div>
                           <h2>{activeOutcome.name}</h2>
-                          {selectedOutcomeSet.has(activeOutcome.id) && <p><CitationText text={activeOutcome.definition} /></p>}
+                          <p><CitationText text={activeOutcome.definition} /></p>
                         </header>
 
-                        {selectedOutcomeSet.has(activeOutcome.id) && <>
                         <section className="plan-content-section" aria-labelledby={`plan-holders-${activeOutcome.id}`}>
                           <div className="plan-section-heading">
                             <h3 id={`plan-holders-${activeOutcome.id}`}>Interest holders</h3>
@@ -15541,7 +15540,6 @@
                             );
                           })}
                         </section>
-                        </>}
                       </article>
                     );
                   })()}
