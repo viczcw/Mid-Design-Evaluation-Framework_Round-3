@@ -6006,6 +6006,9 @@
         margin: 0.58in;
       }
 
+      /* The accessibility skip link remains available on screen, but must
+         never appear at the top of printed PDF pages. */
+      .skip-link,
       .site-header,
       .site-footer,
       .develop-plan-fullscreen-hero,
@@ -6076,26 +6079,77 @@
         font-size: 10pt;
       }
 
+      /* Match the three implementation-outcome families already used in the
+         interactive guide. The accents carry meaning in print; labels do too. */
+      .plan-print-outcome.category-assess {
+        --print-category-color: #245ba8;
+        --print-category-bg: #e5effb;
+        --print-category-soft: #f2f7fd;
+        --print-category-light: #fbfcff;
+        --print-category-border: #b7cae7;
+      }
+      .plan-print-outcome.category-design {
+        --print-category-color: #8a571c;
+        --print-category-bg: #f7e8d2;
+        --print-category-soft: #fcf2e5;
+        --print-category-light: #fefcf9;
+        --print-category-border: #ddc6a4;
+      }
+      .plan-print-outcome.category-anticipate {
+        --print-category-color: #2d6947;
+        --print-category-bg: #e1eee4;
+        --print-category-soft: #eff7f0;
+        --print-category-light: #fcfdfb;
+        --print-category-border: #bbd9c3;
+      }
+
       .plan-print-outcome {
         margin: 0 0 24px;
         padding: 16px 17px;
-        border: 1px solid #b9c6ca;
+        border: 1px solid var(--print-category-border, #b9c6ca);
+        border-left: 4px solid var(--print-category-color, #176c74);
         border-radius: 8px;
         break-inside: auto;
         page-break-inside: auto;
       }
 
-      .plan-print-outcome > h2 {
-        margin: 0 0 7px !important;
-        color: #0e5057 !important;
+      .plan-print-outcome-heading {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 6px 12px;
+        margin: 0 0 10px;
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+
+      .plan-print-outcome-heading h2 {
+        margin: 0 !important;
+        color: var(--print-category-color, #0e5057) !important;
         font-size: 15pt !important;
         break-after: avoid;
         page-break-after: avoid;
       }
 
+      .plan-print-category-label {
+        display: inline-block;
+        padding: 3px 8px;
+        color: var(--print-category-color, #0e5057);
+        background: var(--print-category-bg, #e1eff0);
+        border: 1px solid var(--print-category-border, #b9c6ca);
+        border-radius: 999px;
+        font-size: 8pt;
+        font-weight: 700;
+        line-height: 1.35;
+        white-space: nowrap;
+      }
+
       .plan-print-outcome-definition {
         margin: 0 0 14px;
+        padding: 8px 10px;
         color: #344b54;
+        background: var(--print-category-soft, #f4f8f8);
+        border-radius: 5px;
       }
 
       .plan-print-section {
@@ -6106,7 +6160,7 @@
 
       .plan-print-section > h3 {
         margin: 0 0 9px !important;
-        color: #17282f !important;
+        color: var(--print-category-color, #17282f) !important;
         font-size: 11.5pt !important;
         break-after: avoid;
         page-break-after: avoid;
@@ -6115,7 +6169,8 @@
       .plan-print-item {
         margin: 0 0 9px;
         padding: 9px 10px;
-        border: 1px solid #d7e1e4;
+        background: var(--print-category-light, #ffffff);
+        border: 1px solid var(--print-category-border, #d7e1e4);
         border-radius: 5px;
         break-inside: avoid;
         page-break-inside: avoid;
@@ -7334,6 +7389,194 @@
     @media (max-width: 760px) {
       .custom-interest-holder-form { grid-template-columns: 1fr; }
       .custom-interest-holder-form .button { grid-column: 1; }
+    }
+
+
+    /* Save/resume: reuse this site's white surfaces, teal accent, borders, and type. */
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+    .start-returning-project {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; margin-top: 15px; padding: 12px 15px;
+      background: rgba(255,255,255,.88); border: 1px solid var(--line-strong);
+      border-left: 3px solid var(--accent); border-radius: var(--radius);
+    }
+    .start-returning-copy { min-width: 0; }
+    .start-returning-copy strong { color: var(--ink); font-size: .84rem; }
+    .start-returning-copy p {
+      margin: 3px 0 0; color: var(--ink-soft); font-size: .73rem; line-height: 1.45;
+    }
+    .start-returning-project .button {
+      flex: 0 0 auto; min-height: 38px; padding: 7px 12px;
+      font-size: .76rem; white-space: nowrap;
+    }
+    .start-page .start-returning-project + .scroll-prompt { margin-top: 12px; }
+    .plan-toolbar { align-items: stretch; }
+    .plan-toolbar-main { width: 100%; min-width: 0; display: grid; gap: 10px; }
+    .plan-toolbar-title-row { display: flex; justify-content: space-between; align-items: start; gap: 15px; }
+    .plan-auto-save-status {
+      flex: 0 0 auto; color: var(--accent-dark); font-size: .75rem;
+      font-weight: 740; line-height: 1.5; text-align: right;
+    }
+    .plan-auto-save-status.saving { color: var(--muted); }
+    .plan-auto-save-status.unavailable { color: #9a552d; }
+    .plan-project-name-label { margin-top: 3px; font-size: .79rem; font-weight: 760; color: var(--ink); }
+    .plan-project-name-label span { color: var(--muted); font-weight: 500; }
+    .plan-project-name-input {
+      width: min(100%, 500px); min-height: 40px; padding: 8px 11px;
+      background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong);
+      border-radius: 8px; font: inherit; font-size: .82rem;
+    }
+    .plan-project-name-input:focus { outline: 3px solid rgba(23,108,116,.22); border-color: var(--accent); }
+    .plan-toolbar-main .plan-toolbar-actions { justify-content: flex-start; margin-top: 2px; }
+    .plan-project-notice { color: var(--accent-dark) !important; font-size: .76rem !important; }
+    .plan-print-options { width: min(625px, 100%); }
+    .plan-file-types { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; margin: 17px 0; }
+    .plan-file-types > div {
+      display: grid; gap: 3px; padding: 13px 14px; border: 1px solid var(--line);
+      border-radius: 9px; background: var(--surface);
+    }
+    .plan-file-types strong { color: var(--accent-dark); font-size: .83rem; }
+    .plan-file-types span { color: var(--ink-soft); font-size: .77rem; line-height: 1.42; }
+    .plan-print-option-heading { margin: 14px 0 2px; font-size: .92rem; font-weight: 800; }
+    .plan-print-option-explanation { color: var(--ink-soft); font-size: .79rem; line-height: 1.45; margin: 0 0 10px; }
+    .plan-print-download-note {
+      margin: 15px 0 0; padding-top: 13px; border-top: 1px solid var(--line);
+      color: var(--ink-soft); font-size: .78rem; line-height: 1.5;
+    }
+    .plan-print-report-header .plan-print-project-name { margin: 0 0 8px; }
+    @media (max-width: 680px) {
+      .start-returning-project, .plan-toolbar-title-row { align-items: flex-start; flex-direction: column; }
+      .start-returning-project .button { width: 100%; }
+      .plan-file-types { grid-template-columns: 1fr; }
+      .plan-auto-save-status { text-align: left; }
+      .plan-toolbar-actions .button { width: 100%; }
+      .plan-print-options { padding: 20px 18px; }
+    }
+  
+    /* Viewport-fit refinement for Start Here, tested at standard desktop viewport sizes. */
+/* Keep Start Here's opening view within a common laptop viewport without changing the guide content. */
+@media (min-width: 1150px) and (max-height: 950px) {
+  .start-page > .hero {
+    min-height: calc(100dvh - var(--header-height) - 1px);
+    padding-block: clamp(14px, 2.2vh, 24px);
+  }
+  .start-page .eyebrow { margin-bottom: 5px; }
+  .start-page h1 { margin-bottom: 6px; font-size: clamp(2rem, 2.75vw, 2.6rem) !important; }
+  .start-page .start-interactive-intro { margin-bottom: 5px; line-height: 1.42; }
+  .start-page .start-interactive-details { line-height: 1.43; font-size: clamp(.83rem,.97vw,.92rem); }
+  .start-page .start-mid-design { margin-top: 12px; }
+  .start-page .start-mid-design > h2 { margin-bottom: 9px; font-size: clamp(1.23rem,1.5vw,1.45rem) !important; }
+  .start-page .start-design-phase { padding: 9px 9px; }
+  .start-page .start-design-phase.is-mid-design { padding: 8px 8px; }
+  .start-page .start-design-phase h3 { margin-bottom: 5px; font-size: clamp(.79rem,.91vw,.9rem); }
+  .start-page .start-design-phase ul { padding-left: 13px; font-size: clamp(.70rem,.76vw,.77rem); line-height: 1.3; }
+  .start-page .start-design-phase li + li { margin-top: 3px; }
+  .start-page .start-mid-design-insight { margin-top: 9px; padding: 9px 12px; }
+  .start-page .start-mid-design-insight h3 { margin-bottom: 3px; font-size: .85rem; }
+  .start-page .start-mid-design-insight p { font-size: clamp(.75rem,.82vw,.82rem); line-height: 1.42; }
+  .start-page .start-mid-design-note { margin-top: 4px; font-size: .69rem; }
+  .start-page .start-returning-project { margin-top: 9px; padding: 9px 12px; gap: 12px; }
+  .start-page .start-returning-copy strong { font-size: .81rem; }
+  .start-page .start-returning-copy p { font-size: .71rem; line-height: 1.37; }
+  .start-page .start-returning-project + .scroll-prompt { margin-top: 8px; min-height: 34px; padding: 5px 11px; }
+}
+@media (min-width: 1150px) and (max-height: 760px) {
+  .start-page .start-mid-design { margin-top: 9px; }
+  .start-page .start-mid-design > h2 { margin-bottom: 7px; }
+  .start-page .start-design-phase ul { font-size: .69rem; line-height: 1.27; }
+  .start-page .start-design-phase li + li { margin-top: 2px; }
+  .start-page .start-mid-design-insight { margin-top: 7px; padding: 8px 10px; }
+  .start-page .start-mid-design-insight p { font-size: .73rem; line-height: 1.35; }
+  .start-page .start-returning-project { padding: 8px 11px; margin-top: 7px; }
+}
+@media (min-width: 1150px) and (min-height: 951px) {
+  .start-page > .hero { min-height: calc(100dvh - var(--header-height) - 1px); }
+}
+
+
+    /* Refined Step 4 toolbar: compact two-column action placement. */
+    .plan-toolbar { align-items: center; padding: 18px 23px; }
+    .plan-toolbar-main {
+      width: 100%;
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "heading status"
+        "project actions"
+        "note note"
+        "notice notice";
+      column-gap: 24px;
+      row-gap: 9px;
+      align-items: center;
+    }
+    .plan-toolbar-heading { grid-area: heading; min-width: 0; }
+    .plan-toolbar-heading h2 { margin: 0 0 4px; }
+    .plan-toolbar-main > .plan-auto-save-status {
+      grid-area: status;
+      justify-self: end;
+      align-self: start;
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+    .plan-toolbar-project {
+      grid-area: project;
+      min-width: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+    }
+    .plan-project-name-label { margin: 0; white-space: nowrap; }
+    .plan-project-name-input {
+      width: min(100%, 375px);
+      flex: 1 1 225px;
+      max-width: 420px;
+      min-height: 42px;
+    }
+    .plan-toolbar-main .plan-toolbar-actions {
+      grid-area: actions;
+      margin: 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+    }
+    .plan-toolbar-main .plan-toolbar-actions .button { min-height: 42px; white-space: nowrap; }
+    .plan-toolbar-main > .plan-session-note {
+      grid-area: note;
+      margin: 1px 0 0;
+      line-height: 1.45;
+    }
+    .plan-session-note.is-error { color: #9a552d !important; font-weight: 650; }
+    .plan-toolbar-main > .plan-project-notice { grid-area: notice; margin: 0; }
+
+    /* Consistent bullet indentation inside all three Understanding Mid-Design cards. */
+    .start-page .start-design-phase { padding-inline: 15px; }
+    .start-page .start-design-phase.is-mid-design { padding-inline: 14px; }
+    .start-page .start-design-phase ul {
+      margin: 0;
+      padding-left: 20px;
+      list-style-position: outside;
+    }
+
+    @media (max-width: 1050px) {
+      .plan-toolbar-main {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "heading" "status" "project" "actions" "note" "notice";
+      }
+      .plan-toolbar-main > .plan-auto-save-status { justify-self: start; padding-top: 0; }
+      .plan-toolbar-main .plan-toolbar-actions { justify-content: flex-start; }
+    }
+    @media (max-width: 680px) {
+      .plan-toolbar { padding: 17px 16px; }
+      .plan-toolbar-project { align-items: stretch; flex-direction: column; }
+      .plan-project-name-input { width: 100%; max-width: none; flex: 0 0 auto; }
+      .plan-toolbar-main .plan-toolbar-actions { flex-direction: column; align-items: stretch; }
+      .plan-toolbar-actions .button { width: 100%; }
     }
 
   </style>
@@ -10769,7 +11012,7 @@
     // START HERE / GUIDE INSTRUCTIONS
     // ============================================================
 
-    function StartHerePage() {
+    function StartHerePage({ onLoadProject }) {
       const [citationCopied, setCitationCopied] = useState(false);
 
       async function copyGuideCitation() {
@@ -10905,6 +11148,16 @@
                     These phases are illustrative, and design activities may overlap and iterate.
                   </p>
                 </section>
+
+                <div className="start-returning-project" aria-label="Resume an evaluation plan">
+                  <div className="start-returning-copy">
+                    <strong>Returning to your project?</strong>
+                    <p>Load your saved project (.json) to continue editing. Work on this device is saved automatically when browser storage is available.</p>
+                  </div>
+                  <button className="button secondary" type="button" onClick={onLoadProject}>
+                    ↑ &nbsp; Load Project
+                  </button>
+                </div>
 
                 <a
                   className="scroll-prompt"
@@ -14647,6 +14900,7 @@
     }
 
     function PlanPrintSummary({
+      projectName,
       selectedOutcomes,
       interestHolderSelections,
       interestHolderDetails,
@@ -14685,6 +14939,7 @@
         <div className="plan-print-only">
           <header className="plan-print-report-header">
             <h1>Mid-Design Evaluation Plan</h1>
+            {projectName.trim() && <p className="plan-print-project-name"><strong>Project / Team:</strong> {projectName}</p>}
             <p>
               Working plan developed using the Mid-Design Evaluation Guide.
               Review and revise this document as the project develops.
@@ -14742,8 +14997,18 @@
                 customInterviewPrompts[outcome.id] || [];
 
               return (
-                <section className="plan-print-outcome" key={outcome.id}>
-                  <h2>{outcome.name}</h2>
+                <section
+                  className={`plan-print-outcome ${OUTCOME_CATEGORY_CLASS[outcome.relevance?.tag] || ""}`}
+                  key={outcome.id}
+                >
+                  <div className="plan-print-outcome-heading">
+                    <h2>{outcome.name}</h2>
+                    {outcome.relevance?.tag && (
+                      <span className="plan-print-category-label">
+                        {outcome.relevance.tag}
+                      </span>
+                    )}
+                  </div>
                   <p className="plan-print-outcome-definition">
                     <CitationText text={outcome.definition} />
                   </p>
@@ -14948,6 +15213,12 @@
     }
 
     function DevelopEvaluationPlanPage({
+      projectName,
+      onProjectNameChange,
+      saveStatus,
+      projectNotice,
+      onSaveProject,
+      onLoadProject,
       implementationOutcomeSelections,
       onToggleImplementationOutcome,
       interestHolderSelections,
@@ -15104,103 +15375,6 @@
         onAddCustomInterviewPrompt(outcomeId, title, question);
       }
 
-      function handleExport() {
-        const lines = [
-          "MID-DESIGN EVALUATION PLAN",
-          "",
-          "Working plan developed using the Mid-Design Evaluation Guide.",
-          "",
-        ];
-
-        if (selectedOutcomes.length === 0) {
-          lines.push("No implementation outcomes are currently included in this plan.");
-        }
-
-        selectedOutcomes.forEach((outcome) => {
-          lines.push(outcome.name.toUpperCase());
-          lines.push(outcome.definition.text || outcome.definition);
-          lines.push("");
-
-          lines.push("Interest holders");
-          const holderIds = interestHolderSelections[outcome.id] || [];
-          const customHolderIds = new Set(customInterestHolderSelections[outcome.id] || []);
-          const customHolders = customInterestHolderGroups.filter((group) => customHolderIds.has(group.id));
-          if (holderIds.length === 0 && customHolders.length === 0) {
-            lines.push("- None selected");
-          } else {
-            holderIds.forEach((id) => {
-              const group = INTEREST_HOLDER_GROUPS_BY_ID[id];
-              if (!group) return;
-              const details = interestHolderDetails[outcome.id]?.[id] || {};
-              lines.push(`- ${group.label}`);
-              if (details.examples) lines.push(`  Project examples: ${details.examples}`);
-              if (details.notes) lines.push(`  Notes: ${details.notes}`);
-            });
-            customHolders.forEach((group) => {
-              const outcomeNote = interestHolderDetails[outcome.id]?.[group.id]?.notes ?? group.note;
-              lines.push(`- ${group.name}${outcomeNote ? `, ${outcomeNote}` : ""}`);
-            });
-          }
-          lines.push("");
-
-          const outcomeStrategySelections = evaluationStrategySelections[outcome.id] || {};
-          EVALUATION_STRATEGY_GROUPS.forEach((strategyGroup) => {
-            const selectedIds = new Set(outcomeStrategySelections[strategyGroup.id] || []);
-            const strategies = strategyGroup.strategies.filter(
-              (strategy) => strategy.outcomeId === outcome.id && selectedIds.has(strategy.id)
-            );
-            const interviewSelected =
-              strategyGroup.id === "qualitative" && selectedIds.has(INTERVIEW_STRATEGY.id);
-            if (strategies.length === 0 && !interviewSelected) return;
-
-            lines.push(strategyGroup.title);
-            if (interviewSelected) {
-              lines.push(`- ${INTERVIEW_STRATEGY.name}`);
-              const interviewNote = evaluationStrategyNotes[outcome.id]?.[INTERVIEW_STRATEGY.id];
-              if (interviewNote) lines.push(`  Notes: ${interviewNote}`);
-              const selectedPromptIds = new Set(interviewPromptSelections[outcome.id] || []);
-              (INTERVIEW_PROMPTS_BY_OUTCOME[outcome.id] || []).forEach(([title, question], index) => {
-                const promptId = getInterviewPromptId(outcome.id, index);
-                if (selectedPromptIds.has(promptId)) {
-                  lines.push(`  • ${title}: ${question}`);
-                }
-              });
-              (customInterviewPrompts[outcome.id] || []).forEach((prompt) => {
-                lines.push(`  • ${prompt.title || "Project-specific prompt"}: ${prompt.question}`);
-              });
-            }
-            strategies.forEach((strategy) => {
-              lines.push(`- ${strategy.name}`);
-              const note = evaluationStrategyNotes[outcome.id]?.[strategy.id];
-              if (note) lines.push(`  Notes: ${note}`);
-            });
-            lines.push("");
-          });
-          lines.push("------------------------------------------------------------", "");
-        });
-
-        lines.push("REFLECTION & REMAINING QUESTIONS", "");
-        lines.push("Implementation Outcomes");
-        lines.push(implementationOutcomesReflection || "No reflection recorded.");
-        lines.push("");
-        lines.push("Interest Holders");
-        lines.push(interestHoldersReflection || "No reflection recorded.");
-        lines.push("");
-        lines.push("Evaluation Strategies");
-        lines.push(evaluationStrategiesReflection || "No reflection recorded.");
-        lines.push("");
-
-        const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = url;
-        anchor.download = "mid-design-evaluation-plan.txt";
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-        URL.revokeObjectURL(url);
-      }
-
       return (
         <div className="develop-plan-page">
           <section
@@ -15248,33 +15422,48 @@
             <div className="container">
               <div className="plan-workspace-screen">
                 <div className="plan-toolbar">
-                  <div>
-                    <h2>Your working evaluation plan</h2>
-                    <p>
-                      {selectedOutcomes.length} of {OUTCOMES.length} implementation outcomes currently included.
-                    </p>
-                    <p className="plan-session-note">
-                      Session note: selections are not saved automatically across sessions. Print or export a copy before leaving the guide.
-                    </p>
-                  </div>
-                  <div className="plan-toolbar-actions">
-                    <button
-                      className="button secondary"
-                      type="button"
-                      onClick={handleExport}
+                  <div className="plan-toolbar-main">
+                    <div className="plan-toolbar-heading">
+                      <h2>Your working evaluation plan</h2>
+                      <p>{selectedOutcomes.length} of {OUTCOMES.length} implementation outcomes currently included.</p>
+                    </div>
+                    <div
+                      className={`plan-auto-save-status${saveStatus === "saving" ? " saving" : saveStatus === "unavailable" ? " unavailable" : ""}`}
+                      role="status"
+                      aria-live="polite"
                     >
-                      Export plan (.txt)
-                    </button>
-                    <button
-                      className="button"
-                      type="button"
-                      aria-haspopup="dialog"
-                      aria-expanded={showPrintOptions}
-                      aria-controls="plan-print-options"
-                      onClick={() => setShowPrintOptions(true)}
-                    >
-                      Print / Save as PDF
-                    </button>
+                      {saveStatus === "saving"
+                        ? "Saving…"
+                        : saveStatus === "unavailable"
+                          ? "⚠ Local saving unavailable"
+                          : "✓ Saved in this browser"}
+                    </div>
+                    <div className="plan-toolbar-project">
+                      <label className="plan-project-name-label" htmlFor="plan-project-name">
+                        Project / Team Name <span>(optional)</span>
+                      </label>
+                      <input id="plan-project-name" className="plan-project-name-input"
+                        type="text" maxLength="180" value={projectName}
+                        placeholder="e.g., ME 450 — Team 12"
+                        onChange={(event) => onProjectNameChange(event.target.value)} />
+                    </div>
+                    <div className="plan-toolbar-actions">
+                      <button className="button" type="button" aria-haspopup="dialog"
+                        aria-expanded={showPrintOptions} aria-controls="plan-print-options"
+                        onClick={() => setShowPrintOptions(true)}>
+                        Save &amp; Print Plan
+                      </button>
+                      <button className="button secondary" type="button" onClick={onLoadProject}>
+                        Load Project (.json)
+                      </button>
+                    </div>
+                    <p className={`plan-session-note${saveStatus === "unavailable" ? " is-error" : ""}`}
+                      role={saveStatus === "unavailable" ? "alert" : undefined}>
+                      {saveStatus === "unavailable"
+                        ? "Automatic saving is unavailable in this browser. Use Save & Print Plan to download a JSON backup."
+                        : "Progress saves automatically in this browser. Save & Print downloads an editable JSON file and opens PDF printing; load the JSON to continue on another device."}
+                    </p>
+                    {projectNotice && <p className="plan-project-notice" role="status">{projectNotice}</p>}
                   </div>
                 </div>
 
@@ -15298,10 +15487,9 @@
                     >
                       <div className="plan-print-options-header">
                         <div className="plan-print-options-header-copy">
-                          <h3 id="plan-print-options-title">Print options</h3>
+                          <h3 id="plan-print-options-title">Save &amp; Print Your Evaluation Plan</h3>
                           <p id="plan-print-options-description">
-                            Choose which supplementary sections to include in the printed
-                            evaluation plan. These options affect print output only.
+                            Download an editable project file and prepare a reader-friendly PDF for sharing or submission.
                           </p>
                           <p className="plan-print-resources-note">
                             These supplementary materials are also available in the Resources
@@ -15321,6 +15509,14 @@
                         </button>
                       </div>
 
+                      <div className="plan-file-types" aria-label="Two file formats">
+                        <div><strong>PDF (.pdf)</strong><span>For reading, sharing, printing, or submission.</span></div>
+                        <div><strong>JSON (.json)</strong><span>For loading the complete editable plan back into this guide.</span></div>
+                      </div>
+                      <p className="plan-print-option-heading">PDF print options</p>
+                      <p className="plan-print-option-explanation">
+                        These choices affect the PDF only. Your editable JSON project always retains all your selections and notes.
+                      </p>
                       <div className="plan-print-option-list">
                         <label className="plan-print-option">
                           <input
@@ -15356,16 +15552,20 @@
                         </label>
                       </div>
 
+                      <p className="plan-print-download-note">
+                        Your editable JSON file downloads first. Then choose “Save as PDF” or a printer in your browser’s print dialog.
+                      </p>
                       <div className="button-row">
                         <button
                           className="button"
                           type="button"
                           onClick={() => {
+                            if (!onSaveProject()) return;
                             setShowPrintOptions(false);
-                            window.setTimeout(() => window.print(), 0);
+                            window.setTimeout(() => window.print(), 180);
                           }}
                         >
-                          Print / Save as PDF
+                          Save Project &amp; Print PDF
                         </button>
                       </div>
                     </section>
@@ -15381,7 +15581,7 @@
                         <div className="plan-print-options-header-copy">
                           <h3 id="save-plan-reminder-title">Save Your Evaluation Plan</h3>
                           <p id="save-plan-reminder-description">
-                            Before moving to Resources, we recommend printing or saving a copy of your evaluation plan for future reference. Your selections are not automatically saved across sessions.
+                            Before continuing, we recommend saving your plan as both an editable JSON project file (for further editing) and a reader-friendly PDF (for sharing or submission). Your work is also saved in this browser when storage is available.
                           </p>
                         </div>
                         <button className="plan-print-options-close" type="button"
@@ -15391,7 +15591,7 @@
                         <button type="button" className="button" onClick={() => {
                           setShowSaveReminder(false);
                           setShowPrintOptions(true);
-                        }}>Print / Save as PDF</button>
+                        }}>Save &amp; Print Plan</button>
                         <a className="button secondary" href="#resources">Continue to Resources</a>
                         <button type="button" className="text-action-button quiet"
                           onClick={() => setShowSaveReminder(false)}>Stay on Evaluation Plan</button>
@@ -15638,6 +15838,7 @@
               </div>
 
               <PlanPrintSummary
+                projectName={projectName}
                 selectedOutcomes={selectedOutcomes}
                 interestHolderSelections={interestHolderSelections}
                 interestHolderDetails={interestHolderDetails}
@@ -16109,37 +16310,205 @@
     }
 
     // ============================================================
+    // EDITABLE PROJECT FILES + LOCAL AUTO-SAVE (NO SERVER / LOGIN)
+    // ============================================================
+
+    const MID_DESIGN_PROJECT_FORMAT = "mid-design-evaluation-guide-project";
+    const MID_DESIGN_PROJECT_VERSION = 1;
+    const MID_DESIGN_STORAGE_KEY = "mid-design-evaluation-guide:project:v1";
+    const EMPTY_PROJECT = {
+      projectName: "",
+      implementationOutcomeSelections: [],
+      interestHolderSelections: {},
+      interestHolderDetails: {},
+      customInterestHolderGroups: [],
+      customInterestHolderSelections: {},
+      evaluationStrategySelections: {},
+      evaluationStrategyNotes: {},
+      interviewPromptSelections: {},
+      customInterviewPrompts: {},
+      implementationOutcomesReflection: "",
+      interestHoldersReflection: "",
+      evaluationStrategiesReflection: "",
+    };
+
+    function isRecord(value) {
+      return value !== null && typeof value === "object" && !Array.isArray(value);
+    }
+    function stringList(value) {
+      return Array.isArray(value) && value.every((item) => typeof item === "string");
+    }
+    function recordOf(value, validEntry) {
+      return isRecord(value) && Object.values(value).every(validEntry);
+    }
+    function isValidProject(project) {
+      if (!isRecord(project) || typeof project.projectName !== "string" ||
+          project.projectName.length > 180 || !stringList(project.implementationOutcomeSelections)) return false;
+      const stringMaps = ["interestHolderSelections", "customInterestHolderSelections", "interviewPromptSelections"];
+      if (!stringMaps.every((key) => recordOf(project[key], stringList))) return false;
+      if (!recordOf(project.interestHolderDetails, (group) =>
+            recordOf(group, (details) => isRecord(details) &&
+              Object.values(details).every((v) => typeof v === "string")))) return false;
+      if (!Array.isArray(project.customInterestHolderGroups) ||
+          !project.customInterestHolderGroups.every((item) =>
+            isRecord(item) && typeof item.id === "string" &&
+            typeof item.name === "string" && typeof item.note === "string")) return false;
+      if (!recordOf(project.evaluationStrategySelections, (groups) => recordOf(groups, stringList))) return false;
+      if (!recordOf(project.evaluationStrategyNotes, (notes) =>
+            recordOf(notes, (value) => typeof value === "string"))) return false;
+      if (!recordOf(project.customInterviewPrompts, (items) => Array.isArray(items) &&
+            items.every((item) => isRecord(item) &&
+              typeof item.id === "string" && typeof item.title === "string" &&
+              typeof item.question === "string"))) return false;
+      return ["implementationOutcomesReflection", "interestHoldersReflection", "evaluationStrategiesReflection"]
+        .every((key) => typeof project[key] === "string");
+    }
+    function parseProjectFile(text) {
+      const file = JSON.parse(text);
+      if (!isRecord(file) || file.format !== MID_DESIGN_PROJECT_FORMAT ||
+          file.version !== MID_DESIGN_PROJECT_VERSION || !isValidProject(file.project)) {
+        throw new Error("This is not a compatible Mid-Design Evaluation Guide project (.json) file.");
+      }
+      return file.project;
+    }
+    function getLocalProject() {
+      try {
+        const text = window.localStorage.getItem(MID_DESIGN_STORAGE_KEY);
+        return text ? parseProjectFile(text) : null;
+      } catch (error) {
+        return null; // Unavailable, disabled, or incompatible local storage: start empty.
+      }
+    }
+    function packageProject(project) {
+      return JSON.stringify({
+        format: MID_DESIGN_PROJECT_FORMAT,
+        version: MID_DESIGN_PROJECT_VERSION,
+        savedAt: new Date().toISOString(),
+        project,
+      }, null, 2);
+    }
+    const INITIAL_LOCAL_PROJECT = getLocalProject();
+
+    // ============================================================
     // APPLICATION
     // ============================================================
 
     function App() {
       const [route, setRoute] = useState(getRoute());
+      const initialProject = INITIAL_LOCAL_PROJECT || EMPTY_PROJECT;
+      const [projectName, setProjectName] = useState(initialProject.projectName);
+      const [saveStatus, setSaveStatus] = useState(INITIAL_LOCAL_PROJECT ? "saved" : "saving");
+      const [projectNotice, setProjectNotice] = useState("");
       const [implementationOutcomeSelections, setImplementationOutcomeSelections] =
-        useState([]);
+        useState(initialProject.implementationOutcomeSelections);
       const [interestHolderSelections, setInterestHolderSelections] =
-        useState({});
+        useState(initialProject.interestHolderSelections);
       const [interestHolderDetails, setInterestHolderDetails] =
-        useState({});
+        useState(initialProject.interestHolderDetails);
       const [customInterestHolderGroups, setCustomInterestHolderGroups] =
-        useState([]);
+        useState(initialProject.customInterestHolderGroups);
       const [customInterestHolderSelections, setCustomInterestHolderSelections] =
-        useState({});
+        useState(initialProject.customInterestHolderSelections);
       const [
         evaluationStrategySelections,
         setEvaluationStrategySelections,
-      ] = useState({});
+      ] = useState(initialProject.evaluationStrategySelections);
       const [evaluationStrategyNotes, setEvaluationStrategyNotes] =
-        useState({});
+        useState(initialProject.evaluationStrategyNotes);
       const [interviewPromptSelections, setInterviewPromptSelections] =
-        useState({});
+        useState(initialProject.interviewPromptSelections);
       const [customInterviewPrompts, setCustomInterviewPrompts] =
-        useState({});
+        useState(initialProject.customInterviewPrompts);
       const [implementationOutcomesReflection, setImplementationOutcomesReflection] =
-        useState("");
+        useState(initialProject.implementationOutcomesReflection);
       const [interestHoldersReflection, setInterestHoldersReflection] =
-        useState("");
+        useState(initialProject.interestHoldersReflection);
       const [evaluationStrategiesReflection, setEvaluationStrategiesReflection] =
-        useState("");
+        useState(initialProject.evaluationStrategiesReflection);
+
+      // Every editable choice and note is saved as one project, regardless of page.
+      const projectData = {
+        projectName, implementationOutcomeSelections, interestHolderSelections,
+        interestHolderDetails, customInterestHolderGroups, customInterestHolderSelections,
+        evaluationStrategySelections, evaluationStrategyNotes, interviewPromptSelections,
+        customInterviewPrompts, implementationOutcomesReflection,
+        interestHoldersReflection, evaluationStrategiesReflection,
+      };
+
+      useEffect(() => {
+        setSaveStatus("saving");
+        const timer = window.setTimeout(() => {
+          try {
+            window.localStorage.setItem(MID_DESIGN_STORAGE_KEY, packageProject(projectData));
+            setSaveStatus("saved");
+          } catch (error) {
+            setSaveStatus("unavailable");
+          }
+        }, 350);
+        return () => window.clearTimeout(timer);
+      }, [projectName, implementationOutcomeSelections, interestHolderSelections,
+          interestHolderDetails, customInterestHolderGroups, customInterestHolderSelections,
+          evaluationStrategySelections, evaluationStrategyNotes, interviewPromptSelections,
+          customInterviewPrompts, implementationOutcomesReflection,
+          interestHoldersReflection, evaluationStrategiesReflection]);
+
+      function saveEditableProject() {
+        try {
+          const filenameBase = (projectName.trim() || "Mid-Design-Evaluation")
+            .replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "")
+            .slice(0, 70) || "Mid-Design-Evaluation";
+          const data = new Blob([packageProject(projectData)], { type: "application/json;charset=utf-8" });
+          const url = URL.createObjectURL(data);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${filenameBase}-Project.json`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.setTimeout(() => URL.revokeObjectURL(url), 3000);
+          setProjectNotice("Editable project file downloaded. Keep this JSON file to resume on another device.");
+          return true;
+        } catch (error) {
+          setProjectNotice("Unable to download your editable project. Please try again.");
+          window.alert("Unable to download the JSON project file. Please try again before printing.");
+          return false;
+        }
+      }
+
+      function openProjectFilePicker() {
+        document.getElementById("mid-design-project-input")?.click();
+      }
+
+      async function handleProjectFile(event) {
+        const file = event.target.files && event.target.files[0];
+        event.target.value = ""; // Allow loading the same file again.
+        if (!file) return;
+        try {
+          if (file.size > 5 * 1024 * 1024) throw new Error("The project file is too large (maximum 5 MB).");
+          const imported = parseProjectFile(await file.text());
+          if (!window.confirm("Loading this project will replace your current working plan on this device. Continue?")) return;
+          setProjectName(imported.projectName);
+          setImplementationOutcomeSelections(imported.implementationOutcomeSelections);
+          setInterestHolderSelections(imported.interestHolderSelections);
+          setInterestHolderDetails(imported.interestHolderDetails);
+          setCustomInterestHolderGroups(imported.customInterestHolderGroups);
+          setCustomInterestHolderSelections(imported.customInterestHolderSelections);
+          setEvaluationStrategySelections(imported.evaluationStrategySelections);
+          setEvaluationStrategyNotes(imported.evaluationStrategyNotes);
+          setInterviewPromptSelections(imported.interviewPromptSelections);
+          setCustomInterviewPrompts(imported.customInterviewPrompts);
+          setImplementationOutcomesReflection(imported.implementationOutcomesReflection);
+          setInterestHoldersReflection(imported.interestHoldersReflection);
+          setEvaluationStrategiesReflection(imported.evaluationStrategiesReflection);
+          setProjectNotice(`Project loaded${imported.projectName ? ": " + imported.projectName : ""}. You can continue editing.`);
+          setRoute("final-plan");
+          window.location.hash = "#final-plan";
+          window.scrollTo({top: 0, behavior: "auto"});
+        } catch (error) {
+          setProjectNotice("Project load failed: " + (error.message || "Invalid project file."));
+          window.alert("Unable to load project: " + (error.message || "Invalid JSON file."));
+        }
+      }
 
       function toggleImplementationOutcome(outcomeId) {
         setImplementationOutcomeSelections((currentSelections) => {
@@ -16507,6 +16876,12 @@
       } else if (route === "final-plan") {
         currentPage = (
           <DevelopEvaluationPlanPage
+            projectName={projectName}
+            onProjectNameChange={setProjectName}
+            saveStatus={saveStatus}
+            projectNotice={projectNotice}
+            onSaveProject={saveEditableProject}
+            onLoadProject={openProjectFilePicker}
             implementationOutcomeSelections={implementationOutcomeSelections}
             onToggleImplementationOutcome={toggleImplementationOutcome}
             interestHolderSelections={interestHolderSelections}
@@ -16542,12 +16917,15 @@
       } else if (route === "resources") {
         currentPage = <ResourcesPage />;
       } else {
-        currentPage = <StartHerePage />;
+        currentPage = <StartHerePage onLoadProject={openProjectFilePicker} />;
       }
 
       return (
         <>
           <Navigation route={route} />
+          <input id="mid-design-project-input" type="file" accept=".json,application/json"
+            style={{display: "none"}} onChange={handleProjectFile} aria-label="Load a saved evaluation project file" />
+          <span className="visually-hidden" role="status" aria-live="polite">{projectNotice}</span>
 
           <main id="main-content" tabIndex="-1">
             {currentPage}
